@@ -79,6 +79,7 @@ flutter:
     - assets/images/fb.png
     - assets/images/insta.png
     - assets/images/yt.png
+    - assets/images/rectangle.svg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,12 +1,16 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:school_web/screens/about_us_screen.dart';
+import 'package:school_web/screens/auth_screen.dart';
+import 'package:school_web/screens/test_generator_screen.dart';
 import 'package:school_web/theme.dart';
 import 'package:school_web/widgets/about_us_section.dart';
 import 'package:school_web/widgets/desktop_appbar.dart';
 import 'package:school_web/widgets/option_card.dart';
-
+import '../widgets/custom_tab.dart';
 import '../widgets/footer.dart';
+import '../widgets/side_layout.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    print(deviceSize);
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -27,10 +32,28 @@ class _HomeScreenState extends State<HomeScreen> {
               colors: themeColor)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: PreferredSize(
-          child: DesktopAppBar(),
-          preferredSize: Size.fromHeight(70),
-        ),
+        appBar: deviceSize.width > 768
+            ? PreferredSize(
+                child: DesktopAppBar(),
+                preferredSize: Size.fromHeight(70),
+              )
+            : AppBar(
+                backgroundColor: Colors.white,
+                iconTheme: IconThemeData(color: Colors.black),
+              ),
+        drawer: deviceSize.width > 768
+            ? Container()
+            : Drawer(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(32),
+                    bottomRight: Radius.circular(32),
+                  ),
+                ),
+                child: SideLayout(
+                  pageIndex: 0,
+                ),
+              ),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -46,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 50,
+                height: deviceSize.width > 1040 ? 50 : 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               AboutUsSection(),
               SizedBox(
-                height: 50,
+                height: deviceSize.width > 1040 ? 50 : 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

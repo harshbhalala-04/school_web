@@ -15,37 +15,111 @@ class _OptionCardState extends State<OptionCard> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 75.0),
+      padding: deviceSize.width > 768
+          ? EdgeInsets.symmetric(horizontal: 75.0)
+          : EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(25),
         ),
         width: deviceSize.width,
-        height: 400,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Option(
-                imgPath: "assets/images/generate_paper.svg",
-                title: "Generate \npaper",
-              ),
-              Option(
-                imgPath: "assets/images/question_bank.svg",
-                title: "Question \nbank",
-              ),
-              Option(
-                imgPath: "assets/images/generate_paper.svg",
-                title: "Add \nblueprint",
-              ),
-              Option(
-                imgPath: "assets/images/add_class.svg",
-                title: "Add \nclass",
-              ),
-            ],
-          ),
+          padding: deviceSize.width > 768
+              ? EdgeInsets.symmetric(horizontal: 50.0, vertical: 50)
+              : EdgeInsets.symmetric(horizontal: 20),
+          child: deviceSize.width > 768
+              ? deviceSize.width > 1250
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Option(
+                          imgPath: "assets/images/generate_paper.svg",
+                          title: "Generate \npaper",
+                        ),
+                        Option(
+                          imgPath: "assets/images/question_bank.svg",
+                          title: "Question \nbank",
+                        ),
+                        Option(
+                          imgPath: "assets/images/generate_paper.svg",
+                          title: "Add \nblueprint",
+                        ),
+                        Option(
+                          imgPath: "assets/images/add_class.svg",
+                          title: "Add \nclass",
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Option(
+                              imgPath: "assets/images/generate_paper.svg",
+                              title: "Generate \npaper",
+                            ),
+                            Option(
+                              imgPath: "assets/images/question_bank.svg",
+                              title: "Question \nbank",
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Option(
+                              imgPath: "assets/images/generate_paper.svg",
+                              title: "Add \nblueprint",
+                            ),
+                            Option(
+                              imgPath: "assets/images/add_class.svg",
+                              title: "Add \nclass",
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Option(
+                        imgPath: "assets/images/generate_paper.svg",
+                        title: "Generate \npaper",
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Option(
+                        imgPath: "assets/images/question_bank.svg",
+                        title: "Question \nbank",
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Option(
+                        imgPath: "assets/images/generate_paper.svg",
+                        title: "Add \nblueprint",
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Option(
+                        imgPath: "assets/images/add_class.svg",
+                        title: "Add \nclass",
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ),
     );
