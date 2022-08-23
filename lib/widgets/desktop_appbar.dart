@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:school_web/widgets/theme_button.dart';
 
 import '../theme.dart';
 
@@ -71,25 +72,7 @@ class _DesktopAppBarState extends State<DesktopAppBar> {
                     SizedBox(
                       width: 15,
                     ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(10.0, 6.0, 10.0, 6.0),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: buttonTheme,
-                          ),
-                          borderRadius: BorderRadius.circular(27),
-                        ),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                              fontFamily: "calibri",
-                              color: Colors.white,
-                              fontSize: 20.0),
-                        ),
-                      ),
-                    ),
+                    ThemeButton(text: "Login",),
                     SizedBox(
                       width: 20,
                     ),

@@ -47,7 +47,7 @@ class _OptionCardState extends State<OptionCard> {
                         ),
                         Option(
                           imgPath: "assets/images/add_class.svg",
-                          title: "Add \nclass",
+                          title: "Add \nChapter",
                         ),
                       ],
                     )

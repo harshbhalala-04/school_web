@@ -20,7 +20,6 @@ class _SideLayoutState extends State<SideLayout> {
       height: 500,
       child: Column(
         children: [
-          
           SizedBox(height: 70),
           Row(
             children: [
@@ -54,7 +53,6 @@ class _SideLayoutState extends State<SideLayout> {
             isSelected: widget.pageIndex == 3,
           ),
           SideBarItem(title: "Login", isSelected: widget.pageIndex == 4),
-         
         ],
       ),
     );

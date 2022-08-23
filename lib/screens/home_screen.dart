@@ -8,6 +8,7 @@ import 'package:school_web/theme.dart';
 import 'package:school_web/widgets/about_us_section.dart';
 import 'package:school_web/widgets/desktop_appbar.dart';
 import 'package:school_web/widgets/option_card.dart';
+import 'package:selectable/selectable.dart';
 import '../widgets/custom_tab.dart';
 import '../widgets/footer.dart';
 import '../widgets/side_layout.dart';
@@ -55,63 +56,67 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: deviceSize.width,
-                height: deviceSize.height - deviceSize.height / 10,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/images/hero.JPG"),
+          child: Selectable(
+            selectWordOnDoubleTap: true,
+            // selectionColor: Colors.yellow.shade100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: deviceSize.width,
+                  height: deviceSize.height - deviceSize.height / 10,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage("assets/images/hero.JPG"),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: deviceSize.width > 1040 ? 50 : 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "About us",
-                    style: TextStyle(
-                        fontFamily: "calibri",
-                        decoration: TextDecoration.underline,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 36),
-                  ),
-                ],
-              ),
-              AboutUsSection(),
-              SizedBox(
-                height: deviceSize.width > 1040 ? 50 : 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Features",
-                    style: TextStyle(
-                        fontFamily: "calibri",
-                        decoration: TextDecoration.underline,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 36),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              OptionCard(),
-              SizedBox(
-                height: 50,
-              ),
-              Footer(),
-            ],
+                SizedBox(
+                  height: deviceSize.width > 1040 ? 50 : 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "About us",
+                      style: TextStyle(
+                          fontFamily: "calibri",
+                          decoration: TextDecoration.underline,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 36),
+                    ),
+                  ],
+                ),
+                AboutUsSection(),
+                SizedBox(
+                  height: deviceSize.width > 1040 ? 50 : 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Features",
+                      style: TextStyle(
+                          fontFamily: "calibri",
+                          decoration: TextDecoration.underline,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 36),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                OptionCard(),
+                SizedBox(
+                  height: 50,
+                ),
+                Footer(),
+              ],
+            ),
           ),
         ),
       ),
