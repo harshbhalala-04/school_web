@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:school_web/screens/edit_question_bank_screen.dart';
 import 'package:school_web/screens/home_screen.dart';
+import 'package:school_web/screens/paper_generator_screen.dart';
 import 'package:school_web/screens/view_chapter_screen.dart';
 import 'package:school_web/screens/view_question_bank_screen.dart';
 
@@ -21,6 +22,9 @@ class Flurorouter {
   static Handler _editQuestionBankHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           EditQuestionBankScreen());
+  static Handler _papergeneratorHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
+          PaperGeneratorScreen());
   static void setUpRouter() {
     router.define('/',
         handler: _homeHandler, transitionType: TransitionType.fadeIn);
@@ -32,5 +36,7 @@ class Flurorouter {
     router.define('/edit-question-bank',
         handler: _editQuestionBankHandler,
         transitionType: TransitionType.fadeIn);
+    router.define('/paper_generator',
+        handler: _papergeneratorHandler, transitionType: TransitionType.fadeIn);
   }
 }

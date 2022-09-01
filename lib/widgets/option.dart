@@ -38,6 +38,8 @@ class _OptionState extends State<Option> {
           Get.toNamed('/view-question-bank');
         } else if (widget.title == "Edit\n Question Bank") {
           Get.toNamed('/edit-question-bank');
+        } else if (widget.title == "Generate \npaper") {
+          Get.toNamed('/paper_generator');
         }
       },
       child: Container(

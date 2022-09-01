@@ -35,7 +35,7 @@ class _ThemeButtonState extends State<ThemeButton> {
           addChapterController.getChapterName(
               addChapterController.viewChapterClassValue.value,
               addChapterController.viewChapterSubjectValue.value);
-        } 
+        }
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(10.0, 6.0, 10.0, 6.0),
@@ -45,7 +45,7 @@ class _ThemeButtonState extends State<ThemeButton> {
                 ? [Colors.white, Colors.white]
                 : buttonTheme,
           ),
-          borderRadius: BorderRadius.circular(27),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
           widget.text,
@@ -53,7 +53,7 @@ class _ThemeButtonState extends State<ThemeButton> {
               fontFamily: "calibri",
               color:
                   widget.text == "View Chapters" ? Colors.blue : Colors.white,
-              fontSize: 20.0),
+              fontSize: 25.0),
         ),
       ),
     );
