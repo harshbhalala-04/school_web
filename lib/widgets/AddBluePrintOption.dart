@@ -5,27 +5,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:school_web/theme.dart';
 import 'package:school_web/widgets/add_chapter_card.dart';
-import 'package:school_web/widgets/bluePrint_Dialog.dart';
 import 'package:school_web/widgets/question_bank_dialoge.dart';
 import 'package:school_web/widgets/theme_button.dart';
 
-class Option extends StatefulWidget {
+class BluePrintOption extends StatefulWidget {
   final String imgPath;
   final String title;
-  Option({required this.imgPath, required this.title});
+  BluePrintOption({required this.imgPath, required this.title});
 
   @override
-  State<Option> createState() => _OptionState();
+  State<BluePrintOption> createState() => _BluePrintOptionState();
 }
 
-class _OptionState extends State<Option> {
+class _BluePrintOptionState extends State<BluePrintOption> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      
       onTap: () {
-        print(widget.title);
-        if (widget.title == "Add \nChapter") {
+        if (widget.title == "Add \nBluePrint") {
           showDialog(
               context: context,
               builder: (ctx) {
@@ -41,16 +38,6 @@ class _OptionState extends State<Option> {
           Get.toNamed('/view-question-bank');
         } else if (widget.title == "Edit\n Question Bank") {
           Get.toNamed('/edit-question-bank');
-         } else if (widget.title == "Add\n Blueprint") {
-          Get.toNamed('/add-blueprint');
-         } else if (widget.title == "Edit\n Question Bank") {
-          Get.toNamed('/edit-question-bank');
-        } else if (widget.title == "blueprint") {
-          showDialog(
-              context: context,
-              builder: (ctx) {
-                return BluePrintDialoge();
-              });
         }
       },
       child: Container(
