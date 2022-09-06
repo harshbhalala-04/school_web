@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:school_web/model/Question_model.dart';
 import 'package:school_web/model/blueprint_model.dart';
 
 class AddBlueprintController extends GetxController {
@@ -17,10 +18,8 @@ class AddBlueprintController extends GetxController {
   List<dynamic> subjectList = [""].obs;
   List<dynamic> chaptersList = [""].obs;
   List<dynamic> chaptersIdList = [""].obs;
-  // List<QuestionSet> questionSet = [""].obs;
-  
-  // RxList<QuestionSet> data = RxList(questionSet as List<QuestionSet> );
-  
+  List<Chapter> chapters = <Chapter>[].obs;
+  List<dynamic> maxSelectList = <int>[].obs;
 
   final viewChapterClassValue = "".obs;
   final viewChapterSubjectValue = "".obs;
@@ -29,9 +28,31 @@ class AddBlueprintController extends GetxController {
 
   final viewChapterSubjectVisible = false.obs;
 
-  // final bluePrint = BluePrint(className: classValue.value, subjectName: subjectValue.value, questionSet: questionSet).obs;
+ List<Questions> questionSetList = <Questions>[].obs;
+  
 
-  // QuestionSet questionSet = QuestionSet(qestionSetStatement: , qestionSet: , qestionType: );
+  RxList<Map> questionSet = <Map>[].obs;
+  RxInt index = 0.obs;
+  void change() => index.value++;
+  void chageQestionSetMap() { 
+    questionSet.add({
+        'questionsType': '',
+        'questions': [
+          {
+            'Ch_id': '',
+            'req_ques': '',
+          }
+        ]
+      });
+      selectedValueList.add('');
+  }
+
+      List<String> selectedValueList= [''].obs;
+      
+      selected(index,value) {
+        selectedValueList[index] = value;
+        update();
+      }
 
   List<String> classList = [
     "",
@@ -66,10 +87,8 @@ class AddBlueprintController extends GetxController {
     "Graph Question",
     "Map Question",
   ];
-  
 
-    getSubjectList(String className, bool fromViewChapter) async {
-      
+  getSubjectList(String className, bool fromViewChapter) async {
     isSubjectVisible.value = false;
     isChapterName.value = false;
     isChapterNumber.value = false;
@@ -103,22 +122,19 @@ class AddBlueprintController extends GetxController {
     }
   }
 
-   getChapters(String className, String subjectName) async {
-    print(className);
-      print(subjectName);
-      isChapterName.value = false;
+  getChapters(String className, String subjectName) async {
+    isChapterName.value = false;
     isChapterNumber.value = false;
     isLoading.toggle();
 
     await FirebaseFirestore.instance
-        
         .collection("question_bank")
         .doc(className)
         .get()
         .then((value) {
       if (value.data()![subjectName] != null) {
         final chapterMap = value.data()![subjectName];
-
+        
         List<dynamic> tmp = [];
         List<dynamic> tmpId = [];
         chapterMap.forEach((key, value) {
@@ -127,18 +143,62 @@ class AddBlueprintController extends GetxController {
         chapterMap.forEach((key, value) {
           tmpId.add("${value['chapterId']}");
         });
+        chapterMap.forEach((key,value) {
+          chapters.add(
+            Chapter(value['chapterId'], value['chapterName'])
+          );
+        });
 
         chaptersList = tmp;
         chaptersIdList = tmpId;
         chaptersIdList.insert(0, "");
         chaptersList.insert(0, "");
-        print(chaptersList);
       }
     });
     isLoading.toggle();
-     isChapterName.value = true;
+    isChapterName.value = true;
     isChapterNumber.value = true;
   }
-  
+ Future<int> getQestionTypeMax(String className, String subjectName,String subjectId,String type) async {
+    print('insideeegetQestionTypeMax');
+    print(className);
+    print(subjectName);
+    print(subjectId);
+    print(type);
+    int maxNum = 0;
+    await FirebaseFirestore.instance
+        .collection("question_bank")
+        .doc(className)
+        .collection(subjectName)
+        .doc(subjectId)
+        .collection('questions')
+        .doc(type)
+        .get()
+        .then((value) {
+          print(value.data());
+       
+             print(value.data()!['questionList'].length);
+          maxNum = value.data()!['questionList'].length;
+         
+        });
+         maxSelectList.add(maxNum);
+         return maxNum;
+  }
 
+  printSelectedList(List<Questions> questionSetList) {
+    print('inside Priny');
+    
+    questionSetList.forEach((element) {
+      // print(element.itemName);
+    });
+
+  }
+}
+
+class Chapter {
+   String id;
+   String name;
+
+  Chapter(this.id, this.name);
+  
 }

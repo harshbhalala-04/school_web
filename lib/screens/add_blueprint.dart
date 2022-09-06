@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:school_web/controller/add_blueprint_controller.dart';
 import 'package:school_web/theme.dart';
 import 'package:school_web/widgets/desktop_appbar.dart';
 import 'package:school_web/widgets/footer.dart';
 import 'package:school_web/widgets/side_layout.dart';
 import 'package:school_web/widgets/theme_button.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+import '../model/Question_model.dart';
+import '../widgets/QuestionSet_Container.dart';
 
 class AddBlueprintScreen extends StatefulWidget {
   const AddBlueprintScreen({Key? key}) : super(key: key);
@@ -19,18 +20,16 @@ class AddBlueprintScreen extends StatefulWidget {
 class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
   final AddBlueprintController addBlueprintController =
       Get.put(AddBlueprintController());
-  List<Widget> _cardList = [];
-  void _addCardWidget() {
-    print('5454554');
-    setState(() {
-      // _cardList.add(_card());
-    });
+  List<Questions> questionSet = [];
+  List _selectedChapter = [];
+  List chapterList = [];
+  void refresh() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    print(deviceSize);
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -193,7 +192,11 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                           onChanged: (val) {
                                             addBlueprintController.subjectValue
                                                 .value = val.toString();
-
+                                           addBlueprintController.chaptersIdList.clear();
+                                           addBlueprintController.chaptersIdList.clear();
+                                           addBlueprintController.chapters.clear();
+                                           addBlueprintController.questionSetList.clear();
+                                           _selectedChapter.clear();
                                             addBlueprintController.getChapters(
                                                 addBlueprintController
                                                     .classValue.value,
@@ -214,54 +217,102 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                       const SizedBox(
                         height: 15,
                       ),
-                      Obx(
-                        () => addBlueprintController.isChapterName.value
-                            ? Container(
-                                child: ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: addBlueprintController
-                                        .chaptersList.length,
-                                    itemBuilder: ((context, index) {
-                                      return Container(
-                                        child: Text(addBlueprintController
-                                            .chaptersList[index]),
-                                      );
-                                    })),
-                              )
-                            : addBlueprintController.isLoading.value
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : Container(),
-                      ),
                       const SizedBox(
                         height: 20,
                       ),
-                     
-                      ListView.builder(
-                        scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                        itemCount: _cardList.length,
-                        itemBuilder: (context, index) {
-                          return _cardList[index];
-                        }
-                        ),
-                      GestureDetector(
-                        onTap: () {
-                          _addCardWidget();
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          color: Colors.white,
-                          child: const Text('Add Question Set'),
-                        ),
+                      Obx(
+                        () => addBlueprintController.chaptersList.isNotEmpty && addBlueprintController.subjectValue.value != ''
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  
+                                  border: Border.all(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    MultiSelectBottomSheetField(
+                                      initialChildSize: 0.4,
+                                      listType: MultiSelectListType.CHIP,
+                                      searchable: true,
+                                      buttonText: Text("Select Chapters"),
+                                      title: Text("Chapters"),
+                                      items: addBlueprintController.chapters
+                                          .map(
+                                            (e) => MultiSelectItem(
+                                              e.id,
+                                              e.name.toString(),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onConfirm: (values) {
+                                        _selectedChapter = values;
+                                      },
+                                      chipDisplay: MultiSelectChipDisplay(
+                                        onTap: (value) {
+                                          setState(() {
+                                            _selectedChapter.remove(value);
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    _selectedChapter == null ||
+                                            _selectedChapter.isEmpty
+                                        ? Container(
+                                            padding: EdgeInsets.all(10),
+                                            alignment: Alignment.centerLeft,
+                                            child: const Text(
+                                              "None selected",
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                            ))
+                                        : Container(),
+                                  ],
+                                ),
+                              )
+                            : const SizedBox.shrink(),
                       ),
-                      ThemeButton(text: "Add BluePrint"),
+                      ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: addBlueprintController.questionSetList.length,
+                          itemBuilder: (context, index) {
+                            return QuestionSetWidget(
+                              callback: refresh,
+                              index: index,
+                              questions: addBlueprintController.questionSetList,
+                              chaptersList: _selectedChapter.toList(),
+                            );
+                          }),
+                      Obx(() => addBlueprintController.subjectValue.value != ''
+                          ? GestureDetector(
+                              onTap: () {
+                                addBlueprintController.questionSetList.add(Questions(
+                                  itemName: "",
+                                ));
+                                questionSet.add(Questions(
+                                  itemName: "",
+                                ));
+                              
+                                setState(() {});
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                color: Colors.white,
+                                child: const Text('Add Question Set'),
+                              ),
+                            )
+                          : const SizedBox.shrink()),
+                      questionSet.length > 0
+                          ? GestureDetector(
+                            onTap: () {
+                              
+                              addBlueprintController.printSelectedList(addBlueprintController.questionSetList);
+                            },
+                            child: Container(child: Text('Add BluePrint'),))
+                          : const SizedBox.shrink()
                     ],
                   ),
                 ),
@@ -274,125 +325,3 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
     );
   }
 }
-
-Widget _card(addBlueprintController) {
-  final AddBlueprintController addBlueprintController =
-      Get.put(AddBlueprintController());
-      print(addBlueprintController.questionTypeList.toString());
-  // List<String> questionType = addBlueprintController.questionTypeList;
-  // String selectedQuestionType = questionType.first;
-  // print(questionType);
-    return Card(
-      child: Column(
-        children: [
-          const Text('Question Set A'),
-          Row(
-            children: const [
-              Text('Question set Statement'),
-              Flexible(
-                child: TextField(),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Question Type'),
-              Container(
-                height: 40,
-                //  width: 200,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                  border: Border.all(
-                      color: Colors.black38, width: 0.8),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Obx(
-                    () => DropdownButton(
-                      underline: Container(),
-                      hint: const Text(
-                        "Select Question Type",
-                        style: TextStyle(
-                            fontFamily: "calibri",
-                            fontSize: 18,
-                            color: Colors.grey),
-                      ),
-                      value: addBlueprintController.questionTypeValue.value,
-                      items: addBlueprintController.questionTypeList
-                          .map((e) {
-                        return DropdownMenuItem(
-                            value: e,
-                            child: e == ""
-                                ? const Text(
-                                    "Select Question Type",
-                                    style: TextStyle(
-                                        fontFamily: "calibri",
-                                        fontSize: 18,
-                                        color: Colors.grey),
-                                  )
-                                : Text(e));
-                      }).toList(),
-                      onChanged: (val) {
-                      // addBlueprintController.questionSet[index] = val.toString();
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-
-
-
-
-//  Container(
-//                                   height: 40,
-//                                   width: 200,
-//                                   decoration: BoxDecoration(
-//                                     borderRadius: const BorderRadius.all(
-//                                       Radius.circular(10),
-//                                     ),
-//                                     border: Border.all(
-//                                         color: Colors.black38, width: 0.8),
-//                                   ),
-//                                   child: Padding(
-//                                     padding: const EdgeInsets.all(4.0),
-//                                     child: DropdownButton(
-//                                       underline: Container(),
-//                                       hint: const Text(
-//                                         "Select Chapter",
-//                                         style: TextStyle(
-//                                             fontFamily: "calibri",
-//                                             fontSize: 18,
-//                                             color: Colors.grey),
-//                                       ),
-//                                       value:
-//                                           addBlueprintController.chapterValue.value,
-//                                       items: addBlueprintController.chaptersList
-//                                           .map((e) {
-//                                         return DropdownMenuItem(
-//                                             value: e,
-//                                             child: e == ""
-//                                                 ? const Text(
-//                                                     "Select Chapter",
-//                                                     style: TextStyle(
-//                                                         fontFamily: "calibri",
-//                                                         fontSize: 18,
-//                                                         color: Colors.grey),
-//                                                   )
-//                                                 : Text(e));
-//                                       }).toList(),
-//                                       onChanged: (val) {
-//                                         addBlueprintController.chapterValue.value =
-//                                             val.toString();
-//                                       },
-//                                     ),
-//                                   ),
-//                                 ),
