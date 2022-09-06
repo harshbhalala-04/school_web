@@ -11,12 +11,15 @@ class QuestionSetWidget extends StatefulWidget {
   int index;
   VoidCallback callback;
   List chaptersList;
+  String charset;
+
   QuestionSetWidget(
       {Key? key,
       required this.questions,
       required this.index,
       required this.callback,
-      required this.chaptersList})
+      required this.chaptersList,
+      required this.charset})
       : super(key: key);
 
   @override
@@ -24,9 +27,10 @@ class QuestionSetWidget extends StatefulWidget {
 }
 
 class _QuestionSetWidgetState extends State<QuestionSetWidget> {
-  
   @override
   Widget build(BuildContext context) {
+    final textstyle = const TextStyle(
+        fontFamily: "calibri", fontSize: 25, color: Colors.black);
     List chapterNameList = [];
     final AddBlueprintController addBlueprintController =
         Get.put(AddBlueprintController());
@@ -39,88 +43,142 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
     }
 
     getMaximum(index) async {
-     return await addBlueprintController.getQestionTypeMax(
-                    addBlueprintController.classValue.value,
-                    addBlueprintController.subjectValue.value,
-                    widget.chaptersList[index],
-                    addBlueprintController.questionSetList[index].itemName
-                    );
+      return await addBlueprintController.getQestionTypeMax(
+          addBlueprintController.classValue.value,
+          addBlueprintController.subjectValue.value,
+          widget.chaptersList[index],
+          addBlueprintController.questionSetList[index].itemName);
     }
 
     // print(addBlueprintController.questionSet.toString());
     String selectedValue = '';
+    String questionset = "A";
+
     return Card(
-      child: Column(
-        children: [
-          const Text('Question Set A'),
-          Row(
-            children: const [
-              Text('Question set Statement'),
-              Flexible(
-                child: TextField(),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Question Type'),
-              Container(
-                height: 40,
-                //  width: 200,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
+      color: Colors.grey[200],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Question Set ${widget.charset}',
+              style: textstyle,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(
+                    'Question set\n Statement',
+                    style: textstyle,
                   ),
-                  border: Border.all(color: Colors.black38, width: 0.8),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Obx(
-                    () => QuestionTypeDropDown(
-                            questions: addBlueprintController.questionSetList[widget.index]),
+                  const SizedBox(
+                    width: 40,
                   ),
-                ),
+                  const Flexible(
+                    child: TextField(),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  )
+                ],
               ),
-            ],
-          ),
-          Obx(
-            (() => addBlueprintController.questionSetList.isNotEmpty ? 
-             ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: widget.chaptersList.length,
-              itemBuilder: ((context, index) {
-                // addBlueprintController.questionSetList.first.itemName == '' ?
-                // addBlueprintController.questionSetList.first.itemName="type 1"
-                // : addBlueprintController.update();
-                
-                
-                NumberIncrementDecrementModel numberIncrementDecrementModel =
-                    NumberIncrementDecrementModel(value: 0);
-                return Row(
-                  children: [
-                    Text(chapterNameList[index]),
-                    NumberIncrementDecrement(
-                        numberIncrementDecrementModel:
-                            numberIncrementDecrementModel),
-                    FutureBuilder(
-             future: getMaximum(index),
-             builder: (context, snap){
-              print(snap);
-                if(snap.hasData){
-                 return Text(snap.data.toString());
-                }
-                return SizedBox.shrink();
-             }
-                    )
-                    // Text(addBlueprintController.maxSelectList[index]),
-                  ],
-                );
-              }),
-            ) : const SizedBox.shrink() 
-          ),
-          )
-        ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(
+                    'Question Type',
+                    style: textstyle,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    height: 40,
+                    //  width: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      border: Border.all(color: Colors.black38, width: 0.8),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Obx(
+                        () => QuestionTypeDropDown(
+                            questions: addBlueprintController
+                                .questionSetList[widget.index]),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Obx(
+                (() => addBlueprintController.questionSetList.isNotEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: widget.chaptersList.length,
+                        itemBuilder: ((context, index) {
+                          // addBlueprintController.questionSetList.first.itemName == '' ?
+                          // addBlueprintController.questionSetList.first.itemName="type 1"
+                          // : addBlueprintController.update();
+
+                          NumberIncrementDecrementModel
+                              numberIncrementDecrementModel =
+                              NumberIncrementDecrementModel(value: 0);
+                          return Row(
+                            children: [
+                              Text(
+                                chapterNameList[index].toString().toUpperCase(),
+                                style: textstyle,
+                              ),
+                              const SizedBox(
+                                width: 40,
+                              ),
+                              NumberIncrementDecrement(
+                                  numberIncrementDecrementModel:
+                                      numberIncrementDecrementModel),
+                              // const SizedBox(
+                              //   width: 50,
+                              // ),
+                              FutureBuilder(
+                                  future: getMaximum(index),
+                                  builder: (context, snap) {
+                                    print(snap);
+                                    if (snap.hasData) {
+                                      return Text(
+                                        snap.data.toString(),
+                                        style: textstyle,
+                                      );
+                                    }
+                                    return const SizedBox.shrink();
+                                  })
+                              // Text(addBlueprintController.maxSelectList[index]),
+                            ],
+                          );
+                        }),
+                      )
+                    : const SizedBox.shrink()),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

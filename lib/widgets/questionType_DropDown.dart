@@ -50,42 +50,49 @@ class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
   Widget build(BuildContext context) {
     return Container(
       child: DropdownButton(
+          underline: SizedBox(),
           value: _value,
           items: questionTypeList.map((e) {
             return DropdownMenuItem(
-              child: Text(e),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  e,
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+              ),
               value: e,
             );
           }).toList(),
           onChanged: (value) {
-             String questionType = '';
-             if(value == 'Choose Correct Answer') {
-        questionType = 'type 1';
-      } else if (value=='Fill in the blanks') {
-        questionType = 'type 2';
-      }else if(value =='True & False') {
-        questionType = 'type 3';
-      }else if(value == 'Match the following') {
-        questionType = 'type 4';
-      }else if(value == 'Subjective/One word QA/Very Short Answer') {
-        questionType = 'type 5';
-      }else if(value == 'Subjective/Short Answer(2 marks)') {
-        questionType = 'type 6';
-      }else if(value == 'Subjective Question(3 marks)') {
-        questionType = 'type 7';
-      }else if(value == 'Subjective Question(4 marks)') {
-        questionType = 'type 8';
-      }else if(value == 'Subjective Question(5 marks)') {
-        questionType = 'type 9';
-      }else if(value == 'Case Base Question (MCQ Type)') {
-        questionType = 'type 10';
-      }else if(value == 'Case Base Question (Short Answer)') {
-        questionType = 'type 11';
-      }else if(value == 'Graph Question') {
-        questionType = 'type 12';
-      }else if(value == 'Map Question') {
-        questionType = 'type 13';
-      }
+            String questionType = '';
+            if (value == 'Choose Correct Answer') {
+              questionType = 'type 1';
+            } else if (value == 'Fill in the blanks') {
+              questionType = 'type 2';
+            } else if (value == 'True & False') {
+              questionType = 'type 3';
+            } else if (value == 'Match the following') {
+              questionType = 'type 4';
+            } else if (value == 'Subjective/One word QA/Very Short Answer') {
+              questionType = 'type 5';
+            } else if (value == 'Subjective/Short Answer(2 marks)') {
+              questionType = 'type 6';
+            } else if (value == 'Subjective Question(3 marks)') {
+              questionType = 'type 7';
+            } else if (value == 'Subjective Question(4 marks)') {
+              questionType = 'type 8';
+            } else if (value == 'Subjective Question(5 marks)') {
+              questionType = 'type 9';
+            } else if (value == 'Case Base Question (MCQ Type)') {
+              questionType = 'type 10';
+            } else if (value == 'Case Base Question (Short Answer)') {
+              questionType = 'type 11';
+            } else if (value == 'Graph Question') {
+              questionType = 'type 12';
+            } else if (value == 'Map Question') {
+              questionType = 'type 13';
+            }
             setState(() {
               _value = value.toString();
               widget.questions.itemName = questionType.toString();

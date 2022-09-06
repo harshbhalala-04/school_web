@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:school_web/controller/add_blueprint_controller.dart';
 import 'package:school_web/theme.dart';
 import 'package:school_web/widgets/desktop_appbar.dart';
 import 'package:school_web/widgets/footer.dart';
 import 'package:school_web/widgets/side_layout.dart';
-import 'package:school_web/widgets/theme_button.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import '../model/Question_model.dart';
 import '../widgets/QuestionSet_Container.dart';
@@ -30,6 +30,22 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    List questionsetstring = [
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N'
+    ];
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -89,7 +105,7 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                           ),
                           Expanded(
                             child: Container(
-                              height: 40,
+                              height: 50,
                               decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(10),
@@ -109,12 +125,16 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                       return DropdownMenuItem(
                                           value: e,
                                           child: e == ""
-                                              ? const Text(
-                                                  "Select Class",
-                                                  style: TextStyle(
-                                                      fontFamily: "calibri",
-                                                      fontSize: 18,
-                                                      color: Colors.grey),
+                                              ? const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 5),
+                                                  child: Text(
+                                                    "Select Class",
+                                                    style: TextStyle(
+                                                        fontFamily: "calibri",
+                                                        fontSize: 18,
+                                                        color: Colors.grey),
+                                                  ),
                                                 )
                                               : Text(e));
                                     }).toList(),
@@ -152,7 +172,7 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      height: 40,
+                                      height: 50,
                                       decoration: BoxDecoration(
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(10),
@@ -164,12 +184,15 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                         padding: const EdgeInsets.all(4.0),
                                         child: DropdownButton(
                                           underline: Container(),
-                                          hint: const Text(
-                                            "Select Subject",
-                                            style: TextStyle(
-                                                fontFamily: "calibri",
-                                                fontSize: 18,
-                                                color: Colors.grey),
+                                          hint: const Padding(
+                                            padding: EdgeInsets.only(left: 5.0),
+                                            child: Text(
+                                              "Select Subject",
+                                              style: TextStyle(
+                                                  fontFamily: "calibri",
+                                                  fontSize: 18,
+                                                  color: Colors.grey),
+                                            ),
                                           ),
                                           value: addBlueprintController
                                               .subjectValue.value,
@@ -192,11 +215,18 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                           onChanged: (val) {
                                             addBlueprintController.subjectValue
                                                 .value = val.toString();
-                                           addBlueprintController.chaptersIdList.clear();
-                                           addBlueprintController.chaptersIdList.clear();
-                                           addBlueprintController.chapters.clear();
-                                           addBlueprintController.questionSetList.clear();
-                                           _selectedChapter.clear();
+                                            addBlueprintController
+                                                .chaptersIdList
+                                                .clear();
+                                            addBlueprintController
+                                                .chaptersIdList
+                                                .clear();
+                                            addBlueprintController.chapters
+                                                .clear();
+                                            addBlueprintController
+                                                .questionSetList
+                                                .clear();
+                                            _selectedChapter.clear();
                                             addBlueprintController.getChapters(
                                                 addBlueprintController
                                                     .classValue.value,
@@ -221,97 +251,168 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                         height: 20,
                       ),
                       Obx(
-                        () => addBlueprintController.chaptersList.isNotEmpty && addBlueprintController.subjectValue.value != ''
-                            ? Container(
-                                decoration: BoxDecoration(
-                                  
-                                  border: Border.all(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    MultiSelectBottomSheetField(
-                                      initialChildSize: 0.4,
-                                      listType: MultiSelectListType.CHIP,
-                                      searchable: true,
-                                      buttonText: Text("Select Chapters"),
-                                      title: Text("Chapters"),
-                                      items: addBlueprintController.chapters
-                                          .map(
-                                            (e) => MultiSelectItem(
-                                              e.id,
-                                              e.name.toString(),
-                                            ),
-                                          )
-                                          .toList(),
-                                      onConfirm: (values) {
-                                        _selectedChapter = values;
-                                      },
-                                      chipDisplay: MultiSelectChipDisplay(
-                                        onTap: (value) {
-                                          setState(() {
-                                            _selectedChapter.remove(value);
-                                          });
-                                        },
+                        () => addBlueprintController.chaptersList.isNotEmpty &&
+                                addBlueprintController.subjectValue.value != ''
+                            ? Column(
+                                children: <Widget>[
+                                  MultiSelectBottomSheetField(
+                                    barrierColor:
+                                        Color.fromARGB(145, 158, 158, 158),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border:
+                                            Border.all(color: Colors.black)),
+                                    selectedItemsTextStyle: const TextStyle(
+                                        fontSize: 25, color: Colors.black),
+                                    itemsTextStyle: const TextStyle(
+                                        fontSize: 25, color: Colors.black),
+                                    cancelText: const Text(
+                                      "CANCEL",
+                                      style: TextStyle(
+                                          height: 2,
+                                          fontFamily: "calibri",
+                                          fontSize: 22,
+                                          color: Colors.blue),
+                                    ),
+                                    confirmText: const Text(
+                                      "OK",
+                                      style: TextStyle(
+                                          height: 2,
+                                          fontFamily: "calibri",
+                                          fontSize: 22,
+                                          color: Colors.blue),
+                                    ),
+                                    initialChildSize: 0.4,
+                                    listType: MultiSelectListType.CHIP,
+                                    searchable: true,
+                                    buttonText: const Text(
+                                      "Select Chapters",
+                                      style: TextStyle(
+                                          fontFamily: "calibri",
+                                          fontSize: 18,
+                                          color: Colors.grey),
+                                    ),
+                                    title: const Padding(
+                                      padding: EdgeInsets.all(18.0),
+                                      child: Text(
+                                        "Chapters",
+                                        style: TextStyle(
+                                            fontFamily: "calibri",
+                                            fontSize: 40,
+                                            color: Colors.black),
                                       ),
                                     ),
-                                    _selectedChapter == null ||
-                                            _selectedChapter.isEmpty
-                                        ? Container(
-                                            padding: EdgeInsets.all(10),
-                                            alignment: Alignment.centerLeft,
-                                            child: const Text(
+                                    items: addBlueprintController.chapters
+                                        .map(
+                                          (e) => MultiSelectItem(
+                                            e.id,
+                                            e.name.toString().toUpperCase(),
+                                          ),
+                                        )
+                                        .toList(),
+                                    onConfirm: (values) {
+                                      _selectedChapter = values;
+                                    },
+                                    chipDisplay: MultiSelectChipDisplay(
+                                      onTap: (value) {
+                                        setState(() {
+                                          _selectedChapter.remove(value);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  _selectedChapter.isEmpty
+                                      ? Container(
+                                          padding: const EdgeInsets.all(10),
+                                          alignment: Alignment.centerLeft,
+                                          child: const Center(
+                                            child: Text(
                                               "None selected",
                                               style: TextStyle(
                                                   color: Colors.black54),
-                                            ))
-                                        : Container(),
-                                  ],
-                                ),
+                                            ),
+                                          ))
+                                      : Container(),
+                                ],
                               )
                             : const SizedBox.shrink(),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: addBlueprintController.questionSetList.length,
+                          itemCount:
+                              addBlueprintController.questionSetList.length,
                           itemBuilder: (context, index) {
                             return QuestionSetWidget(
                               callback: refresh,
                               index: index,
                               questions: addBlueprintController.questionSetList,
                               chaptersList: _selectedChapter.toList(),
+                              charset: questionsetstring[index],
                             );
                           }),
-                      Obx(() => addBlueprintController.subjectValue.value != ''
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Obx(() =>
+                          addBlueprintController.subjectValue.value != '' &&
+                                  questionSet.length < 13
+                              ? GestureDetector(
+                                  onTap: () {
+                                    addBlueprintController.questionSetList
+                                        .add(Questions(
+                                      itemName: "",
+                                    ));
+                                    questionSet.add(Questions(
+                                      itemName: "",
+                                    ));
+
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    color: Colors.grey[200],
+                                    child: const Text(
+                                      'Add Question Set',
+                                      style: TextStyle(
+                                          fontFamily: "calibri",
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox.shrink()),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      questionSet.length > 0
                           ? GestureDetector(
                               onTap: () {
-                                addBlueprintController.questionSetList.add(Questions(
-                                  itemName: "",
-                                ));
-                                questionSet.add(Questions(
-                                  itemName: "",
-                                ));
-                              
-                                setState(() {});
+                                addBlueprintController.printSelectedList(
+                                    addBlueprintController.questionSetList);
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(20),
-                                color: Colors.white,
-                                child: const Text('Add Question Set'),
-                              ),
-                            )
-                          : const SizedBox.shrink()),
-                      questionSet.length > 0
-                          ? GestureDetector(
-                            onTap: () {
-                              
-                              addBlueprintController.printSelectedList(addBlueprintController.questionSetList);
-                            },
-                            child: Container(child: Text('Add BluePrint'),))
+                                // color: Colors.blue,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: themeColor)),
+                                child: const Text('Add BluePrint',
+                                    style: TextStyle(
+                                        fontFamily: "calibri",
+                                        fontSize: 25,
+                                        color: Colors.white)),
+                              ))
                           : const SizedBox.shrink()
                     ],
                   ),

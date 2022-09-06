@@ -1,44 +1,44 @@
 import 'dart:convert';
-
+import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class NumberIncrementDecrement extends StatefulWidget {
   final NumberIncrementDecrementModel numberIncrementDecrementModel;
- 
-  NumberIncrementDecrement({ required this.numberIncrementDecrementModel});
+
+  NumberIncrementDecrement({required this.numberIncrementDecrementModel});
   @override
-  State<NumberIncrementDecrement> createState() => _NumberIncrementDecrementState(numberIncrementDecrementModel: numberIncrementDecrementModel);
- 
+  State<NumberIncrementDecrement> createState() =>
+      _NumberIncrementDecrementState(
+          numberIncrementDecrementModel: numberIncrementDecrementModel);
 }
- 
+
 class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
- 
   TextEditingController controller = TextEditingController();
   final NumberIncrementDecrementModel numberIncrementDecrementModel;
- 
+
   _NumberIncrementDecrementState({
     required this.numberIncrementDecrementModel,
   });
- 
+
   @override
   void initState() {
     super.initState();
     controller.addListener(onChange);
-    
   }
- 
+
   void onChange() {
-    this.numberIncrementDecrementModel.value=int.parse(controller.text.replaceAll("Adet", "").trim());
+    this.numberIncrementDecrementModel.value =
+        int.parse(controller.text.replaceAll("Adet", "").trim());
   }
+
   @override
   Widget build(BuildContext context) {
     int i = 0;
     i++;
     print(i.toString());
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,13 +48,18 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
             child: GestureDetector(
               onTap: () => minus(),
               child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: new Radius.circular(5),
-                          bottomLeft: new Radius.circular(5)),
-                      border: Border.all(width: 2, color: Colors.white)),
-                  child: Icon(Icons.remove, color: Colors.black)),
+                child: Transform.rotate(
+                  angle: 180 * math.pi / 180,
+                  child: const IconButton(
+                    icon: Icon(
+                      Icons.play_arrow,
+                      color: Colors.blue,
+                      size: 30,
+                    ),
+                    onPressed: null,
+                  ),
+                ),
+              ),
             )),
         SizedBox(
           width: 80,
@@ -64,20 +69,13 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
             controller: controller,
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black, fontSize: 22),
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(8.0),
-              hintText: this.numberIncrementDecrementModel.value.toString(),
-              hintStyle: TextStyle(color: Colors.black),
-              enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.zero),
-                borderSide: const BorderSide(color: Colors.white, width: 2.0),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.zero),
-                borderSide: const BorderSide(color: Colors.white, width: 2.0),
-              ),
-            ),
+                contentPadding: EdgeInsets.all(8.0),
+                hintText: this.numberIncrementDecrementModel.value.toString(),
+                hintStyle: TextStyle(color: Colors.black),
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none),
           ),
         ),
         SizedBox(
@@ -86,35 +84,34 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
             child: GestureDetector(
               onTap: () => add(),
               child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topRight: new Radius.circular(5),
-                          bottomRight: new Radius.circular(5)),
-                      border: Border.all(width: 2, color: Colors.white)),
-                  child: Icon(Icons.add, color: Colors.black)),
+                  child: Icon(
+                Icons.play_arrow,
+                color: Colors.blue,
+                size: 30,
+              )),
             )),
       ],
     );
   }
- 
+
   void add() {
     setState(() {
       this.numberIncrementDecrementModel.value++;
       controller.text = this.numberIncrementDecrementModel.value.toString();
     });
   }
- 
+
   void minus() {
     setState(() {
-      if (this.numberIncrementDecrementModel.value != 0) this.numberIncrementDecrementModel.value--;
+      if (this.numberIncrementDecrementModel.value != 0)
+        this.numberIncrementDecrementModel.value--;
       controller.text = this.numberIncrementDecrementModel.value.toString();
     });
-   }
+  }
 }
 
 class NumberIncrementDecrementModel {
-    int value;
+  int value;
   NumberIncrementDecrementModel({
     required this.value,
   });
@@ -141,7 +138,8 @@ class NumberIncrementDecrementModel {
 
   String toJson() => json.encode(toMap());
 
-  factory NumberIncrementDecrementModel.fromJson(String source) => NumberIncrementDecrementModel.fromMap(json.decode(source));
+  factory NumberIncrementDecrementModel.fromJson(String source) =>
+      NumberIncrementDecrementModel.fromMap(json.decode(source));
 
   @override
   String toString() => 'NumberIncrementDecrementModel(value: $value)';
@@ -149,9 +147,8 @@ class NumberIncrementDecrementModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
-    return other is NumberIncrementDecrementModel &&
-      other.value == value;
+
+    return other is NumberIncrementDecrementModel && other.value == value;
   }
 
   @override
