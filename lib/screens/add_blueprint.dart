@@ -256,8 +256,8 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                             ? Column(
                                 children: <Widget>[
                                   MultiSelectBottomSheetField(
-                                    barrierColor:
-                                        Color.fromARGB(145, 158, 158, 158),
+                                    barrierColor: const Color.fromARGB(
+                                        145, 158, 158, 158),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         border:
@@ -314,6 +314,15 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                       _selectedChapter = values;
                                     },
                                     chipDisplay: MultiSelectChipDisplay(
+                                      scrollBar: HorizontalScrollBar(
+                                          isAlwaysShown: false),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.zero),
+                                      chipColor: Colors.blue,
+                                      textStyle: TextStyle(
+                                          fontSize: 25,
+                                          fontFamily: "calibri",
+                                          color: Colors.white),
                                       onTap: (value) {
                                         setState(() {
                                           _selectedChapter.remove(value);
