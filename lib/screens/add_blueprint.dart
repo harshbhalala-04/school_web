@@ -383,7 +383,7 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                     ));
                                     addBlueprintController.isAddQuestionSet.add(false);
               
-                                    
+                                    addBlueprintController.update();
                                     setState(() {});
                                   },
                                   child: Container(

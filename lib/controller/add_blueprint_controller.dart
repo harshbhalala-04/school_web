@@ -147,13 +147,17 @@ class AddBlueprintController extends GetxController {
         .doc(type)
         .get()
         .then((value) {
-          print(value.data());
+          if(value.exists) {
+              maxNum = value.data()!['questionList'].length;
+          }
+          // print(value.data());
        
-             print(value.data()!['questionList'].length);
-          maxNum = value.data()!['questionList'].length;
+            //  print(value.data()!['questionList'].length);
+        
          
         });
         //  maxSelectList.add(maxNum);
+        print(maxNum);
          return maxNum;
   }
 

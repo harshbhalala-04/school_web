@@ -42,12 +42,14 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
       }
     }
 
-    getMaximum(index ) async {
+    getMaximum(index,type ) async {
+      print('inmaximunnnn');
+      print(addBlueprintController.questionSetList[index].questionType);
       return await addBlueprintController.getQestionTypeMax(
           addBlueprintController.classValue.value,
           addBlueprintController.subjectValue.value,
           widget.chaptersList[index],
-          addBlueprintController.questionSetList[index].questionType);
+          type);
     }
 
     // print(addBlueprintController.questionSet.toString());
@@ -161,13 +163,15 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                                 ()=> 
                                 addBlueprintController.questionSetList[widget.index].questionType != '' ?
                                 FutureBuilder(
-                                    future: getMaximum(index),
+                                    future: getMaximum(index,addBlueprintController.questionSetList[widget.index].questionType),
                                     builder: (context, snap) {
                                       print(snap);
                                       if (snap.hasData) {
                                         return Text(
-                                          snap.data.toString(),
-                                          style: textstyle,
+                                         'Maximum :'  + snap.data.toString(),
+                                          style: TextStyle(
+                                            fontFamily: "calibri", fontSize: 25, color: Colors.red
+                                          ),
                                         );
                                       }
                                       return const SizedBox.shrink();

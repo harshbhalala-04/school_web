@@ -98,13 +98,10 @@ class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
             }
             setState(() {
               _value = value.toString();
-              print(addBlueprintController.questionSetList[widget.index].questionType);
               addBlueprintController.questionSetList[widget.index].questionType = questionType;
               widget.questions.questionType = questionType.toString();
               addBlueprintController.isAddQuestionSet[widget.index] = true;
-              
               addBlueprintController.update();
-              print(addBlueprintController.questionSetList.first.questionType);
             });
           }),
     );
