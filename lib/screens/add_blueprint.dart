@@ -20,7 +20,7 @@ class AddBlueprintScreen extends StatefulWidget {
 class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
   final AddBlueprintController addBlueprintController =
       Get.put(AddBlueprintController());
-  List<Questions> questionSet = [];
+  List<QuestionSetModel> questionSet = [];
   List _selectedChapter = [];
   List chapterList = [];
   void refresh() {
@@ -316,10 +316,10 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                     chipDisplay: MultiSelectChipDisplay(
                                       scrollBar: HorizontalScrollBar(
                                           isAlwaysShown: false),
-                                      shape: RoundedRectangleBorder(
+                                      shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.zero),
                                       chipColor: Colors.blue,
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 25,
                                           fontFamily: "calibri",
                                           color: Colors.white),
@@ -367,7 +367,7 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                               charset: questionsetstring[index],
                             );
                           }),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Obx(() =>
@@ -375,14 +375,15 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                   questionSet.length < 13
                               ? GestureDetector(
                                   onTap: () {
+                                   
                                     addBlueprintController.questionSetList
-                                        .add(Questions(
-                                      itemName: "",
+                                        .add(QuestionSetModel(
+                                      questionType: "",
+                                      questionStatement: '',
                                     ));
-                                    questionSet.add(Questions(
-                                      itemName: "",
-                                    ));
-
+                                    addBlueprintController.isAddQuestionSet.add(false);
+              
+                                    
                                     setState(() {});
                                   },
                                   child: Container(
@@ -399,19 +400,18 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                   ),
                                 )
                               : const SizedBox.shrink()),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      questionSet.length > 0
+                       addBlueprintController.questionSetList.isNotEmpty
                           ? GestureDetector(
                               onTap: () {
-                                addBlueprintController.printSelectedList(
-                                    addBlueprintController.questionSetList);
+                               
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(20),
                                 // color: Colors.blue,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     gradient: LinearGradient(
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,

@@ -7,7 +7,7 @@ import 'package:school_web/widgets/questionType_DropDown.dart';
 import '../controller/add_blueprint_controller.dart';
 
 class QuestionSetWidget extends StatefulWidget {
-  List<Questions> questions;
+  List<QuestionSetModel> questions;
   int index;
   VoidCallback callback;
   List chaptersList;
@@ -42,12 +42,12 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
       }
     }
 
-    getMaximum(index) async {
+    getMaximum(index ) async {
       return await addBlueprintController.getQestionTypeMax(
           addBlueprintController.classValue.value,
           addBlueprintController.subjectValue.value,
           widget.chaptersList[index],
-          addBlueprintController.questionSetList[index].itemName);
+          addBlueprintController.questionSetList[index].questionType);
     }
 
     // print(addBlueprintController.questionSet.toString());
@@ -115,6 +115,7 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                       padding: const EdgeInsets.all(4.0),
                       child: Obx(
                         () => QuestionTypeDropDown(
+                          index: widget.index,
                             questions: addBlueprintController
                                 .questionSetList[widget.index]),
                       ),
@@ -128,17 +129,16 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Obx(
-                (() => addBlueprintController.questionSetList.isNotEmpty
+              child: 
+              
+              Obx(
+                
+                (() => addBlueprintController.isAddQuestionSet[widget.index] == true
                     ? ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: widget.chaptersList.length,
                         itemBuilder: ((context, index) {
-                          // addBlueprintController.questionSetList.first.itemName == '' ?
-                          // addBlueprintController.questionSetList.first.itemName="type 1"
-                          // : addBlueprintController.update();
-
                           NumberIncrementDecrementModel
                               numberIncrementDecrementModel =
                               NumberIncrementDecrementModel(value: 0);
@@ -157,24 +157,28 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                               // const SizedBox(
                               //   width: 50,
                               // ),
-                              FutureBuilder(
-                                  future: getMaximum(index),
-                                  builder: (context, snap) {
-                                    print(snap);
-                                    if (snap.hasData) {
-                                      return Text(
-                                        snap.data.toString(),
-                                        style: textstyle,
-                                      );
-                                    }
-                                    return const SizedBox.shrink();
-                                  })
+                              Obx(
+                                ()=> 
+                                addBlueprintController.questionSetList[widget.index].questionType != '' ?
+                                FutureBuilder(
+                                    future: getMaximum(index),
+                                    builder: (context, snap) {
+                                      print(snap);
+                                      if (snap.hasData) {
+                                        return Text(
+                                          snap.data.toString(),
+                                          style: textstyle,
+                                        );
+                                      }
+                                      return const SizedBox.shrink();
+                                    }) : const  SizedBox.shrink()
+                              )
                               // Text(addBlueprintController.maxSelectList[index]),
                             ],
                           );
                         }),
                       )
-                    : const SizedBox.shrink()),
+                    : const  SizedBox.shrink())
               ),
             )
           ],

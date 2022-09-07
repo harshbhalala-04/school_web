@@ -6,25 +6,28 @@ import 'package:school_web/model/Question_model.dart';
 import '../controller/add_blueprint_controller.dart';
 
 class QuestionTypeDropDown extends StatefulWidget {
-  Questions questions;
+  QuestionSetModel questions;
+  int index;
 
-  QuestionTypeDropDown({required this.questions});
+  QuestionTypeDropDown({required this.questions, required this.index});
   @override
   _QuestionTypeDropDownState createState() => _QuestionTypeDropDownState();
 }
 
 class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
   String _value = "";
+    final AddBlueprintController addBlueprintController =
+        Get.put(AddBlueprintController());
   @override
   void initState() {
     super.initState();
-    _value = widget.questions.itemName;
+    _value = widget.questions.questionType;
   }
 
   @override
   void didUpdateWidget(QuestionTypeDropDown oldWidget) {
-    if (oldWidget.questions.itemName != widget.questions.itemName) {
-      _value = widget.questions.itemName;
+    if (oldWidget.questions.questionType != widget.questions.questionType) {
+      _value = widget.questions.questionType;
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -95,7 +98,13 @@ class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
             }
             setState(() {
               _value = value.toString();
-              widget.questions.itemName = questionType.toString();
+              print(addBlueprintController.questionSetList[widget.index].questionType);
+              addBlueprintController.questionSetList[widget.index].questionType = questionType;
+              widget.questions.questionType = questionType.toString();
+              addBlueprintController.isAddQuestionSet[widget.index] = true;
+              
+              addBlueprintController.update();
+              print(addBlueprintController.questionSetList.first.questionType);
             });
           }),
     );

@@ -1,25 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:school_web/model/Question_model.dart';
-import 'package:school_web/model/blueprint_model.dart';
 
 class AddBlueprintController extends GetxController {
   final classValue = "".obs;
   final subjectValue = "".obs;
   final chapterValue = "".obs;
 
-  final chapterNumber = "".obs;
-  final chapterName = "".obs;
   final isLoading = false.obs;
   final isSubjectVisible = false.obs;
   final isChapterName = false.obs;
   final isChapterNumber = false.obs;
+  final List<bool> isAddQuestionSet = [false].obs;
   List<dynamic> subjectList = [""].obs;
   List<dynamic> chaptersList = [""].obs;
   List<dynamic> chaptersIdList = [""].obs;
   List<Chapter> chapters = <Chapter>[].obs;
-  List<dynamic> maxSelectList = <int>[].obs;
 
   final viewChapterClassValue = "".obs;
   final viewChapterSubjectValue = "".obs;
@@ -28,31 +24,9 @@ class AddBlueprintController extends GetxController {
 
   final viewChapterSubjectVisible = false.obs;
 
- List<Questions> questionSetList = <Questions>[].obs;
+ List<QuestionSetModel> questionSetList = <QuestionSetModel>[].obs;
   
 
-  RxList<Map> questionSet = <Map>[].obs;
-  RxInt index = 0.obs;
-  void change() => index.value++;
-  void chageQestionSetMap() { 
-    questionSet.add({
-        'questionsType': '',
-        'questions': [
-          {
-            'Ch_id': '',
-            'req_ques': '',
-          }
-        ]
-      });
-      selectedValueList.add('');
-  }
-
-      List<String> selectedValueList= [''].obs;
-      
-      selected(index,value) {
-        selectedValueList[index] = value;
-        update();
-      }
 
   List<String> classList = [
     "",
@@ -159,12 +133,10 @@ class AddBlueprintController extends GetxController {
     isChapterName.value = true;
     isChapterNumber.value = true;
   }
+
+
  Future<int> getQestionTypeMax(String className, String subjectName,String subjectId,String type) async {
-    print('insideeegetQestionTypeMax');
-    print(className);
-    print(subjectName);
-    print(subjectId);
-    print(type);
+
     int maxNum = 0;
     await FirebaseFirestore.instance
         .collection("question_bank")
@@ -181,24 +153,14 @@ class AddBlueprintController extends GetxController {
           maxNum = value.data()!['questionList'].length;
          
         });
-         maxSelectList.add(maxNum);
+        //  maxSelectList.add(maxNum);
          return maxNum;
   }
 
-  printSelectedList(List<Questions> questionSetList) {
-    print('inside Priny');
-    
-    questionSetList.forEach((element) {
-      // print(element.itemName);
-    });
-
-  }
 }
 
 class Chapter {
    String id;
    String name;
-
   Chapter(this.id, this.name);
-  
 }
