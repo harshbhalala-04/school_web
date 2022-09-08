@@ -9,4 +9,13 @@ class QuestionSetModel {
     required this.questionStatement,
     this.chapterWithRequiredQues,
   });
+ 
 }
+
+  Map asMap(questionSetModel) => {
+   'questionType' :questionSetModel.questionType,
+   'questionStatement' : questionSetModel.questionStatement,
+   'ChapterWithRequiredQues' : questionSetModel.chapterWithRequiredQues,
+  };
+
+

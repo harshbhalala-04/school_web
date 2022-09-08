@@ -27,10 +27,19 @@ class QuestionSetWidget extends StatefulWidget {
 }
 
 class _QuestionSetWidgetState extends State<QuestionSetWidget> {
+  final questionStatementController = TextEditingController();
+
+  @override
+  void dispose() {
+  // Clean up the controller when the Widget is disposed
+  questionStatementController.dispose(); 
+  super.dispose();
+}
   @override
   Widget build(BuildContext context) {
     final textstyle = const TextStyle(
         fontFamily: "calibri", fontSize: 25, color: Colors.black);
+      
     List chapterNameList = [];
     final AddBlueprintController addBlueprintController =
         Get.put(AddBlueprintController());
@@ -50,7 +59,6 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
           type);
     }
 
-    // print(addBlueprintController.questionSet.toString());
     String selectedValue = '';
     String questionset = "A";
 
@@ -79,8 +87,14 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                   const SizedBox(
                     width: 40,
                   ),
-                  const Flexible(
-                    child: TextField(),
+                   Flexible(
+                    child: TextField(
+                      controller: questionStatementController,
+                      onChanged: (value) {
+                        addBlueprintController.questionSetList[widget.index].questionStatement = value;
+                      },
+
+                    ),
                   ),
                   const SizedBox(
                     width: 10,
@@ -131,8 +145,7 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
               padding: const EdgeInsets.all(8.0),
               child: 
               
-              Obx(
-                
+              Obx(  
                 (() => addBlueprintController.isAddQuestionSet[widget.index] == true
                     ? ListView.builder(
                         scrollDirection: Axis.vertical,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:school_web/model/Question_model.dart';
@@ -154,12 +156,13 @@ class AddBlueprintController extends GetxController {
          return maxNum;
   }
 
-  addBluprintToFirestore({className,subjectName,chapterIdList,chapterNameList}) async {
+  addBluprintToFirestore({className,subjectName,questionSet}) async {
+    print(questionSet);
     await FirebaseFirestore.instance.collection('Blueprint').add({
       'class' : className,
       'subjectName' : subjectName,
-      'chapterIdList' : chapterIdList,
-      'chapterNameList' : chapterNameList,
+
+      // 'QuestionSet' :  ,
     });
   }
 

@@ -407,8 +407,13 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                        addBlueprintController.questionSetList.isNotEmpty
                           ? GestureDetector(
                               onTap: () {
+                                
                                 print('insideeeeAddBluprint');
-                               
+                               addBlueprintController.addBluprintToFirestore(
+                                className: addBlueprintController.classValue.value,
+                                subjectName: addBlueprintController.subjectValue.value,
+                                questionSet : addBlueprintController.questionSetList,
+                                );
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(20),
