@@ -11,6 +11,7 @@ class NumberIncrementDecrement extends StatefulWidget {
   final NumberIncrementDecrementModel numberIncrementDecrementModel;
 
   NumberIncrementDecrement({required this.numberIncrementDecrementModel});
+
   @override
   State<NumberIncrementDecrement> createState() =>
       _NumberIncrementDecrementState(
@@ -30,7 +31,11 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
   @override
   void initState() {
     super.initState();
+     addBlueprintController.questionSetList[numberIncrementDecrementModel.index].chapterWithRequiredQues!.add({
+        numberIncrementDecrementModel.chapterId: '0'
+      });
     controller.addListener(onChange);
+     
   }
 
   void onChange() {
@@ -123,16 +128,9 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
       controller.text;
     });
     addBlueprintController.update();
-    // addBlueprintController.questionSetList[numberIncrementDecrementModel.index]
-    //     .chapterWithRequiredQues!.forEach((element) {
-    //       element.keys == controller.text;
-    //     })
-    addBlueprintController.questionSetList[numberIncrementDecrementModel.index]
-        .chapterWithRequiredQues!
-        .add({
-      numberIncrementDecrementModel.chapterId: controller.text,
-    });
-    print(addBlueprintController.questionSetList.first.chapterWithRequiredQues);
+ addBlueprintController.questionSetList[numberIncrementDecrementModel.index]
+    .chapterWithRequiredQues!.elementAt(numberIncrementDecrementModel.chapterIndex).update(
+      numberIncrementDecrementModel.chapterId,(value) => controller.text,ifAbsent: () => controller.text);
   }
 }
 
@@ -140,9 +138,11 @@ class NumberIncrementDecrementModel {
   int value;
   int index;
   String chapterId;
+  int chapterIndex;
   NumberIncrementDecrementModel({
     required this.value,
     required this.index,
     required this.chapterId,
+    required this.chapterIndex
   });
 }

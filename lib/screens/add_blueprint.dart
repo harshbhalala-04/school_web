@@ -359,7 +359,6 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                           itemCount:
                               addBlueprintController.questionSetList.length,
                           itemBuilder: (context, index) {
-                           
                             return QuestionSetWidget(
                               callback: refresh,
                               index: index,
