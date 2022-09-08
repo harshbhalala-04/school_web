@@ -43,7 +43,7 @@ class _OptionCardState extends State<OptionCard> {
                         ),
                         Option(
                           imgPath: "assets/images/generate_paper.svg",
-                          title: "Add \nblueprint",
+                          title: "blueprint",
                         ),
                         Option(
                           imgPath: "assets/images/add_class.svg",
