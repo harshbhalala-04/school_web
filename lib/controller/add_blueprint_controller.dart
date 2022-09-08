@@ -156,13 +156,20 @@ class AddBlueprintController extends GetxController {
          return maxNum;
   }
 
-  addBluprintToFirestore({className,subjectName,questionSet}) async {
-    print(questionSet);
+  addBluprintToFirestore({className,subjectName,required List<QuestionSetModel> questionSet}) async {
+    makeList() {
+      List tempQuestionSetList = [];
+      for (var element in questionSet) {
+        tempQuestionSetList.add(
+         element.createMap()
+        );
+      }
+      return tempQuestionSetList;
+    }
     await FirebaseFirestore.instance.collection('Blueprint').add({
       'class' : className,
       'subjectName' : subjectName,
-
-      // 'QuestionSet' :  ,
+      'QuestionSet' :   makeList(),
     });
   }
 

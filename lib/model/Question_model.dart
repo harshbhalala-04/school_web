@@ -9,13 +9,21 @@ class QuestionSetModel {
     required this.questionStatement,
     this.chapterWithRequiredQues,
   });
- 
+
+  Map<String, dynamic> createMap() {
+    return {
+      'questionType' : questionType,
+      'questionStatement' : questionStatement,
+      'chapterRequird' :  getList()
+    };
+  } 
+  getList() {
+    Map temp = {};
+    chapterWithRequiredQues?.forEach((element) {
+      temp.addAll({
+        element.keys.first : element.values.first.toString()
+      });
+    });
+    return temp;
+  }
 }
-
-  Map asMap(questionSetModel) => {
-   'questionType' :questionSetModel.questionType,
-   'questionStatement' : questionSetModel.questionStatement,
-   'ChapterWithRequiredQues' : questionSetModel.chapterWithRequiredQues,
-  };
-
-
