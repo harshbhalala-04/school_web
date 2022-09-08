@@ -3,6 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:school_web/controller/add_blueprint_controller.dart';
 
 class NumberIncrementDecrement extends StatefulWidget {
   final NumberIncrementDecrementModel numberIncrementDecrementModel;
@@ -17,6 +20,8 @@ class NumberIncrementDecrement extends StatefulWidget {
 class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
   TextEditingController controller = TextEditingController();
   final NumberIncrementDecrementModel numberIncrementDecrementModel;
+  final AddBlueprintController addBlueprintController =
+      Get.put(AddBlueprintController());
 
   _NumberIncrementDecrementState({
     required this.numberIncrementDecrementModel,
@@ -37,7 +42,6 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
   Widget build(BuildContext context) {
     int i = 0;
     i++;
-    print(i.toString());
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +50,10 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
             width: 25,
             height: 48,
             child: GestureDetector(
-              onTap: () => minus(),
+              onTap: () {
+                minus();
+                currentValue();
+              },
               child: Container(
                 child: Transform.rotate(
                   angle: 180 * math.pi / 180,
@@ -69,11 +76,11 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
             controller: controller,
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black, fontSize: 22),
+            style: const TextStyle(color: Colors.black, fontSize: 22),
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(8.0),
-                hintText: this.numberIncrementDecrementModel.value.toString(),
-                hintStyle: TextStyle(color: Colors.black),
+                contentPadding: const EdgeInsets.all(8.0),
+                hintText: numberIncrementDecrementModel.value.toString(),
+                hintStyle: const TextStyle(color: Colors.black),
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none),
           ),
@@ -82,13 +89,15 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
             width: 25,
             height: 48,
             child: GestureDetector(
-              onTap: () => add(),
-              child: Container(
-                  child: Icon(
+              onTap: () {
+                add();
+                currentValue();
+              },
+              child: const Icon(
                 Icons.play_arrow,
                 color: Colors.blue,
                 size: 30,
-              )),
+              ),
             )),
       ],
     );
@@ -108,49 +117,32 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
       controller.text = this.numberIncrementDecrementModel.value.toString();
     });
   }
+
+  currentValue() {
+    setState(() {
+      controller.text;
+    });
+    addBlueprintController.update();
+    // addBlueprintController.questionSetList[numberIncrementDecrementModel.index]
+    //     .chapterWithRequiredQues!.forEach((element) {
+    //       element.keys == controller.text;
+    //     })
+    addBlueprintController.questionSetList[numberIncrementDecrementModel.index]
+        .chapterWithRequiredQues!
+        .add({
+      numberIncrementDecrementModel.chapterId: controller.text,
+    });
+    print(addBlueprintController.questionSetList.first.chapterWithRequiredQues);
+  }
 }
 
 class NumberIncrementDecrementModel {
   int value;
+  int index;
+  String chapterId;
   NumberIncrementDecrementModel({
     required this.value,
+    required this.index,
+    required this.chapterId,
   });
-
-  NumberIncrementDecrementModel copyWith({
-    int? value,
-  }) {
-    return NumberIncrementDecrementModel(
-      value: value ?? this.value,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'value': value,
-    };
-  }
-
-  factory NumberIncrementDecrementModel.fromMap(Map<String, dynamic> map) {
-    return NumberIncrementDecrementModel(
-      value: map['value']?.toInt() ?? 0,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory NumberIncrementDecrementModel.fromJson(String source) =>
-      NumberIncrementDecrementModel.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'NumberIncrementDecrementModel(value: $value)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is NumberIncrementDecrementModel && other.value == value;
-  }
-
-  @override
-  int get hashCode => value.hashCode;
 }

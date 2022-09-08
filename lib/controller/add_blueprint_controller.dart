@@ -150,15 +150,17 @@ class AddBlueprintController extends GetxController {
           if(value.exists) {
               maxNum = value.data()!['questionList'].length;
           }
-          // print(value.data());
-       
-            //  print(value.data()!['questionList'].length);
-        
-         
         });
-        //  maxSelectList.add(maxNum);
-        print(maxNum);
          return maxNum;
+  }
+
+  addBluprintToFirestore({className,subjectName,chapterIdList,chapterNameList}) async {
+    await FirebaseFirestore.instance.collection('Blueprint').add({
+      'class' : className,
+      'subjectName' : subjectName,
+      'chapterIdList' : chapterIdList,
+      'chapterNameList' : chapterNameList,
+    });
   }
 
 }

@@ -359,6 +359,7 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                           itemCount:
                               addBlueprintController.questionSetList.length,
                           itemBuilder: (context, index) {
+                           
                             return QuestionSetWidget(
                               callback: refresh,
                               index: index,
@@ -380,9 +381,10 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                         .add(QuestionSetModel(
                                       questionType: "",
                                       questionStatement: '',
+                                      chapterWithRequiredQues: [],
                                     ));
                                     addBlueprintController.isAddQuestionSet.add(false);
-              
+                                  
                                     addBlueprintController.update();
                                     setState(() {});
                                   },
@@ -406,6 +408,7 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                        addBlueprintController.questionSetList.isNotEmpty
                           ? GestureDetector(
                               onTap: () {
+                                print('insideeeeAddBluprint');
                                
                               },
                               child: Container(

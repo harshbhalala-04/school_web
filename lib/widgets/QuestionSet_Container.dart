@@ -43,8 +43,6 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
     }
 
     getMaximum(index,type ) async {
-      print('inmaximunnnn');
-      print(addBlueprintController.questionSetList[index].questionType);
       return await addBlueprintController.getQestionTypeMax(
           addBlueprintController.classValue.value,
           addBlueprintController.subjectValue.value,
@@ -143,7 +141,8 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                         itemBuilder: ((context, index) {
                           NumberIncrementDecrementModel
                               numberIncrementDecrementModel =
-                              NumberIncrementDecrementModel(value: 0);
+                              NumberIncrementDecrementModel(value: 0,index: widget.index, chapterId: widget.chaptersList[index].toString() );
+                              NumberIncrementDecrement numberIncrementDecrement =NumberIncrementDecrement(numberIncrementDecrementModel: numberIncrementDecrementModel,);
                           return Row(
                             children: [
                               Text(
@@ -165,10 +164,18 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                                 FutureBuilder(
                                     future: getMaximum(index,addBlueprintController.questionSetList[widget.index].questionType),
                                     builder: (context, snap) {
-                                      print(snap);
+                                     
                                       if (snap.hasData) {
                                         return Text(
-                                         'Maximum :'  + snap.data.toString(),
+                                         'Availble : ${snap.data}',
+                                          style: const TextStyle(
+                                            fontFamily: "calibri", fontSize: 25, color: Colors.red
+                                          ),
+                                        );
+                                      }
+                                      if(snap.data == null) {
+                                        const Text(
+                                         'Data not Availble',
                                           style: TextStyle(
                                             fontFamily: "calibri", fontSize: 25, color: Colors.red
                                           ),
