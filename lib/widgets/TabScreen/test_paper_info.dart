@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:school_web/controller/paper_generate_controller.dart';
 
 import '../../controller/add_chapter_controller.dart';
 import '../theme_button.dart';
@@ -14,6 +15,8 @@ class TestpaperInfo extends StatefulWidget {
 class _TestpaperInfoState extends State<TestpaperInfo> {
   final AddChapterController addChapterController =
       Get.put(AddChapterController());
+  final PaperGenerateController paperGenerateController =
+      Get.put(PaperGenerateController());
 
   @override
   void initState() {
@@ -26,8 +29,8 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
     return Form(
       child: SingleChildScrollView(
         child: Card(
-          margin: EdgeInsets.only(left: 80, right: 80),
-          shape: RoundedRectangleBorder(
+          margin: const EdgeInsets.only(left: 80, right: 80),
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(15),
             ),
@@ -50,7 +53,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                         )),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Padding(
@@ -58,6 +61,9 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                     left: 10.0,
                   ),
                   child: TextFormField(
+                    onChanged: (value) {
+                      paperGenerateController.testPaperName.value = value.toString();
+                    },
                       maxLines: 1,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text,
@@ -65,18 +71,18 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                       style: const TextStyle(color: Colors.black, fontSize: 20),
                       decoration: InputDecoration(
                         hintText: "Test paper name here",
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(10),
-                          borderSide: new BorderSide(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(),
                         ),
                       )),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     const Text(
@@ -126,6 +132,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                               onChanged: (val) {
                                 addChapterController.getSubjectList(
                                     val.toString(), false);
+                                paperGenerateController.className.value = val.toString();
                                 addChapterController.classValue.value =
                                     val.toString();
                               },
@@ -136,17 +143,17 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Obx(
                   () => addChapterController.isSubjectVisible.value
                       ? Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
-                            Text(
+                            const Text(
                               "Subject ",
                               style: TextStyle(
                                 fontFamily: "calibri",
@@ -155,14 +162,14 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                 color: Color.fromRGBO(51, 51, 51, 1),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Container(
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
                                   ),
                                   border: Border.all(
@@ -190,7 +197,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                       return DropdownMenuItem(
                                           value: e,
                                           child: e == ""
-                                              ? Text(
+                                              ? const Text(
                                                   "Select Subject",
                                                   style: TextStyle(
                                                       fontFamily: "calibri",
@@ -202,6 +209,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                     onChanged: (val) {
                                       addChapterController.subjectValue.value =
                                           val.toString();
+                                        paperGenerateController.subjectName.value =val.toString();
                                     },
                                   ),
                                 ),
@@ -210,12 +218,12 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                           ],
                         )
                       : addChapterController.isLoading.value
-                          ? Center(
+                          ? const Center(
                               child: CircularProgressIndicator(),
                             )
                           : Container(),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Obx(
@@ -223,10 +231,10 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                       ? Container()
                       : Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
-                            Text(
+                            const Text(
                               "Time allowed",
                               style: TextStyle(
                                 fontFamily: "calibri",
@@ -235,11 +243,14 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                 color: Color.fromRGBO(51, 51, 51, 1),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: TextFormField(
+                                onChanged: (value) {
+                                  paperGenerateController.time.value = value.toString();
+                                },
                                   maxLines: 1,
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
@@ -248,17 +259,17 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                       color: Colors.black, fontSize: 20),
                                   decoration: InputDecoration(
                                     hintText: "Add test time limit",
-                                    border: new OutlineInputBorder(
+                                    border: OutlineInputBorder(
                                       borderRadius:
-                                          new BorderRadius.circular(10),
-                                      borderSide: new BorderSide(),
+                                          BorderRadius.circular(10),
+                                      borderSide: const BorderSide(),
                                     ),
                                   )),
                             ),
                           ],
                         ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Obx(() => !addChapterController.isChapterName.value
@@ -279,16 +290,19 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                   )),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Expanded(
                                 child: TextFormField(
+                                  onChanged: (value){
+                                    paperGenerateController.instruction.value = value.toString();
+                                  } ,
                                     maxLines: 6,
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.text,
@@ -297,10 +311,10 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                         color: Colors.black, fontSize: 20),
                                     decoration: InputDecoration(
                                       hintText: "Instruction here",
-                                      border: new OutlineInputBorder(
+                                      border: OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10),
-                                        borderSide: new BorderSide(),
+                                            BorderRadius.circular(10),
+                                        borderSide: const BorderSide(),
                                       ),
                                     )),
                               ),
@@ -308,10 +322,24 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                           ),
                         ],
                       )),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                ThemeButton(text: "Next"),
+                GestureDetector(
+                              onTap: () {
+                                
+                                
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                color: Colors.blue,
+                               
+                                child: const Text('Add BluePrint',
+                                    style: TextStyle(
+                                        fontFamily: "calibri",
+                                        fontSize: 25,
+                                        color: Colors.white)),
+                              )),
               ],
             ),
           ),

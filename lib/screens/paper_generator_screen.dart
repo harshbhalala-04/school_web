@@ -19,6 +19,11 @@ class PaperGeneratorScreen extends StatefulWidget {
 class _PaperGeneratorScreenState extends State<PaperGeneratorScreen> {
   bool isDataAvailable = true;
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     print(deviceSize);
