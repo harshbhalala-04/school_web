@@ -8,7 +8,7 @@ class AddBlueprintController extends GetxController {
   final classValue = "".obs;
   final subjectValue = "".obs;
   final chapterValue = "".obs;
-
+  final bluePrintName = "".obs;
   final isLoading = false.obs;
   final isSubjectVisible = false.obs;
   final isChapterName = false.obs;
@@ -156,7 +156,7 @@ class AddBlueprintController extends GetxController {
          return maxNum;
   }
 
-  addBluprintToFirestore({className,subjectName,required List<QuestionSetModel> questionSet}) async {
+  addBluprintToFirestore({blueprintName,className,subjectName,required List<QuestionSetModel> questionSet}) async {
     makeList() {
       List tempQuestionSetList = [];
       for (var element in questionSet) {
@@ -167,8 +167,9 @@ class AddBlueprintController extends GetxController {
       return tempQuestionSetList;
     }
     await FirebaseFirestore.instance.collection('Blueprint').add({
-      'class' : className,
-      'subjectName' : subjectName,
+      'BluePrintName' : blueprintName,
+      'Class' : className,
+      'SubjectName' : subjectName,
       'QuestionSet' :   makeList(),
     });
   }

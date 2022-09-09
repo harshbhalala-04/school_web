@@ -21,7 +21,7 @@ class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
   @override
   void initState() {
     super.initState();
-    _value = widget.questions.questionType;
+    _value = '';
   }
 
   @override
@@ -54,7 +54,7 @@ class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
     return Container(
       child: DropdownButton(
           underline: SizedBox(),
-          value: _value,
+          value: _value == null ? '' : _value,
           items: questionTypeList.map((e) {
             return DropdownMenuItem(
               child: Padding(
@@ -105,5 +105,10 @@ class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
             });
           }),
     );
+  }
+  @override
+  void dispose() {
+    _value = '';
+    super.dispose();
   }
 }

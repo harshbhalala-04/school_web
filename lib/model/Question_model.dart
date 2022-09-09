@@ -12,9 +12,9 @@ class QuestionSetModel {
 
   Map<String, dynamic> createMap() {
     return {
-      'questionType' : questionType,
-      'questionStatement' : questionStatement,
-      'chapterRequird' :  getList()
+      'QuestionType' : questionType,
+      'QuestionStatement' : questionStatement,
+      'RequiredQuestion' :  getList()
     };
   } 
   getList() {
