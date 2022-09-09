@@ -3,14 +3,18 @@ import 'package:get/get.dart';
 import 'package:school_web/controller/paper_generate_controller.dart';
 
 import '../../controller/add_chapter_controller.dart';
-import '../theme_button.dart';
 
 class TestpaperInfo extends StatefulWidget {
-  const TestpaperInfo({super.key});
+  // const TestpaperInfo({super.key , controller}){tabva};
 
   @override
   State<TestpaperInfo> createState() => _TestpaperInfoState();
+  TestpaperInfo({Key? key, controller}) : super(key: key) {
+    tabController = controller;
+  }
 }
+
+late TabController tabController;
 
 class _TestpaperInfoState extends State<TestpaperInfo> {
   final AddChapterController addChapterController =
@@ -61,9 +65,10 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                     left: 10.0,
                   ),
                   child: TextFormField(
-                    onChanged: (value) {
-                      paperGenerateController.testPaperName.value = value.toString();
-                    },
+                      onChanged: (value) {
+                        paperGenerateController.testPaperName.value =
+                            value.toString();
+                      },
                       maxLines: 1,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text,
@@ -132,7 +137,8 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                               onChanged: (val) {
                                 addChapterController.getSubjectList(
                                     val.toString(), false);
-                                paperGenerateController.className.value = val.toString();
+                                paperGenerateController.className.value =
+                                    val.toString();
                                 addChapterController.classValue.value =
                                     val.toString();
                               },
@@ -209,7 +215,8 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                     onChanged: (val) {
                                       addChapterController.subjectValue.value =
                                           val.toString();
-                                        paperGenerateController.subjectName.value =val.toString();
+                                      paperGenerateController
+                                          .subjectName.value = val.toString();
                                     },
                                   ),
                                 ),
@@ -248,9 +255,10 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                             ),
                             Expanded(
                               child: TextFormField(
-                                onChanged: (value) {
-                                  paperGenerateController.time.value = value.toString();
-                                },
+                                  onChanged: (value) {
+                                    paperGenerateController.time.value =
+                                        value.toString();
+                                  },
                                   maxLines: 1,
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
@@ -260,8 +268,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                   decoration: InputDecoration(
                                     hintText: "Add test time limit",
                                     border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(10),
                                       borderSide: const BorderSide(),
                                     ),
                                   )),
@@ -300,9 +307,10 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  onChanged: (value){
-                                    paperGenerateController.instruction.value = value.toString();
-                                  } ,
+                                    onChanged: (value) {
+                                      paperGenerateController
+                                          .instruction.value = value.toString();
+                                    },
                                     maxLines: 6,
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.text,
@@ -312,8 +320,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                     decoration: InputDecoration(
                                       hintText: "Instruction here",
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
                                         borderSide: const BorderSide(),
                                       ),
                                     )),
@@ -326,20 +333,20 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                   height: 20,
                 ),
                 GestureDetector(
-                              onTap: () {
-                                
-                                
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                color: Colors.blue,
-                               
-                                child: const Text('Add BluePrint',
-                                    style: TextStyle(
-                                        fontFamily: "calibri",
-                                        fontSize: 25,
-                                        color: Colors.white)),
-                              )),
+                    onTap: () {
+                      tabController.animateTo(1);
+                    },
+                    child: Container(
+                      width: 150,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(20),
+                      color: Colors.blue,
+                      child: const Text('Next',
+                          style: TextStyle(
+                              fontFamily: "calibri",
+                              fontSize: 25,
+                              color: Colors.white)),
+                    )),
               ],
             ),
           ),

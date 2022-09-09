@@ -23,6 +23,7 @@ class _PaperGeneratorScreenState extends State<PaperGeneratorScreen> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -85,7 +86,22 @@ class PaperGeneratorModel extends StatefulWidget {
   State<PaperGeneratorModel> createState() => _PaperGeneratorModelState();
 }
 
-class _PaperGeneratorModelState extends State<PaperGeneratorModel> {
+class _PaperGeneratorModelState extends State<PaperGeneratorModel>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -106,6 +122,7 @@ class _PaperGeneratorModelState extends State<PaperGeneratorModel> {
           height: 50,
         ),
         TabBar(
+          controller: tabController,
           padding: const EdgeInsets.only(top: 20, left: 20, right: 30),
           indicator: BoxDecoration(
               color: Colors.white,
@@ -141,13 +158,17 @@ class _PaperGeneratorModelState extends State<PaperGeneratorModel> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 50,
         ),
-        const SizedBox(
+        SizedBox(
           height: 670,
           child: TabBarView(
-            children: [TestpaperInfo(), SelectBlueprint()],
+            controller: tabController,
+            children: [
+              TestpaperInfo(controller: tabController),
+              SelectBlueprint()
+            ],
           ),
         )
       ],
