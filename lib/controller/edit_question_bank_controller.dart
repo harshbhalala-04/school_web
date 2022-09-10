@@ -86,6 +86,7 @@ class EditQuestionBankController extends GetxController {
         chaptersIdList = tmpId;
         chaptersIdList.insert(0, "");
         chaptersList.insert(0, "");
+        print(chaptersIdList);
       }
     });
     isLoading.toggle();

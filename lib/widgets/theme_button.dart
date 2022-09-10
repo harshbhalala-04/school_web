@@ -35,11 +35,7 @@ class _ThemeButtonState extends State<ThemeButton> {
               addChapterController.chapterName.value);
         } else if (widget.text == "View Chapters") {
           Get.toNamed('/view_chapters');
-        } else if (widget.text == "View chapters") {
-          addChapterController.getChapterName(
-              addChapterController.viewChapterClassValue.value,
-              addChapterController.viewChapterSubjectValue.value);
-        } else if (widget.text == "View questions") {
+        }  else if (widget.text == "View questions") {
           print(widget.val);
           viewQuestionBankController.questionSelectedIndex.value =
               viewQuestionBankController.questionTypeList
@@ -56,12 +52,18 @@ class _ThemeButtonState extends State<ThemeButton> {
           gradient: LinearGradient(
             colors: buttonTheme,
           ),
-          borderRadius: BorderRadius.circular(27),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
           widget.text,
           style: TextStyle(
+
+              fontFamily: "calibri",
+              color:
+                  widget.text == "View Chapters" ? Colors.blue : Colors.white,
+              fontSize: 25.0),
               fontFamily: "calibri", color: Colors.white, fontSize: 20.0),
+
         ),
       ),
     );
