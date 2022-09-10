@@ -299,7 +299,14 @@ class _AddChapterCardState extends State<AddChapterCard> {
                       SizedBox(
                         height: 20,
                       ),
-                      ThemeButton(text: "Add Chapter"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ThemeButton(text: "Add Chapter"),
+                          SizedBox(width: 20,),
+                          ThemeButton(text: "View Chapters"),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -307,7 +314,7 @@ class _AddChapterCardState extends State<AddChapterCard> {
               SizedBox(
                 height: 30,
               ),
-              ThemeButton(text: "View Chapters"),
+              
             ],
           ),
         ),
