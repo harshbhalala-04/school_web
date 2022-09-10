@@ -81,8 +81,8 @@ class _GraphTypeState extends State<GraphType> {
                 )
               : imgController.isUploadedImage.value
                   ? Container(
-                      height: 300,
-                      width: 300,
+                      height: 400,
+                      width: 400,
                       child:
                           Image.network(imgController.uploadedImageUrl.value),
                     )
@@ -98,7 +98,7 @@ class _GraphTypeState extends State<GraphType> {
               onTap: () {
                 if (controller.text.isEmpty ||
                     !imgController.isUploadedImage.value) {
-                  Get.snackbar("Please Enter value", "",
+                  Get.snackbar("Please Enter value or upload image", "",
                       backgroundColor: Colors.red,
                       snackPosition: SnackPosition.TOP,
                       colorText: Colors.white);

@@ -81,8 +81,8 @@ class _MapTypeState extends State<MapType> {
                 )
               : imgController.isUploadedImage.value
                   ? Container(
-                      height: 300,
-                      width: 300,
+                      height: 400,
+                      width: 400,
                       child:
                           Image.network(imgController.uploadedImageUrl.value),
                     )
@@ -98,7 +98,7 @@ class _MapTypeState extends State<MapType> {
               onTap: () {
                 if (controller.text.isEmpty ||
                     !imgController.isUploadedImage.value) {
-                  Get.snackbar("Please Enter value", "",
+                  Get.snackbar("Please Enter value or map", "",
                       backgroundColor: Colors.red,
                       snackPosition: SnackPosition.TOP,
                       colorText: Colors.white);

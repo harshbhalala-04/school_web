@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:school_web/widgets/theme_button.dart';
 
 import '../theme.dart';
@@ -34,6 +35,22 @@ class _DesktopAppBarState extends State<DesktopAppBar> {
                 padding: const EdgeInsets.only(right: 20.0),
                 child: Row(
                   children: [
+                     InkWell(
+                      onTap: () {
+                        Get.toNamed("/");
+                      },
+                      child: Text(
+                        "Home",
+                        style: TextStyle(
+                            fontFamily: "calibri",
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
                     InkWell(
                       onTap: () {},
                       child: Text(
