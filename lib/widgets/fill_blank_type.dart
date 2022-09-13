@@ -11,13 +11,8 @@ import '../controller/edit_question_bank_controller.dart';
 import '../utils/database.dart';
 
 class FillBlankType extends StatefulWidget {
-  bool forFillBlank;
-  bool forTrueFalse;
   int typeNumber;
-  FillBlankType(
-      {this.forFillBlank = false,
-      this.forTrueFalse = false,
-      this.typeNumber = 0});
+  FillBlankType({this.typeNumber = 0});
 
   @override
   State<FillBlankType> createState() => _FillBlankTypeState();
@@ -58,6 +53,7 @@ class _FillBlankTypeState extends State<FillBlankType> {
                 child: Container(
                   padding: EdgeInsets.only(left: 12),
                   child: TextFormField(
+                    maxLines: 10,
                     controller: fillBlankController,
                     decoration: InputDecoration(
                       hintText: "Add Question Statement",
@@ -130,8 +126,7 @@ class _FillBlankTypeState extends State<FillBlankType> {
                     Get.find<EditQuestionBankController>().chapterValue.value,
                     chapterID,
                     fillBlankController.text,
-                    widget.forFillBlank,
-                    widget.forTrueFalse,
+                    
                     widget.typeNumber,
                     Get.find<ImagePickerController>().uploadedImageUrl.value);
                 fillBlankController.clear();

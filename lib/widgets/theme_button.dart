@@ -8,6 +8,7 @@ import 'package:school_web/utils/database.dart';
 import 'package:school_web/widgets/add_chapter_card.dart';
 
 import '../theme.dart';
+import '../utils/questionsList.dart';
 
 class ThemeButton extends StatefulWidget {
   final String text;
@@ -35,11 +36,11 @@ class _ThemeButtonState extends State<ThemeButton> {
               addChapterController.chapterName.value);
         } else if (widget.text == "View Chapters") {
           Get.toNamed('/view_chapters');
-        }  else if (widget.text == "View questions") {
+        } else if (widget.text == "View questions") {
           print(widget.val);
           viewQuestionBankController.questionSelectedIndex.value =
-              viewQuestionBankController.questionTypeList
-                  .indexOf(widget.val.toString());
+              questionsList
+                  .indexWhere((element) => element.questionTxt == widget.val.toString());
           int idx = viewQuestionBankController.chaptersList
               .indexOf(viewQuestionBankController.chapterValue.value);
           String chapterID = viewQuestionBankController.chaptersIdList[idx];
@@ -57,13 +58,10 @@ class _ThemeButtonState extends State<ThemeButton> {
         child: Text(
           widget.text,
           style: TextStyle(
-
-              fontFamily: "calibri",
-              color:
-                  widget.text == "View Chapters" ? Colors.blue : Colors.white,
-              fontSize: 25.0),
-              fontFamily: "calibri", color: Colors.white, fontSize: 20.0),
-
+            fontFamily: "calibri",
+            color: Colors.white,
+            fontSize: 25.0,
+          ),
         ),
       ),
     );

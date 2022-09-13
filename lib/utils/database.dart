@@ -37,7 +37,7 @@ class DataBase {
         .doc(chapterId)
         .set({});
 
-    for (int i = 1; i <= 13; i++) {
+    for (int i = 1; i <= 94; i++) {
       await firestore
           .collection("question_bank")
           .doc(className)
@@ -70,7 +70,7 @@ class DataBase {
         .collection(subjectName)
         .doc(chapterID)
         .collection("questions")
-        .doc("type 1")
+        .doc("type 29")
         .update({
       "questionList": FieldValue.arrayUnion([
         {
@@ -98,7 +98,7 @@ class DataBase {
       print(val.data()?.isEmpty);
       if (val.data()!.isNotEmpty) {
         print("here condition true");
-        newValue = val.data()!['type 1'] + 1;
+        newValue = val.data()!['type 29'] + 1;
       }
 
       await firestore
@@ -106,7 +106,7 @@ class DataBase {
           .doc(className)
           .collection(subjectName)
           .doc(chapterID)
-          .update({"type 1": newValue});
+          .update({"type 29": newValue});
     });
   }
 
@@ -116,23 +116,17 @@ class DataBase {
       String chapterName,
       String chapterID,
       String question,
-      bool forFillBlank,
-      bool forTrueFalse,
+      
       int typeNumber,
       String imgUrl) async {
-        print(forFillBlank);
-        print(forTrueFalse);
+       
     await firestore
         .collection("question_bank")
         .doc(className)
         .collection(subjectName)
         .doc(chapterID)
         .collection("questions")
-        .doc(forFillBlank == true && forTrueFalse == false
-            ? "type 2"
-            : forFillBlank == false && forTrueFalse == true
-                ? "type 3"
-                : "type $typeNumber")
+        .doc("type $typeNumber")
         .update({
       "questionList": FieldValue.arrayUnion([
         {"questionText": question, "imgUrl": imgUrl}
@@ -147,17 +141,9 @@ class DataBase {
         .then((val) async {
       int newValue = 1;
       if (val.data()!.isNotEmpty) {
-        if (val.data()![forFillBlank == true && forTrueFalse == false
-                ? "type 2"
-                : forFillBlank == false && forTrueFalse == true
-                    ? "type 3"
-                    : "type $typeNumber"] !=
+        if (val.data()!["type $typeNumber"] !=
             null) {
-          newValue = val.data()![forFillBlank == true && forTrueFalse == false
-                  ? "type 2"
-                  : forFillBlank == false && forTrueFalse == true
-                      ? "type 3"
-                      : "type $typeNumber"] +
+          newValue = val.data()!["type $typeNumber"] +
               1;
         }
       }
@@ -168,11 +154,7 @@ class DataBase {
           .collection(subjectName)
           .doc(chapterID)
           .update({
-        forFillBlank == true && forTrueFalse == false
-            ? "type 2"
-            : forFillBlank == false && forTrueFalse == true
-                ? "type 3"
-                : "type $typeNumber": newValue
+        "type $typeNumber": newValue
       });
     });
   }
@@ -236,6 +218,7 @@ class DataBase {
     String que3Img,
     String que4Img,
   ) async {
+    // 47, 48, 49, 57, 81, 89, 90
     Map<String, dynamic> queMap = {
       "question1": que1,
       "question2": que2,

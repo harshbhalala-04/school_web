@@ -5,12 +5,14 @@ import 'package:get/get.dart';
 import 'package:school_web/controller/edit_question_bank_controller.dart';
 import 'package:school_web/controller/image_picker_controller.dart';
 import 'package:school_web/controller/multiple_image_upload_controller.dart';
+import 'package:school_web/utils/questionsList.dart';
 import 'package:school_web/widgets/case_base_des_type.dart';
 import 'package:school_web/widgets/case_que_type.dart';
 import 'package:school_web/widgets/fill_blank_type.dart';
 import 'package:school_web/widgets/graph_type.dart';
 import 'package:school_web/widgets/map_type.dart';
 import 'package:school_web/widgets/mcq_type.dart';
+import 'package:school_web/widgets/view_question_bank_widgets/descriptive_question.dart';
 import 'package:selectable/selectable.dart';
 
 import '../theme.dart';
@@ -346,12 +348,10 @@ class _EditQuestionBankScreenState extends State<EditQuestionBankScreen> {
                                             ),
                                             value: editQuestionBankController
                                                 .questionTypeValue.value,
-                                            items: editQuestionBankController
-                                                .questionTypeList
-                                                .map((e) {
+                                            items: questionsList.map((e) {
                                               return DropdownMenuItem(
-                                                  value: e,
-                                                  child: e == ""
+                                                  value: e.questionTxt,
+                                                  child: e.questionTxt == ""
                                                       ? Text(
                                                           "Select Question Type",
                                                           style: TextStyle(
@@ -361,9 +361,10 @@ class _EditQuestionBankScreenState extends State<EditQuestionBankScreen> {
                                                               color:
                                                                   Colors.grey),
                                                         )
-                                                      : Text(e));
+                                                      : Text(e.questionTxt));
                                             }).toList(),
                                             onChanged: (val) {
+                                              print(val.toString());
                                               imagePickerController
                                                   .isUploadedImage
                                                   .value = false;
@@ -372,20 +373,25 @@ class _EditQuestionBankScreenState extends State<EditQuestionBankScreen> {
                                               editQuestionBankController
                                                   .questionTypeValue
                                                   .value = val.toString();
+
                                               editQuestionBankController
                                                       .questionSelectedIndex
                                                       .value =
-                                                  editQuestionBankController
-                                                      .questionTypeList
-                                                      .indexOf(val.toString());
+                                                  questionsList.indexWhere(
+                                                      (ele) =>
+                                                          ele.questionTxt ==
+                                                          val.toString());
+                                              print(editQuestionBankController
+                                                  .questionSelectedIndex.value);
 
                                               if (editQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  1 || editQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  11) {
+                                                          .questionSelectedIndex
+                                                          .value ==
+                                                      1 ||
+                                                  editQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value ==
+                                                      11) {
                                                 multipleImgController
                                                     .isLoading.value = [
                                                   false.obs,
@@ -427,156 +433,83 @@ class _EditQuestionBankScreenState extends State<EditQuestionBankScreen> {
                                                   .questionSelectedIndex
                                                   .value ==
                                               1
-                                          ? MCQType()
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              2
                                           ? FillBlankType(
-                                              forFillBlank: true,
+                                              typeNumber:
+                                                  editQuestionBankController
+                                                      .questionSelectedIndex
+                                                      .value,
                                             )
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              3
-                                          ? FillBlankType(
-                                              forTrueFalse: true,
-                                            )
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              4
-                                          ? Text("Match the following")
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              5
-                                          ? FillBlankType(typeNumber: 5)
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              6
-                                          ? FillBlankType(typeNumber: 6)
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              7
-                                          ? FillBlankType(typeNumber: 7)
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              8
-                                          ? FillBlankType(typeNumber: 8)
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              9
-                                          ? FillBlankType(typeNumber: 9)
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              10
-                                          ? CaseQueType()
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              11
-                                          ? CaseBaseDesType()
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              12
-                                          ? GraphType()
-                                          : Container(),
-                                ),
-                                Obx(
-                                  () => editQuestionBankController
-                                              .questionSelectedIndex.value ==
-                                          0
-                                      ? Container()
-                                      : editQuestionBankController
-                                                  .questionSelectedIndex
-                                                  .value ==
-                                              13
-                                          ? MapType()
-                                          : Container(),
+                                          : editQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value >=
+                                                      2 &&
+                                                  editQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value <=
+                                                      27
+                                              ? FillBlankType(
+                                                  typeNumber:
+                                                      editQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value,
+                                                )
+                                              : editQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value ==
+                                                      28
+                                                  ? FillBlankType(
+                                                      typeNumber:
+                                                          editQuestionBankController
+                                                              .questionSelectedIndex
+                                                              .value,
+                                                    )
+                                                  : editQuestionBankController
+                                                              .questionSelectedIndex
+                                                              .value ==
+                                                          29
+                                                      ? MCQType()
+                                                      : editQuestionBankController
+                                                                      .questionSelectedIndex
+                                                                      .value ==
+                                                                  30 ||
+                                                              editQuestionBankController.questionSelectedIndex.value == 31
+                                                          ? FillBlankType(
+                                                              typeNumber:
+                                                                  editQuestionBankController
+                                                                      .questionSelectedIndex
+                                                                      .value,
+                                                            )
+                                                          : editQuestionBankController.questionSelectedIndex.value == 32
+                                                              ? Text("Match following")
+                                                              : editQuestionBankController.questionSelectedIndex.value >= 33 && editQuestionBankController.questionSelectedIndex.value <= 49
+                                                                  ? FillBlankType(
+                                                                      typeNumber: editQuestionBankController
+                                                                          .questionSelectedIndex
+                                                                          .value,
+                                                                    )
+                                                                  : editQuestionBankController.questionSelectedIndex.value == 50 || editQuestionBankController.questionSelectedIndex.value == 51
+                                                                      ? FillBlankType(
+                                                                          typeNumber: editQuestionBankController
+                                                                              .questionSelectedIndex
+                                                                              .value,
+                                                                        )
+                                                                      : editQuestionBankController.questionSelectedIndex.value >= 52 && editQuestionBankController.questionSelectedIndex.value <= 60
+                                                                          ? FillBlankType(
+                                                                              typeNumber: editQuestionBankController.questionSelectedIndex.value,
+                                                                            )
+                                                                          : editQuestionBankController.questionSelectedIndex.value == 61
+                                                                              ? GraphType()
+                                                                              : editQuestionBankController.questionSelectedIndex.value >= 62 && editQuestionBankController.questionSelectedIndex.value <= 71
+                                                                                  ? FillBlankType(
+                                                                                      typeNumber: editQuestionBankController.questionSelectedIndex.value,
+                                                                                    )
+                                                                                  : editQuestionBankController.questionSelectedIndex.value == 72
+                                                                                      ? MapType()
+                                                                                      : editQuestionBankController.questionSelectedIndex.value >= 73 && editQuestionBankController.questionSelectedIndex.value <= 94
+                                                                                          ? FillBlankType(
+                                                                                              typeNumber: editQuestionBankController.questionSelectedIndex.value,
+                                                                                            )
+                                                                                          : Container(),
                                 ),
                               ],
                             ),

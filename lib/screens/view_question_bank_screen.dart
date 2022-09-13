@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_web/controller/view_question_controller.dart';
+import 'package:school_web/utils/questionsList.dart';
 import 'package:school_web/widgets/view_question_bank_widgets/case_base_des_que.dart';
 import 'package:school_web/widgets/view_question_bank_widgets/case_base_mcq.dart';
 import 'package:school_web/widgets/view_question_bank_widgets/descriptive_question.dart';
@@ -337,12 +338,10 @@ class _ViewQuestionBankScreenState extends State<ViewQuestionBankScreen> {
                                             ),
                                             value: viewQuestionBankController
                                                 .questionTypeValue.value,
-                                            items: viewQuestionBankController
-                                                .questionTypeList
-                                                .map((e) {
+                                            items: questionsList.map((e) {
                                               return DropdownMenuItem(
-                                                  value: e,
-                                                  child: e == ""
+                                                  value: e.questionTxt,
+                                                  child: e.questionTxt == ""
                                                       ? Text(
                                                           "Select Question Type",
                                                           style: TextStyle(
@@ -352,7 +351,7 @@ class _ViewQuestionBankScreenState extends State<ViewQuestionBankScreen> {
                                                               color:
                                                                   Colors.grey),
                                                         )
-                                                      : Text(e));
+                                                      : Text(e.questionTxt));
                                             }).toList(),
                                             onChanged: (val) {
                                               viewQuestionBankController
@@ -410,62 +409,53 @@ class _ViewQuestionBankScreenState extends State<ViewQuestionBankScreen> {
                                   ? Text("No records found")
                                   : viewQuestionBankController
                                               .questionSelectedIndex.value ==
-                                          1
+                                          29
                                       ? viewQuestionBankController.mcqList.length ==
                                               0
                                           ? Text("No records found")
                                           : McqQuestion()
-                                      : (viewQuestionBankController.questionSelectedIndex.value == 2 ||
-                                              viewQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  3 ||
-                                              viewQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  5 ||
-                                              viewQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  6 ||
-                                              viewQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  7 ||
-                                              viewQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  8 ||
-                                              viewQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  9)
-                                          ? viewQuestionBankController.desList.length ==
-                                                  0
+                                      : ((viewQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value >=
+                                                      2 &&
+                                                  viewQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value <=
+                                                      28) ||
+                                              (viewQuestionBankController.questionSelectedIndex.value >= 33 &&
+                                                  viewQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value <=
+                                                      60) ||
+                                              (viewQuestionBankController.questionSelectedIndex.value >= 62 &&
+                                                  viewQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value <=
+                                                      71) ||
+                                              (viewQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value >=
+                                                      73 &&
+                                                  viewQuestionBankController
+                                                          .questionSelectedIndex
+                                                          .value <=
+                                                      94))
+                                          ? viewQuestionBankController.desList.length == 0
                                               ? Text("No records found")
                                               : DescriptiveQuestion()
-                                          : viewQuestionBankController
-                                                      .questionSelectedIndex
-                                                      .value ==
-                                                  10
-                                              ? viewQuestionBankController
-                                                          .caseBaseMcqList
-                                                          .length ==
-                                                      0
+                                          : viewQuestionBankController.questionSelectedIndex.value == 10
+                                              ? viewQuestionBankController.caseBaseMcqList.length == 0
                                                   ? Text("No records found")
                                                   : CaseBaseMcq()
-                                              : viewQuestionBankController
-                                                          .questionSelectedIndex
-                                                          .value ==
-                                                      11
+                                              : viewQuestionBankController.questionSelectedIndex.value == 11
                                                   ? viewQuestionBankController.caseBaseDesList.length == 0
                                                       ? Text("No records found")
                                                       : CaseBaseDesQue()
-                                                  : viewQuestionBankController.questionSelectedIndex.value == 12
+                                                  : viewQuestionBankController.questionSelectedIndex.value == 61
                                                       ? viewQuestionBankController.graphList.length == 0
                                                           ? Text("No records found")
                                                           : GraphQuestion()
-                                                      : viewQuestionBankController.questionSelectedIndex.value == 13
+                                                      : viewQuestionBankController.questionSelectedIndex.value == 72
                                                           ? viewQuestionBankController.mapList.length == 0
                                                               ? Text("No records found")
                                                               : MapQuestion()

@@ -42,22 +42,22 @@ class ViewQuestionBankController extends GetxController {
     "Class 10"
   ];
 
-  List<String> questionTypeList = [
-    "",
-    "Choose Correct Answer",
-    "Fill in the blanks",
-    "True & False",
-    "Match the following",
-    "Subjective/One word QA/Very Short Answer",
-    "Subjective/Short Answer(2 marks)",
-    "Subjective Question(3 marks)",
-    "Subjective Question(4 marks)",
-    "Subjective Question(5 marks)",
-    "Case Base Question (MCQ Type)",
-    "Case Base Question (Short Answer)",
-    "Graph Question",
-    "Map Question",
-  ];
+  // List<String> questionTypeList = [
+  //   "",
+  //   "Choose Correct Answer",
+  //   "Fill in the blanks",
+  //   "True & False",
+  //   "Match the following",
+  //   "Subjective/One word QA/Very Short Answer",
+  //   "Subjective/Short Answer(2 marks)",
+  //   "Subjective Question(3 marks)",
+  //   "Subjective Question(4 marks)",
+  //   "Subjective Question(5 marks)",
+  //   "Case Base Question (MCQ Type)",
+  //   "Case Base Question (Short Answer)",
+  //   "Graph Question",
+  //   "Map Question",
+  // ];
 
   final firestore = FirebaseFirestore.instance;
 
@@ -120,35 +120,38 @@ class ViewQuestionBankController extends GetxController {
           .doc("type $questionSelectedIndex")
           .get()
           .then((value) {
-        if (questionSelectedIndex.value == 1) {
+        if (questionSelectedIndex.value == 29) {
           if (value.data()!.containsKey("questionList")) {
             mcqList.value = value.data()!['questionList'];
           }
-        } else if (questionSelectedIndex.value == 2 ||
-            questionSelectedIndex.value == 3 ||
-            questionSelectedIndex.value == 5 ||
-            questionSelectedIndex.value == 6 ||
-            questionSelectedIndex.value == 7 ||
-            questionSelectedIndex.value == 8 ||
-            questionSelectedIndex.value == 9) {
+        } else if ((questionSelectedIndex.value >= 2 &&
+                questionSelectedIndex.value <= 28) ||
+            (questionSelectedIndex.value >= 33 &&
+                questionSelectedIndex.value <= 60) ||
+            (questionSelectedIndex.value >= 62 &&
+                questionSelectedIndex.value <= 71) ||
+            (questionSelectedIndex.value >= 73 &&
+                questionSelectedIndex.value <= 94)) {
           if (value.data()!.containsKey("questionList")) {
             desList.value = value.data()!['questionList'];
           }
-        } else if (questionSelectedIndex.value == 10) {
-          if (value.data()!.containsKey("questionList")) {
-            caseBaseMcqList.value = value.data()!['questionList'];
-          }
-        } else if (questionSelectedIndex.value == 11) {
-          if (value.data()!.containsKey("questionList")) {
-            caseBaseDesList.value = value.data()!['questionList'];
-          }
-        } else if (questionSelectedIndex.value == 12) {
-          if (value.data()!.containsKey("questionList")) {
-            graphList.value = value.data()!['questionList'];
-          }
-        } else if (questionSelectedIndex.value == 13) {
-          if (value.data()!.containsKey("questionList")) {
-            mapList.value = value.data()!['questionList'];
+          // } else if (questionSelectedIndex.value == 10) {
+          //   if (value.data()!.containsKey("questionList")) {
+          //     caseBaseMcqList.value = value.data()!['questionList'];
+          //   }
+          // } else if (questionSelectedIndex.value == 11) {
+          //   if (value.data()!.containsKey("questionList")) {
+          //     caseBaseDesList.value = value.data()!['questionList'];
+          //   }
+          // }
+          else if (questionSelectedIndex.value == 61) {
+            if (value.data()!.containsKey("questionList")) {
+              graphList.value = value.data()!['questionList'];
+            }
+          } else if (questionSelectedIndex.value == 72) {
+            if (value.data()!.containsKey("questionList")) {
+              mapList.value = value.data()!['questionList'];
+            }
           }
         }
       });

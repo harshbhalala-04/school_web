@@ -122,9 +122,8 @@ class _GraphTypeState extends State<GraphType> {
                     Get.find<EditQuestionBankController>().chapterValue.value,
                     chapterID,
                     controller.text,
-                    false,
-                    false,
-                    12,
+                    
+                    61,
                     Get.find<ImagePickerController>().uploadedImageUrl.value);
                 controller.clear();
                 Get.find<ImagePickerController>().isLoading.value = false;

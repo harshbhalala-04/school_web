@@ -26,9 +26,7 @@ class AddBlueprintController extends GetxController {
 
   final viewChapterSubjectVisible = false.obs;
 
- List<QuestionSetModel> questionSetList = <QuestionSetModel>[].obs;
-  
-
+  List<QuestionSetModel> questionSetList = <QuestionSetModel>[].obs;
 
   List<String> classList = [
     "",
@@ -73,21 +71,18 @@ class AddBlueprintController extends GetxController {
     }
 
     isLoading.toggle();
-    for (int i = 1; i < classList.length; i++) {
-      await FirebaseFirestore.instance
-          .collection("question_bank")
-          .doc(className)
-          .get()
-          .then((val) {
-        subjectList = val.data()!['subject'];
-        if (fromViewChapter) {
-          viewChapterSubjectList = val.data()!['subject'];
-          viewChapterSubjectList.insert(0, "");
-        }
-
-        subjectList.insert(0, "");
-      });
-    }
+    await FirebaseFirestore.instance
+        .collection("question_bank")
+        .doc(className)
+        .get()
+        .then((value) {
+      subjectList = value.data()!['subject'];
+      subjectList.insert(0, "");
+      if (fromViewChapter) {
+        viewChapterSubjectList = value.data()!['subject'];
+        viewChapterSubjectList.insert(0, "");
+      }
+    });
 
     isLoading.toggle();
     isSubjectVisible.value = true;
@@ -110,7 +105,7 @@ class AddBlueprintController extends GetxController {
         .then((value) {
       if (value.data()![subjectName] != null) {
         final chapterMap = value.data()![subjectName];
-        
+
         List<dynamic> tmp = [];
         List<dynamic> tmpId = [];
         chapterMap.forEach((key, value) {
@@ -119,10 +114,8 @@ class AddBlueprintController extends GetxController {
         chapterMap.forEach((key, value) {
           tmpId.add("${value['chapterId']}");
         });
-        chapterMap.forEach((key,value) {
-          chapters.add(
-            Chapter(value['chapterId'], value['chapterName'])
-          );
+        chapterMap.forEach((key, value) {
+          chapters.add(Chapter(value['chapterId'], value['chapterName']));
         });
 
         chaptersList = tmp;
@@ -136,9 +129,8 @@ class AddBlueprintController extends GetxController {
     isChapterNumber.value = true;
   }
 
-
- Future<int> getQestionTypeMax(String className, String subjectName,String subjectId,String type) async {
-
+  Future<int> getQestionTypeMax(String className, String subjectName,
+      String subjectId, String type) async {
     int maxNum = 0;
     await FirebaseFirestore.instance
         .collection("question_bank")
@@ -149,35 +141,37 @@ class AddBlueprintController extends GetxController {
         .doc(type)
         .get()
         .then((value) {
-          if(value.exists) {
-              maxNum = value.data()!['questionList'].length;
-          }
-        });
-         return maxNum;
+      if (value.exists) {
+        maxNum = value.data()!['questionList'].length;
+      }
+    });
+    return maxNum;
   }
 
-  addBluprintToFirestore({blueprintName,className,subjectName,required List<QuestionSetModel> questionSet}) async {
+  addBluprintToFirestore(
+      {blueprintName,
+      className,
+      subjectName,
+      required List<QuestionSetModel> questionSet}) async {
     makeList() {
       List tempQuestionSetList = [];
       for (var element in questionSet) {
-        tempQuestionSetList.add(
-         element.createMap()
-        );
+        tempQuestionSetList.add(element.createMap());
       }
       return tempQuestionSetList;
     }
+
     await FirebaseFirestore.instance.collection('Blueprint').add({
-      'BluePrintName' : blueprintName,
-      'Class' : className,
-      'SubjectName' : subjectName,
-      'QuestionSet' :   makeList(),
+      'BluePrintName': blueprintName,
+      'Class': className,
+      'SubjectName': subjectName,
+      'QuestionSet': makeList(),
     });
   }
-
 }
 
 class Chapter {
-   String id;
-   String name;
+  String id;
+  String name;
   Chapter(this.id, this.name);
 }

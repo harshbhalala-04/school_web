@@ -122,9 +122,7 @@ class _MapTypeState extends State<MapType> {
                     Get.find<EditQuestionBankController>().chapterValue.value,
                     chapterID,
                     controller.text,
-                    false,
-                    false,
-                    13,
+                    72,
                     Get.find<ImagePickerController>().uploadedImageUrl.value);
                 controller.clear();
                 Get.find<ImagePickerController>().isLoading.value = false;
