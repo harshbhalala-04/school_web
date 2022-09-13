@@ -859,6 +859,31 @@ class _CaseQueTypeState extends State<CaseQueType> {
           children: [
             InkWell(
               onTap: () {
+                if (para.text.isEmpty ||
+                    que1.text.isEmpty ||
+                    que2.text.isEmpty ||
+                    que3.text.isEmpty ||
+                    que4.text.isEmpty ||
+                    q1OptA.text.isEmpty ||
+                    q2OptA.text.isEmpty ||
+                    q3OptA.text.isEmpty ||
+                    q4OptA.text.isEmpty ||
+                    q1OptB.text.isEmpty ||
+                    q2OptB.text.isEmpty ||
+                    q3OptB.text.isEmpty ||
+                    q4OptB.text.isEmpty ||
+                    q1OptC.text.isEmpty ||
+                    q2OptC.text.isEmpty ||
+                    q3OptC.text.isEmpty ||
+                    q4OptC.text.isEmpty ||
+                    q1OptD.text.isEmpty ||
+                    q2OptD.text.isEmpty ||
+                    q3OptD.text.isEmpty ||
+                    q4OptD.text.isEmpty) {
+                  Get.snackbar("Please Enter Values", "",
+                      backgroundColor: Colors.red, colorText: Colors.white);
+                  return;
+                }
                 int idx = Get.find<EditQuestionBankController>()
                     .chaptersList
                     .indexOf(Get.find<EditQuestionBankController>()

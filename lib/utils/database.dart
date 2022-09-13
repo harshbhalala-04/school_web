@@ -120,6 +120,8 @@ class DataBase {
       bool forTrueFalse,
       int typeNumber,
       String imgUrl) async {
+        print(forFillBlank);
+        print(forTrueFalse);
     await firestore
         .collection("question_bank")
         .doc(className)

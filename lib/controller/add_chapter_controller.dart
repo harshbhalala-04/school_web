@@ -47,21 +47,18 @@ class AddChapterController extends GetxController {
     }
 
     isLoading.toggle();
-    for (int i = 1; i < classList.length; i++) {
-      await FirebaseFirestore.instance
-          .collection("question_bank")
-          .doc(className)
-          .get()
-          .then((val) {
-        subjectList = val.data()!['subject'];
-        if (fromViewChapter) {
-          viewChapterSubjectList = val.data()!['subject'];
-          viewChapterSubjectList.insert(0, "");
-        }
-
-        subjectList.insert(0, "");
-      });
-    }
+    await FirebaseFirestore.instance
+        .collection("question_bank")
+        .doc(className)
+        .get()
+        .then((value) {
+      subjectList = value.data()!['subject'];
+      subjectList.insert(0, "");
+      if (fromViewChapter) {
+        viewChapterSubjectList = value.data()!['subject'];
+        viewChapterSubjectList.insert(0, "");
+      }
+    });
 
     isLoading.toggle();
     isSubjectVisible.value = true;

@@ -24,6 +24,7 @@ class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
   final TextEditingController que4 = new TextEditingController();
   final TextEditingController para = new TextEditingController();
   final imgController = Get.put(MultipleImageUploadController());
+  //final GlobalKey formKey = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -279,6 +280,15 @@ class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
           children: [
             InkWell(
               onTap: () {
+                if (para.text.isEmpty ||
+                    que1.text.isEmpty ||
+                    que2.text.isEmpty ||
+                    que3.text.isEmpty ||
+                    que4.text.isEmpty) {
+                  Get.snackbar("Please Enter Values", "",
+                      backgroundColor: Colors.red, colorText: Colors.white);
+                  return;
+                }
                 int idx = Get.find<EditQuestionBankController>()
                     .chaptersList
                     .indexOf(Get.find<EditQuestionBankController>()
@@ -348,6 +358,12 @@ class QuestionField extends StatelessWidget {
           padding: EdgeInsets.only(left: 12),
           child: TextFormField(
             controller: controller,
+            // validator: (val) {
+            //   if(val!.isEmpty) {
+            //     return "Please enter value";
+            //   }
+            //   return null;
+            // },
             maxLines: isPara ? 5 : 1,
             decoration: InputDecoration(
               hintText: hintText,
