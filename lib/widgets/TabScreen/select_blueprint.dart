@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -28,20 +30,105 @@ class _SelectBlueprintState extends State<SelectBlueprint> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 1,
-      itemBuilder: (BuildContext context, int index) {
-        return blueprintlistviewmodel();
-      },
+    return Column(
+      children: [blueprintlistviewmodel()],
     );
   }
 }
 
-class blueprintlistviewmodel extends StatelessWidget {
+class blueprintlistviewmodel extends StatefulWidget {
   const blueprintlistviewmodel({super.key});
 
   @override
+  State<blueprintlistviewmodel> createState() => _blueprintlistviewmodelState();
+}
+
+class _blueprintlistviewmodelState extends State<blueprintlistviewmodel> {
+  final PaperGenerateController paperGenerateController =
+      Get.put(PaperGenerateController());
+  @override
+  void initState() {
+    paperGenerateController.getBlueprint(
+        className: paperGenerateController.className,
+        subjectName: paperGenerateController.subjectName);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    List<DataRow> _testRows = [
+      DataRow(
+        cells: [
+          // DataCell(
+          //   ListView.builder(
+          //     shrinkWrap: true,
+          //     physics: NeverScrollableScrollPhysics(),
+          //     itemCount: 1,
+          //     scrollDirection: Axis.horizontal,
+          //     itemBuilder: (BuildContext context, int index) {
+          //       return Text(index.toString());
+          //     },
+          //   ),
+          // ),
+          DataCell(
+            Text('Data B'),
+          ),
+          DataCell(
+            Text('Data B'),
+          ),
+          DataCell(
+            Text('Data C'),
+          ),
+          DataCell(
+            Text('Data C'),
+          ),
+          DataCell(
+            Text('Data C'),
+          ),
+        ],
+      ),
+    ];
+
+    return Form(
+      child: SingleChildScrollView(
+        child: Card(
+          margin: const EdgeInsets.only(left: 80, right: 80),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                DataTable(columns: [
+                  DataColumn(
+                      label: Text('Index',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Class',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Subject',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('BluePrint Name',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Action',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                ], rows: _testRows),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

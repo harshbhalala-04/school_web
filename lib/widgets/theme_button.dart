@@ -58,10 +58,13 @@ class _ThemeButtonState extends State<ThemeButton> {
         child: Text(
           widget.text,
           style: TextStyle(
-            fontFamily: "calibri",
-            color: Colors.white,
-            fontSize: 25.0,
-          ),
+
+              fontFamily: "calibri",
+              color:
+                  widget.text == "View Chapters" ? Colors.blue : Colors.white,
+              fontSize: 25.0),
+             
+
         ),
       ),
     );
