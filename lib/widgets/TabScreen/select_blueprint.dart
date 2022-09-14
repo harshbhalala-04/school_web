@@ -109,7 +109,8 @@ class _blueprintlistviewmodelState extends State<blueprintlistviewmodel> {
                               Text(e.className.toString()),
                             ),
                             DataCell(
-                              Text(e.className.toString()),
+                              GestureDetector(
+                                  onTap: () {}, child: Text("View")),
                             ),
                           ]),
                         )
