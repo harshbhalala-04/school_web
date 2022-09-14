@@ -154,7 +154,7 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                         itemBuilder: ((context, index) {
                           NumberIncrementDecrementModel
                               numberIncrementDecrementModel =
-                              NumberIncrementDecrementModel(value: 0,index: widget.index, chapterId: widget.chaptersList[index].toString(),chapterIndex: index );
+                              NumberIncrementDecrementModel(value: 0,index: widget.index, chapterId: widget.chaptersList[index].toString(),chapterIndex: index,maximum:getMaximum(index,addBlueprintController.questionSetList[widget.index].questionType));
                               NumberIncrementDecrement numberIncrementDecrement =NumberIncrementDecrement(numberIncrementDecrementModel: numberIncrementDecrementModel,);
                           return Row(
                             children: [

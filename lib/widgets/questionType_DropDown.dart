@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:school_web/model/Question_model.dart';
+import 'package:school_web/utils/questionsList.dart';
 
 import '../controller/add_blueprint_controller.dart';
+import '../model/question_type_model.dart';
 
 class QuestionTypeDropDown extends StatefulWidget {
   QuestionSetModel questions;
@@ -16,21 +18,21 @@ class QuestionTypeDropDown extends StatefulWidget {
 
 class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
   String _value = "";
-    final AddBlueprintController addBlueprintController =
-        Get.put(AddBlueprintController());
+  final AddBlueprintController addBlueprintController =
+      Get.put(AddBlueprintController());
   @override
   void initState() {
     super.initState();
     _value = '';
   }
 
-  @override
-  void didUpdateWidget(QuestionTypeDropDown oldWidget) {
-    if (oldWidget.questions.questionType != widget.questions.questionType) {
-      _value = widget.questions.questionType;
-    }
-    super.didUpdateWidget(oldWidget);
-  }
+  // @override
+  // void didUpdateWidget(QuestionTypeDropDown oldWidget) {
+  //   if (oldWidget.questions.questionType != widget.questions.questionType) {
+  //     _value = widget.questions.questionType;
+  //   }
+  //   super.didUpdateWidget(oldWidget);
+  // }
 
   List questionTypeList = [
     "",
@@ -54,58 +56,67 @@ class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
     return Container(
       child: DropdownButton(
           underline: SizedBox(),
-          value: _value == null ? '' : _value,
-          items: questionTypeList.map((e) {
+          value: addBlueprintController.questionTypeValue.value,
+          items: questionsList.map((e) {
             return DropdownMenuItem(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  e,
-                  style: TextStyle(fontSize: 15, color: Colors.black),
-                ),
-              ),
-              value: e,
-            );
+                value: e.questionTxt,
+                child: e.questionTxt == ""
+                    ? const Text(
+                        "Select Question Type",
+                        style: TextStyle(
+                            fontFamily: "calibri",
+                            fontSize: 18,
+                            color: Colors.grey),
+                      )
+                    : Text(e.questionTxt));
           }).toList(),
           onChanged: (value) {
             String questionType = '';
-            if (value == 'Choose Correct Answer') {
-              questionType = 'type 1';
-            } else if (value == 'Fill in the blanks') {
-              questionType = 'type 2';
-            } else if (value == 'True & False') {
-              questionType = 'type 3';
-            } else if (value == 'Match the following') {
-              questionType = 'type 4';
-            } else if (value == 'Subjective/One word QA/Very Short Answer') {
-              questionType = 'type 5';
-            } else if (value == 'Subjective/Short Answer(2 marks)') {
-              questionType = 'type 6';
-            } else if (value == 'Subjective Question(3 marks)') {
-              questionType = 'type 7';
-            } else if (value == 'Subjective Question(4 marks)') {
-              questionType = 'type 8';
-            } else if (value == 'Subjective Question(5 marks)') {
-              questionType = 'type 9';
-            } else if (value == 'Case Base Question (MCQ Type)') {
-              questionType = 'type 10';
-            } else if (value == 'Case Base Question (Short Answer)') {
-              questionType = 'type 11';
-            } else if (value == 'Graph Question') {
-              questionType = 'type 12';
-            } else if (value == 'Map Question') {
-              questionType = 'type 13';
-            }
+           Iterable<QuestionTypeModel> tempQuestionList =  questionsList.where((element) =>
+              element.questionTxt == value
+            );
+           
+            // print(value);
+            // if (value == 'Choose Correct Answer') {
+            //   questionType = 'type 1';
+            // } else if (value == 'Fill in the blanks') {
+            //   questionType = 'type 2';
+            // } else if (value == 'True & False') {
+            //   questionType = 'type 3';
+            // } else if (value == 'Match the following') {
+            //   questionType = 'type 4';
+            // } else if (value == 'Subjective/One word QA/Very Short Answer') {
+            //   questionType = 'type 5';
+            // } else if (value == 'Subjective/Short Answer(2 marks)') {
+            //   questionType = 'type 6';
+            // } else if (value == 'Subjective Question(3 marks)') {
+            //   questionType = 'type 7';
+            // } else if (value == 'Subjective Question(4 marks)') {
+            //   questionType = 'type 8';
+            // } else if (value == 'Subjective Question(5 marks)') {
+            //   questionType = 'type 9';
+            // } else if (value == 'Case Base Question (MCQ Type)') {
+            //   questionType = 'type 10';
+            // } else if (value == 'Case Base Question (Short Answer)') {
+            //   questionType = 'type 11';
+            // } else if (value == 'Graph Question') {
+            //   questionType = 'type 12';
+            // } else if (value == 'Map Question') {
+            //   questionType = 'type 13';
+            // }
             setState(() {
-              _value = value.toString();
-              addBlueprintController.questionSetList[widget.index].questionType = questionType;
-              widget.questions.questionType = questionType.toString();
+              // _value = value.toString();
+              addBlueprintController.questionTypeValue.value = value.toString();
+              addBlueprintController
+                  .questionSetList[widget.index].questionType = tempQuestionList.first.questionType;
+              widget.questions.questionType = tempQuestionList.first.questionType.toString();
               addBlueprintController.isAddQuestionSet[widget.index] = true;
               addBlueprintController.update();
             });
           }),
     );
   }
+
   @override
   void dispose() {
     _value = '';
