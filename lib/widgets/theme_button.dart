@@ -62,7 +62,7 @@ class _ThemeButtonState extends State<ThemeButton> {
               color:
                   widget.text == "View Chapters" ? Colors.blue : Colors.white,
               fontSize: 25.0),
-              fontFamily: "calibri", color: Colors.white, fontSize: 20.0),
+             
 
         ),
       ),
