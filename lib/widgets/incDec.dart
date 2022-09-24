@@ -23,6 +23,7 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
   final NumberIncrementDecrementModel numberIncrementDecrementModel;
   final AddBlueprintController addBlueprintController =
       Get.put(AddBlueprintController());
+  int maximum = 0;
 
   _NumberIncrementDecrementState({
     required this.numberIncrementDecrementModel,
@@ -31,11 +32,13 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
   @override
   void initState() {
     super.initState();
-     addBlueprintController.questionSetList[numberIncrementDecrementModel.index].chapterWithRequiredQues!.add({
-        numberIncrementDecrementModel.chapterId: '0'
-      });
+    addBlueprintController.questionSetList[numberIncrementDecrementModel.index]
+        .chapterWithRequiredQues!
+        .add({numberIncrementDecrementModel.chapterId: '0'});
     controller.addListener(onChange);
-     
+    numberIncrementDecrementModel.maximum.then((value) {
+      maximum = value;
+    });
   }
 
   void onChange() {
@@ -110,8 +113,11 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
 
   void add() {
     setState(() {
-      this.numberIncrementDecrementModel.value++;
+      if(maximum > this.numberIncrementDecrementModel.value) {
+         this.numberIncrementDecrementModel.value++;
       controller.text = this.numberIncrementDecrementModel.value.toString();
+      }
+     
     });
   }
 
@@ -128,9 +134,12 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
       controller.text;
     });
     addBlueprintController.update();
- addBlueprintController.questionSetList[numberIncrementDecrementModel.index]
-    .chapterWithRequiredQues!.elementAt(numberIncrementDecrementModel.chapterIndex).update(
-      numberIncrementDecrementModel.chapterId,(value) => controller.text,ifAbsent: () => controller.text);
+    addBlueprintController.questionSetList[numberIncrementDecrementModel.index]
+        .chapterWithRequiredQues!
+        .elementAt(numberIncrementDecrementModel.chapterIndex)
+        .update(
+            numberIncrementDecrementModel.chapterId, (value) => controller.text,
+            ifAbsent: () => controller.text);
   }
 }
 
@@ -139,10 +148,11 @@ class NumberIncrementDecrementModel {
   int index;
   String chapterId;
   int chapterIndex;
-  NumberIncrementDecrementModel({
-    required this.value,
-    required this.index,
-    required this.chapterId,
-    required this.chapterIndex
-  });
+  Future<int> maximum;
+  NumberIncrementDecrementModel(
+      {required this.value,
+      required this.index,
+      required this.chapterId,
+      required this.chapterIndex,
+      required this.maximum});
 }

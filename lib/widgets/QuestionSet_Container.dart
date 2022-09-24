@@ -154,7 +154,7 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                         itemBuilder: ((context, index) {
                           NumberIncrementDecrementModel
                               numberIncrementDecrementModel =
-                              NumberIncrementDecrementModel(value: 0,index: widget.index, chapterId: widget.chaptersList[index].toString(),chapterIndex: index );
+                              NumberIncrementDecrementModel(value: 0,index: widget.index, chapterId: widget.chaptersList[index].toString(),chapterIndex: index,maximum:getMaximum(index,addBlueprintController.questionSetList[widget.index].questionType));
                               NumberIncrementDecrement numberIncrementDecrement =NumberIncrementDecrement(numberIncrementDecrementModel: numberIncrementDecrementModel,);
                           return Row(
                             children: [
@@ -168,9 +168,9 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                               NumberIncrementDecrement(
                                   numberIncrementDecrementModel:
                                       numberIncrementDecrementModel),
-                              // const SizedBox(
-                              //   width: 50,
-                              // ),
+                              const SizedBox(
+                                width: 50,
+                              ),
                               Obx(
                                 ()=> 
                                 addBlueprintController.questionSetList[widget.index].questionType != '' ?
@@ -180,7 +180,7 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                                      
                                       if (snap.hasData) {
                                         return Text(
-                                         'Availble : ${snap.data}',
+                                         'available : ${snap.data}',
                                           style: const TextStyle(
                                             fontFamily: "calibri", fontSize: 25, color: Colors.red
                                           ),
@@ -188,13 +188,18 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                                       }
                                       if(snap.data == null) {
                                         const Text(
-                                         'Data not Availble',
+                                         'Data not available',
                                           style: TextStyle(
                                             fontFamily: "calibri", fontSize: 25, color: Colors.red
                                           ),
                                         );
                                       }
-                                      return const SizedBox.shrink();
+                                      return const Text(
+                                         'Question Not Availble',
+                                          style: TextStyle(
+                                            fontFamily: "calibri", fontSize: 25, color: Colors.red
+                                          ),
+                                        );
                                     }) : const  SizedBox.shrink()
                               )
                               // Text(addBlueprintController.maxSelectList[index]),

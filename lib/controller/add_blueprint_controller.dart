@@ -9,6 +9,7 @@ class AddBlueprintController extends GetxController {
   final subjectValue = "".obs;
   final chapterValue = "".obs;
   final bluePrintName = "".obs;
+  
   final isLoading = false.obs;
   final isSubjectVisible = false.obs;
   final isChapterName = false.obs;

@@ -451,6 +451,7 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                   questionSet:
                                       addBlueprintController.questionSetList,
                                 );
+                                Get.delete<AddBlueprintController>();
                                 Get.toNamed('/');
                               },
                               child: Container(
