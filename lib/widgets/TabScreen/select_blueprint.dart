@@ -51,46 +51,13 @@ class _blueprintlistviewmodelState extends State<blueprintlistviewmodel> {
     paperGenerateController.getBlueprint(
         className: paperGenerateController.className,
         subjectName: paperGenerateController.subjectName);
-    
+    // data;
     super.initState();
   }
 
+  late List<PaperGenerateController> data;
   @override
   Widget build(BuildContext context) {
-    List<DataRow> _testRows = [
-      const DataRow(
-        cells: [
-          // DataCell(
-          //   ListView.builder(
-          //     shrinkWrap: true,
-          //     physics: NeverScrollableScrollPhysics(),
-          //     itemCount: 1,
-          //     scrollDirection: Axis.horizontal,
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return Text(index.toString());
-          //     },
-          //   ),
-          // ),
-          DataCell(
-            Text('Data A'),
-          ),
-          DataCell(
-            Text('Data B'),
-          ),
-          DataCell(
-            Text('Data C'),
-          ),
-          DataCell(
-            Text('Data D'),
-          ),
-          DataCell(
-            Text('Data E'),
-          ),
-          
-        ],
-      ),
-    ];
-
     return Form(
       child: SingleChildScrollView(
         child: Card(
@@ -101,31 +68,53 @@ class _blueprintlistviewmodelState extends State<blueprintlistviewmodel> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                DataTable(columns: const [
-                  DataColumn(
-                      label: Text('Question Type',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text('',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text('Subject',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text('BluePrint Name',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text('Action',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold))),
-                ], rows: _testRows),
+                DataTable(
+                    columns: const [
+                      DataColumn(
+                          label: Text('Index',
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Class',
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Blueprint Name',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Action',
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold))),
+                    ],
+                    rows: data
+                        .map<DataRow>(
+                          (e) => DataRow(cells: [
+                            DataCell(
+                              ListView.builder(
+                                itemCount: data.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Text(index.toString());
+                                },
+                              ),
+                            ),
+                            DataCell(
+                              Text(e.className.toString()),
+                            ),
+                            DataCell(
+                              Text(e.className.toString()),
+                            ),
+                            DataCell(
+                              GestureDetector(
+                                  onTap: () {}, child: Text("View")),
+                            ),
+                          ]),
+                        )
+                        .toList()),
               ],
             ),
           ),
