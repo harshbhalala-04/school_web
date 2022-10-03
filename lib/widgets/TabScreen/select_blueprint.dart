@@ -31,7 +31,7 @@ class _SelectBlueprintState extends State<SelectBlueprint> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [blueprintlistviewmodel()],
+      children: const [blueprintlistviewmodel()],
     );
   }
 }
@@ -51,13 +51,14 @@ class _blueprintlistviewmodelState extends State<blueprintlistviewmodel> {
     paperGenerateController.getBlueprint(
         className: paperGenerateController.className,
         subjectName: paperGenerateController.subjectName);
+    
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     List<DataRow> _testRows = [
-      DataRow(
+      const DataRow(
         cells: [
           // DataCell(
           //   ListView.builder(
@@ -71,7 +72,7 @@ class _blueprintlistviewmodelState extends State<blueprintlistviewmodel> {
           //   ),
           // ),
           DataCell(
-            Text('Data B'),
+            Text('Data A'),
           ),
           DataCell(
             Text('Data B'),
@@ -80,11 +81,12 @@ class _blueprintlistviewmodelState extends State<blueprintlistviewmodel> {
             Text('Data C'),
           ),
           DataCell(
-            Text('Data C'),
+            Text('Data D'),
           ),
           DataCell(
-            Text('Data C'),
+            Text('Data E'),
           ),
+          
         ],
       ),
     ];
@@ -102,13 +104,13 @@ class _blueprintlistviewmodelState extends State<blueprintlistviewmodel> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                DataTable(columns: [
+                DataTable(columns: const [
                   DataColumn(
-                      label: Text('Index',
+                      label: Text('Question Type',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('Class',
+                      label: Text('',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold))),
                   DataColumn(

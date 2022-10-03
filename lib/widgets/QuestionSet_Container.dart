@@ -31,15 +31,16 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
 
   @override
   void dispose() {
-  // Clean up the controller when the Widget is disposed
-  questionStatementController.dispose(); 
-  super.dispose();
-}
+    // Clean up the controller when the Widget is disposed
+    questionStatementController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final textstyle = const TextStyle(
-        fontFamily: "calibri", fontSize: 25, color: Colors.black);
-      
+    const textstyle =
+        TextStyle(fontFamily: "calibri", fontSize: 25, color: Colors.black);
+
     List chapterNameList = [];
     final AddBlueprintController addBlueprintController =
         Get.put(AddBlueprintController());
@@ -51,12 +52,13 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
       }
     }
 
-    getMaximum(index,type ) async {
-      return await addBlueprintController.getQestionTypeMax(
+    getMaximum(index, type) async {
+      var max = await addBlueprintController.getQestionTypeMax(
           addBlueprintController.classValue.value,
           addBlueprintController.subjectValue.value,
           widget.chaptersList[index],
           type);
+      return max;
     }
 
     String selectedValue = '';
@@ -87,13 +89,13 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                   const SizedBox(
                     width: 40,
                   ),
-                   Flexible(
+                  Flexible(
                     child: TextField(
                       controller: questionStatementController,
                       onChanged: (value) {
-                        addBlueprintController.questionSetList[widget.index].questionStatement = value;
+                        addBlueprintController.questionSetList[widget.index]
+                            .questionStatement = value;
                       },
-
                     ),
                   ),
                   const SizedBox(
@@ -129,7 +131,7 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
                       padding: const EdgeInsets.all(4.0),
                       child: Obx(
                         () => QuestionTypeDropDown(
-                          index: widget.index,
+                            index: widget.index,
                             questions: addBlueprintController
                                 .questionSetList[widget.index]),
                       ),
@@ -143,72 +145,95 @@ class _QuestionSetWidgetState extends State<QuestionSetWidget> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: 
-              
-              Obx(  
-                (() => addBlueprintController.isAddQuestionSet[widget.index] == true
-                    ? ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: widget.chaptersList.length,
-                        itemBuilder: ((context, index) {
-                          NumberIncrementDecrementModel
-                              numberIncrementDecrementModel =
-                              NumberIncrementDecrementModel(value: 0,index: widget.index, chapterId: widget.chaptersList[index].toString(),chapterIndex: index,maximum:getMaximum(index,addBlueprintController.questionSetList[widget.index].questionType));
-                              NumberIncrementDecrement numberIncrementDecrement =NumberIncrementDecrement(numberIncrementDecrementModel: numberIncrementDecrementModel,);
-                          return Row(
-                            children: [
-                              Text(
-                                chapterNameList[index].toString().toUpperCase(),
-                                style: textstyle,
-                              ),
-                              const SizedBox(
-                                width: 40,
-                              ),
-                              NumberIncrementDecrement(
-                                  numberIncrementDecrementModel:
-                                      numberIncrementDecrementModel),
-                              const SizedBox(
-                                width: 50,
-                              ),
-                              Obx(
-                                ()=> 
-                                addBlueprintController.questionSetList[widget.index].questionType != '' ?
-                                FutureBuilder(
-                                    future: getMaximum(index,addBlueprintController.questionSetList[widget.index].questionType),
-                                    builder: (context, snap) {
-                                     
-                                      if (snap.hasData) {
-                                        return Text(
-                                         'available : ${snap.data}',
-                                          style: const TextStyle(
-                                            fontFamily: "calibri", fontSize: 25, color: Colors.red
-                                          ),
-                                        );
-                                      }
-                                      if(snap.data == null) {
-                                        const Text(
-                                         'Data not available',
-                                          style: TextStyle(
-                                            fontFamily: "calibri", fontSize: 25, color: Colors.red
-                                          ),
-                                        );
-                                      }
-                                      return const Text(
-                                         'Question Not Availble',
-                                          style: TextStyle(
-                                            fontFamily: "calibri", fontSize: 25, color: Colors.red
-                                          ),
-                                        );
-                                    }) : const  SizedBox.shrink()
-                              )
-                              // Text(addBlueprintController.maxSelectList[index]),
-                            ],
-                          );
-                        }),
-                      )
-                    : const  SizedBox.shrink())
-              ),
+              child: Obx((() =>
+                  addBlueprintController.isAddQuestionSet[widget.index] == true
+                      ? ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: widget.chaptersList.length,
+                          itemBuilder: ((context, index) {
+                            // NumberIncrementDecrement numberIncrementDecrement =
+                            //     NumberIncrementDecrement(
+                            //   numberIncrementDecrementModel:
+                            //       numberIncrementDecrementModel,
+                            // );
+                            NumberIncrementDecrementModel
+                                              numberIncrementDecrementModel =
+                                              NumberIncrementDecrementModel(
+                                            value: 0,
+                                            index: widget.index,
+                                            chapterId: widget
+                                                .chaptersList[index]
+                                                .toString(),
+                                            chapterIndex: index,
+                                            type: addBlueprintController
+                                                .questionSetList[widget.index]
+                                                .questionType,
+                                           
+                                          );
+                            return Row(
+                              children: [
+                                Text(
+                                  chapterNameList[index]
+                                      .toString()
+                                      .toUpperCase(),
+                                  style: textstyle,
+                                ),
+                                const SizedBox(
+                                  width: 40,
+                                ),
+                                 NumberIncrementDecrement(
+                                              numberIncrementDecrementModel:
+                                                  numberIncrementDecrementModel),
+      
+
+                                const SizedBox(
+                                  width: 50,
+                                ),
+                                Obx(() => addBlueprintController
+                                            .questionSetList[widget.index]
+                                            .questionType !=
+                                        ''
+                                    ? FutureBuilder(
+                                        future: getMaximum(
+                                            index,
+                                            addBlueprintController
+                                                .questionSetList[widget.index]
+                                                .questionType),
+                                        builder: (context, snap) {
+                                          if (snap.hasData) {
+                                            return Text(
+                                              'available : ${snap.data}',
+                                              style: const TextStyle(
+                                                  fontFamily: "calibri",
+                                                  fontSize: 25,
+                                                  color: Colors.red),
+                                            );
+                                          }
+                                          if (snap.data == null) {
+                                            const Text(
+                                              'Data not available',
+                                              style: TextStyle(
+                                                  fontFamily: "calibri",
+                                                  fontSize: 25,
+                                                  color: Colors.red),
+                                            );
+                                          }
+                                          return const Text(
+                                            'Question Not Availble',
+                                            style: TextStyle(
+                                                fontFamily: "calibri",
+                                                fontSize: 25,
+                                                color: Colors.red),
+                                          );
+                                        })
+                                    : const SizedBox.shrink())
+                                // Text(addBlueprintController.maxSelectList[index]),
+                              ],
+                            );
+                          }),
+                        )
+                      : const SizedBox.shrink())),
             )
           ],
         ),

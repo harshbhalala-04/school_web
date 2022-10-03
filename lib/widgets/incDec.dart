@@ -36,13 +36,31 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
         .chapterWithRequiredQues!
         .add({numberIncrementDecrementModel.chapterId: '0'});
     controller.addListener(onChange);
-    numberIncrementDecrementModel.maximum.then((value) {
-      maximum = value;
+
+    getMaximum(numberIncrementDecrementModel.index,numberIncrementDecrementModel.chapterId,numberIncrementDecrementModel.type).then((value) {
+      setState(() {
+        maximum = value;
+         print('maximum----$maximum');
+
+      });
     });
+    print('maximummmmm=====>$maximum');
+    // numberIncrementDecrementModel.maximum.then((value) {
+    //   maximum = value;
+    // });
   }
 
+  Future<int> getMaximum(index,chapterId, type) async {
+      int max = await addBlueprintController.getQestionTypeMax(
+          addBlueprintController.classValue.value,
+          addBlueprintController.subjectValue.value,
+         chapterId,
+          type);
+      return max;
+    }
+
   void onChange() {
-    this.numberIncrementDecrementModel.value =
+    numberIncrementDecrementModel.value =
         int.parse(controller.text.replaceAll("Adet", "").trim());
   }
 
@@ -59,8 +77,11 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
             height: 48,
             child: GestureDetector(
               onTap: () {
-                minus();
+                setState(() {
+                   minus();
                 currentValue();
+                });
+               
               },
               child: Container(
                 child: Transform.rotate(
@@ -113,9 +134,12 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
 
   void add() {
     setState(() {
-      if(maximum > this.numberIncrementDecrementModel.value) {
-         this.numberIncrementDecrementModel.value++;
-      controller.text = this.numberIncrementDecrementModel.value.toString();
+      controller.text;
+      maximum;
+      if(maximum > numberIncrementDecrementModel.value) {
+        print('maximum----$maximum');
+         numberIncrementDecrementModel.value++;
+      controller.text = numberIncrementDecrementModel.value.toString();
       }
      
     });
@@ -123,9 +147,12 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
 
   void minus() {
     setState(() {
-      if (this.numberIncrementDecrementModel.value != 0)
-        this.numberIncrementDecrementModel.value--;
-      controller.text = this.numberIncrementDecrementModel.value.toString();
+      controller.text;
+      maximum;
+      if (numberIncrementDecrementModel.value != 0) {
+        numberIncrementDecrementModel.value--;
+      }
+      controller.text = numberIncrementDecrementModel.value.toString();
     });
   }
 
@@ -148,11 +175,14 @@ class NumberIncrementDecrementModel {
   int index;
   String chapterId;
   int chapterIndex;
-  Future<int> maximum;
+  String type;
   NumberIncrementDecrementModel(
       {required this.value,
       required this.index,
       required this.chapterId,
       required this.chapterIndex,
-      required this.maximum});
+      required this.type
+
+
+      });
 }

@@ -46,22 +46,7 @@ class AddBlueprintController extends GetxController {
     "Class 10"
   ];
 
-  List<String> questionTypeList = [
-    "",
-    "Choose Correct Answer",
-    "Fill in the blanks",
-    "True & False",
-    "Match the following",
-    "Subjective/One word QA/Very Short Answer",
-    "Subjective/Short Answer(2 marks)",
-    "Subjective Question(3 marks)",
-    "Subjective Question(4 marks)",
-    "Subjective Question(5 marks)",
-    "Case Base Question (MCQ Type)",
-    "Case Base Question (Short Answer)",
-    "Graph Question",
-    "Map Question",
-  ];
+  
 
   getSubjectList(String className, bool fromViewChapter) async {
     isSubjectVisible.value = false;
