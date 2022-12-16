@@ -1,26 +1,25 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:school_web/controller/image_picker_controller.dart';
-import 'package:school_web/widgets/add_question_button.dart';
-import 'package:school_web/widgets/image_upload_button.dart';
-import 'package:school_web/widgets/theme_button.dart';
 
 import '../controller/edit_question_bank_controller.dart';
+import '../controller/image_picker_controller.dart';
 import '../utils/database.dart';
-import 'package:flutter_tex/flutter_tex.dart';
+import 'add_question_button.dart';
+import 'image_upload_button.dart';
 
-class FillBlankType extends StatefulWidget {
+class MatchFollowing extends StatefulWidget {
   int typeNumber;
-  FillBlankType({this.typeNumber = 0});
+  MatchFollowing({required this.typeNumber});
 
   @override
-  State<FillBlankType> createState() => _FillBlankTypeState();
+  State<MatchFollowing> createState() => _MatchFollowingState();
 }
 
-class _FillBlankTypeState extends State<FillBlankType> {
-  TextEditingController fillBlankController = new TextEditingController();
+class _MatchFollowingState extends State<MatchFollowing> {
+  TextEditingController aController = new TextEditingController();
+  TextEditingController bController = new TextEditingController();
   final ImagePickerController imgController = Get.put(ImagePickerController());
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class _FillBlankTypeState extends State<FillBlankType> {
         Row(
           children: [
             Container(
-              width: 900,
+              width: 450,
               child: Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
@@ -54,10 +53,10 @@ class _FillBlankTypeState extends State<FillBlankType> {
                 child: Container(
                   padding: EdgeInsets.only(left: 12),
                   child: TextFormField(
-                    maxLines: 10,
-                    controller: fillBlankController,
+                    maxLines: 1,
+                    controller: aController,
                     decoration: InputDecoration(
-                      hintText: "Add Question Statement",
+                      hintText: "Add Part A",
                       border: InputBorder.none,
                       hintStyle: TextStyle(
                         color: Color.fromRGBO(203, 203, 203, 1),
@@ -67,30 +66,32 @@ class _FillBlankTypeState extends State<FillBlankType> {
                 ),
               ),
             ),
-            SizedBox(width: 25),
-            Text(
-              "OR",
-              style: TextStyle(
-                fontFamily: "calibri",
-                fontSize: 20,
-              ),
-            ),
             SizedBox(
               width: 25,
             ),
-            Obx(
-              () => imgController.isLoading.value
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : imgController.isUploadedImage.value
-                      ? Container(
-                          height: 300,
-                          width: 300,
-                          child: Image.network(
-                              imgController.uploadedImageUrl.value),
-                        )
-                      : ImageUploadButton(),
+            Container(
+              width: 450,
+              child: Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: Colors.white,
+                child: Container(
+                  padding: EdgeInsets.only(left: 12),
+                  child: TextFormField(
+                    maxLines: 1,
+                    controller: bController,
+                    decoration: InputDecoration(
+                      hintText: "Add Part b",
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                        color: Color.fromRGBO(203, 203, 203, 1),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -102,9 +103,7 @@ class _FillBlankTypeState extends State<FillBlankType> {
           children: [
             InkWell(
               onTap: () {
-                if (fillBlankController.text.isEmpty &&
-                    Get.find<ImagePickerController>().uploadedImageUrl.value ==
-                        "") {
+                if (aController.text.isEmpty || bController.text.isEmpty) {
                   Get.snackbar("Please Enter value", "",
                       backgroundColor: Colors.red,
                       snackPosition: SnackPosition.TOP,
@@ -122,19 +121,17 @@ class _FillBlankTypeState extends State<FillBlankType> {
                 print("This is id");
                 print(chapterID);
                 // DataBase().createNewCollection();
-
-                DataBase().setFillBlankOrTrueFalseQue(
-                    Get.find<EditQuestionBankController>().classValue.value,
-                    Get.find<EditQuestionBankController>().subjectValue.value,
-                    Get.find<EditQuestionBankController>().chapterValue.value,
-                    chapterID,
-                    fillBlankController.text,
-                    widget.typeNumber,
-                    Get.find<ImagePickerController>().uploadedImageUrl.value);
-                fillBlankController.clear();
-                Get.find<ImagePickerController>().uploadedImageUrl.value = "";
-                Get.find<ImagePickerController>().isUploadedImage.value = false;
-                Get.find<ImagePickerController>().isLoading.value = false;
+                DataBase().setMatchFollowingQue(
+                  Get.find<EditQuestionBankController>().classValue.value,
+                  Get.find<EditQuestionBankController>().subjectValue.value,
+                  Get.find<EditQuestionBankController>().chapterValue.value,
+                  chapterID,
+                  aController.text,
+                  bController.text,
+                  widget.typeNumber,
+                );
+                aController.clear();
+                bController.clear();
               },
               child: AddQuestionButton(),
             ),

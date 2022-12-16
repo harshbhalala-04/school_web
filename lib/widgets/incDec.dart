@@ -82,6 +82,7 @@ class _NumberIncrementDecrementState extends State<NumberIncrementDecrement> {
           child: TextField(
             autofocus: false,
             controller: controller,
+            readOnly: true,
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.black, fontSize: 22),

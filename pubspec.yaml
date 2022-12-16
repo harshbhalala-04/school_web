@@ -47,6 +47,9 @@ dependencies:
   image_picker_web: ^2.1.1
   selectable: ^0.2.4
   multi_select_flutter: ^4.1.2
+  pdf: ^3.8.4
+  printing: ^5.9.3
+  flutter_tex: ^4.0.3+4
 
 dev_dependencies:
   flutter_test:
@@ -99,6 +102,9 @@ flutter:
     - family: calibri
       fonts:
         - asset: assets/fonts/Calibri.ttf
+    - family: tnr
+      fonts:
+        - asset: assets/fonts/times new roman.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

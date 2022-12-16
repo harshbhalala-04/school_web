@@ -9,7 +9,7 @@ class AddBlueprintController extends GetxController {
   final subjectValue = "".obs;
   final chapterValue = "".obs;
   final bluePrintName = "".obs;
-  
+
   final isLoading = false.obs;
   final isSubjectVisible = false.obs;
   final isChapterName = false.obs;
@@ -44,23 +44,6 @@ class AddBlueprintController extends GetxController {
     "Class 8",
     "Class 9",
     "Class 10"
-  ];
-
-  List<String> questionTypeList = [
-    "",
-    "Choose Correct Answer",
-    "Fill in the blanks",
-    "True & False",
-    "Match the following",
-    "Subjective/One word QA/Very Short Answer",
-    "Subjective/Short Answer(2 marks)",
-    "Subjective Question(3 marks)",
-    "Subjective Question(4 marks)",
-    "Subjective Question(5 marks)",
-    "Case Base Question (MCQ Type)",
-    "Case Base Question (Short Answer)",
-    "Graph Question",
-    "Map Question",
   ];
 
   getSubjectList(String className, bool fromViewChapter) async {
@@ -143,7 +126,9 @@ class AddBlueprintController extends GetxController {
         .get()
         .then((value) {
       if (value.exists) {
-        maxNum = value.data()!['questionList'].length;
+        if (value.data()!['questionList'] != null) {
+          maxNum = value.data()!['questionList'].length;
+        }
       }
     });
     return maxNum;
@@ -153,7 +138,9 @@ class AddBlueprintController extends GetxController {
       {blueprintName,
       className,
       subjectName,
-      required List<QuestionSetModel> questionSet}) async {
+      required List<QuestionSetModel> questionSet,
+      totalQuestions,
+      totalMarks,required List<String> selectedChaptersName}) async {
     makeList() {
       List tempQuestionSetList = [];
       for (var element in questionSet) {
@@ -162,11 +149,19 @@ class AddBlueprintController extends GetxController {
       return tempQuestionSetList;
     }
 
-    await FirebaseFirestore.instance.collection('Blueprint').add({
+
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('Blueprint').doc().get();
+    String docId = documentSnapshot.reference.id;
+
+    await FirebaseFirestore.instance.collection('Blueprint').doc(docId).set({
       'BluePrintName': blueprintName,
+      'BluePrintId': docId,
       'Class': className,
       'SubjectName': subjectName,
       'QuestionSet': makeList(),
+      'totalQuestions': totalQuestions,
+      'totalMarks': totalMarks,
+      'selectedChaptersName': selectedChaptersName
     });
   }
 }

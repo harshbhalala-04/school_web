@@ -22,8 +22,11 @@ class ViewQuestionBankController extends GetxController {
   final desList = [].obs;
   final caseBaseMcqList = [].obs;
   final caseBaseDesList = [].obs;
+  final pictorgraphQueList = [].obs;
   final graphList = [].obs;
   final mapList = [].obs;
+  final matchFollowingList = [].obs;
+  final matchObjWithTextList = [].obs;
 
   List<String> classList = [
     "",
@@ -110,6 +113,15 @@ class ViewQuestionBankController extends GetxController {
   fetchData(String chapterId) async {
     dataLoading.value = true;
     buttonPressed.value = true;
+    desList.value = [];
+    mcqList.value = [];
+    caseBaseMcqList.value = [];
+    caseBaseDesList.value = [];
+    graphList.value = [];
+    mapList.value = [];
+    matchFollowingList.value = [];
+    matchObjWithTextList.value = [];
+    pictorgraphQueList.value = [];
     try {
       await firestore
           .collection("question_bank")
@@ -124,7 +136,34 @@ class ViewQuestionBankController extends GetxController {
           if (value.data()!.containsKey("questionList")) {
             mcqList.value = value.data()!['questionList'];
           }
-        } else if ((questionSelectedIndex.value >= 2 &&
+        } else if (questionSelectedIndex.value == 32 ||
+            questionSelectedIndex.value == 74) {
+          if (value.data()!.containsKey("questionList")) {
+            matchFollowingList.value = value.data()!['questionList'];
+          }
+        } else if (questionSelectedIndex.value == 38) {
+          if (value.data()!.containsKey("questionList")) {
+            pictorgraphQueList.value = value.data()!['questionList'];
+          }
+        } else if (questionSelectedIndex.value == 22) {
+          if (value.data()!.containsKey("questionList")) {
+            matchObjWithTextList.value = value.data()!['questionList'];
+          }
+        } else if (questionSelectedIndex.value == 81 ||
+            questionSelectedIndex.value == 89 ||
+            questionSelectedIndex.value == 90) {
+          if (value.data()!.containsKey("questionList")) {
+            caseBaseMcqList.value = value.data()!['questionList'];
+          }
+        } else if (questionSelectedIndex.value == 47 ||
+            questionSelectedIndex.value == 48 ||
+            questionSelectedIndex.value == 49 ||
+            questionSelectedIndex.value == 56 ||
+            questionSelectedIndex.value == 57) {
+          if (value.data()!.containsKey("questionList")) {
+            caseBaseDesList.value = value.data()!['questionList'];
+          }
+        } else if ((questionSelectedIndex.value >= 1 &&
                 questionSelectedIndex.value <= 28) ||
             (questionSelectedIndex.value >= 33 &&
                 questionSelectedIndex.value <= 60) ||
@@ -135,30 +174,19 @@ class ViewQuestionBankController extends GetxController {
           if (value.data()!.containsKey("questionList")) {
             desList.value = value.data()!['questionList'];
           }
-          // } else if (questionSelectedIndex.value == 10) {
-          //   if (value.data()!.containsKey("questionList")) {
-          //     caseBaseMcqList.value = value.data()!['questionList'];
-          //   }
-          // } else if (questionSelectedIndex.value == 11) {
-          //   if (value.data()!.containsKey("questionList")) {
-          //     caseBaseDesList.value = value.data()!['questionList'];
-          //   }
-          // }
-          else if (questionSelectedIndex.value == 61) {
-            if (value.data()!.containsKey("questionList")) {
-              graphList.value = value.data()!['questionList'];
-            }
-          } else if (questionSelectedIndex.value == 72) {
-            if (value.data()!.containsKey("questionList")) {
-              mapList.value = value.data()!['questionList'];
-            }
+        } else if (questionSelectedIndex.value == 61) {
+          if (value.data()!.containsKey("questionList")) {
+            graphList.value = value.data()!['questionList'];
+          }
+        } else if (questionSelectedIndex.value == 72) {
+          if (value.data()!.containsKey("questionList")) {
+            mapList.value = value.data()!['questionList'];
           }
         }
       });
       dataLoading.value = false;
     } catch (e) {
       dataLoading.value = false;
-      print(e.toString());
     }
   }
 }

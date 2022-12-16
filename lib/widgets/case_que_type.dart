@@ -12,14 +12,15 @@ import '../controller/edit_question_bank_controller.dart';
 import '../utils/database.dart';
 
 class CaseQueType extends StatefulWidget {
-  const CaseQueType({Key? key}) : super(key: key);
+  int typeNumber;
+  CaseQueType({required this.typeNumber});
 
   @override
   State<CaseQueType> createState() => _CaseQueTypeState();
 }
 
 final TextEditingController paragraphController = new TextEditingController();
-List<Map<String, dynamic>> questionMap = [{}, {}, {}, {}];
+List<Map<String, dynamic>> questionMap = [{}, {}, {}, {}, {}];
 
 class _CaseQueTypeState extends State<CaseQueType> {
   // final TextEditingController que = new TextEditingController();
@@ -33,6 +34,7 @@ class _CaseQueTypeState extends State<CaseQueType> {
   final que2 = new TextEditingController();
   final que3 = new TextEditingController();
   final que4 = new TextEditingController();
+  final que5 = new TextEditingController();
   final q2OptA = new TextEditingController();
   final q2OptB = new TextEditingController();
   final q2OptC = new TextEditingController();
@@ -45,6 +47,11 @@ class _CaseQueTypeState extends State<CaseQueType> {
   final q4OptB = new TextEditingController();
   final q4OptC = new TextEditingController();
   final q4OptD = new TextEditingController();
+  final q5OptA = new TextEditingController();
+  final q5OptB = new TextEditingController();
+  final q5OptC = new TextEditingController();
+  final q5OptD = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -114,18 +121,6 @@ class _CaseQueTypeState extends State<CaseQueType> {
               controller: que1,
               optionNumber: "question",
             ),
-            // SizedBox(width: 25),
-            // Text(
-            //   "OR",
-            //   style: TextStyle(
-            //     fontFamily: "calibri",
-            //     fontSize: 20,
-            //   ),
-            // ),
-            // SizedBox(
-            //   width: 25,
-            // ),
-            // ImageUploadButton(),
           ],
         ),
         SizedBox(
@@ -152,18 +147,6 @@ class _CaseQueTypeState extends State<CaseQueType> {
                 controller: q1OptA,
                 optionNumber: "optionA",
               ),
-              // SizedBox(width: 25),
-              // Text(
-              //   "OR",
-              //   style: TextStyle(
-              //     fontFamily: "calibri",
-              //     fontSize: 20,
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: 25,
-              // ),
-              // ImageUploadButton(),
             ],
           ),
         ),
@@ -191,18 +174,6 @@ class _CaseQueTypeState extends State<CaseQueType> {
                 controller: q1OptB,
                 optionNumber: "optionB",
               ),
-              // SizedBox(width: 25),
-              // Text(
-              //   "OR",
-              //   style: TextStyle(
-              //     fontFamily: "calibri",
-              //     fontSize: 20,
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: 25,
-              // ),
-              // ImageUploadButton(),
             ],
           ),
         ),
@@ -230,18 +201,6 @@ class _CaseQueTypeState extends State<CaseQueType> {
                 controller: q1OptC,
                 optionNumber: "optionC",
               ),
-              // SizedBox(width: 25),
-              // Text(
-              //   "OR",
-              //   style: TextStyle(
-              //     fontFamily: "calibri",
-              //     fontSize: 20,
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: 25,
-              // ),
-              // ImageUploadButton(),
             ],
           ),
         ),
@@ -269,18 +228,6 @@ class _CaseQueTypeState extends State<CaseQueType> {
                 controller: q1OptD,
                 optionNumber: "optionD",
               ),
-              // SizedBox(width: 25),
-              // Text(
-              //   "OR",
-              //   style: TextStyle(
-              //     fontFamily: "calibri",
-              //     fontSize: 20,
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: 25,
-              // ),
-              // ImageUploadButton(),
             ],
           ),
         ),
@@ -852,6 +799,135 @@ class _CaseQueTypeState extends State<CaseQueType> {
           ),
         ),
         SizedBox(
+          height: 15,
+        ),
+        Text(
+          "Question 5",
+          style: TextStyle(
+            fontFamily: "calibri",
+            fontSize: 28,
+            color: Colors.black,
+          ),
+        ),
+        Row(
+          children: [
+            QuestionField(
+              hintText: "Enter Question",
+              questionIndex: 4,
+              controller: que5,
+              optionNumber: "question",
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Text(
+            "Add Option A",
+            style: TextStyle(
+              fontFamily: "calibri",
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Row(
+            children: [
+              QuestionField(
+                hintText: "Add Option A",
+                questionIndex: 4,
+                controller: q5OptA,
+                optionNumber: "optionA",
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Text(
+            "Add Option B",
+            style: TextStyle(
+              fontFamily: "calibri",
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Row(
+            children: [
+              QuestionField(
+                hintText: "Add Option B",
+                questionIndex: 4,
+                controller: q5OptB,
+                optionNumber: "optionB",
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Text(
+            "Add Option C",
+            style: TextStyle(
+              fontFamily: "calibri",
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Row(
+            children: [
+              QuestionField(
+                hintText: "Add Option C",
+                questionIndex: 4,
+                controller: q5OptC,
+                optionNumber: "optionC",
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Text(
+            "Add Option D",
+            style: TextStyle(
+              fontFamily: "calibri",
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Row(
+            children: [
+              QuestionField(
+                hintText: "Add Option D",
+                questionIndex: 4,
+                controller: q5OptD,
+                optionNumber: "optionD",
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
           height: 20,
         ),
         Row(
@@ -864,22 +940,27 @@ class _CaseQueTypeState extends State<CaseQueType> {
                     que2.text.isEmpty ||
                     que3.text.isEmpty ||
                     que4.text.isEmpty ||
+                    que5.text.isEmpty ||
                     q1OptA.text.isEmpty ||
                     q2OptA.text.isEmpty ||
                     q3OptA.text.isEmpty ||
                     q4OptA.text.isEmpty ||
+                    q5OptA.text.isEmpty ||
                     q1OptB.text.isEmpty ||
                     q2OptB.text.isEmpty ||
                     q3OptB.text.isEmpty ||
                     q4OptB.text.isEmpty ||
+                    q5OptB.text.isEmpty ||
                     q1OptC.text.isEmpty ||
                     q2OptC.text.isEmpty ||
                     q3OptC.text.isEmpty ||
                     q4OptC.text.isEmpty ||
+                    q5OptC.text.isEmpty ||
                     q1OptD.text.isEmpty ||
                     q2OptD.text.isEmpty ||
                     q3OptD.text.isEmpty ||
-                    q4OptD.text.isEmpty) {
+                    q4OptD.text.isEmpty ||
+                    q5OptD.text.isEmpty) {
                   Get.snackbar("Please Enter Values", "",
                       backgroundColor: Colors.red, colorText: Colors.white);
                   return;
@@ -899,12 +980,14 @@ class _CaseQueTypeState extends State<CaseQueType> {
                   Get.find<EditQuestionBankController>().chapterValue.value,
                   chapterID,
                   imgController.uploadedImageUrl.value,
+                  widget.typeNumber
                 );
                 para.clear();
                 que1.clear();
                 que2.clear();
                 que3.clear();
                 que4.clear();
+                que5.clear();
                 q1OptA.clear();
                 q1OptB.clear();
                 q1OptC.clear();
@@ -917,7 +1000,15 @@ class _CaseQueTypeState extends State<CaseQueType> {
                 q3OptB.clear();
                 q3OptC.clear();
                 q3OptD.clear();
-                for (int i = 0; i < 4; i++) {
+                q4OptA.clear();
+                q4OptB.clear();
+                q4OptC.clear();
+                q4OptD.clear();
+                q5OptA.clear();
+                q5OptB.clear();
+                q5OptC.clear();
+                q5OptD.clear();
+                for (int i = 0; i < 5; i++) {
                   questionMap[i]['question'] = "";
                   questionMap[i]['optionA'] = "";
                   questionMap[i]['optionB'] = "";
@@ -966,7 +1057,7 @@ class QuestionField extends StatelessWidget {
               if (isPara) {
                 paragraphController.text = val;
               } else {
-                questionMap[questionIndex][optionNumber] = val;
+                questionMap[questionIndex][optionNumber] = val; 
               }
             },
             decoration: InputDecoration(

@@ -72,7 +72,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                       maxLines: 1,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text,
-                      cursorColor: Colors.white,
+                      
                       style: const TextStyle(color: Colors.black, fontSize: 20),
                       decoration: InputDecoration(
                         hintText: "Test paper name here",
@@ -80,7 +80,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(),
                         ),
-                      )),
+                      ),),
                 ),
                 const SizedBox(
                   height: 30,
@@ -262,7 +262,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                   maxLines: 1,
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
-                                  cursorColor: Colors.white,
+                                  
                                   style: const TextStyle(
                                       color: Colors.black, fontSize: 20),
                                   decoration: InputDecoration(
@@ -314,7 +314,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                     maxLines: 6,
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.text,
-                                    cursorColor: Colors.white,
+                                    
                                     style: const TextStyle(
                                         color: Colors.black, fontSize: 20),
                                     decoration: InputDecoration(
@@ -334,6 +334,7 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                 ),
                 GestureDetector(
                     onTap: () {
+                      paperGenerateController.getBlueprint();
                       tabController.animateTo(1);
                     },
                     child: Container(

@@ -1,30 +1,28 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new
+// ignore_for_file: unnecessary_new, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:school_web/controller/multiple_image_upload_controller.dart';
-import 'package:school_web/widgets/add_question_button.dart';
-import 'package:school_web/widgets/image_upload_button.dart';
-import 'package:school_web/widgets/theme_button.dart';
 
 import '../controller/edit_question_bank_controller.dart';
+import '../controller/multiple_image_upload_controller.dart';
 import '../utils/database.dart';
+import 'add_question_button.dart';
+import 'image_upload_button.dart';
 
-class CaseBaseDesType extends StatefulWidget {
+class AddPictographType extends StatefulWidget {
   int typeNumber;
-  CaseBaseDesType({required this.typeNumber});
+  AddPictographType({required this.typeNumber});
 
   @override
-  State<CaseBaseDesType> createState() => _CaseBaseDesTypeState();
+  State<AddPictographType> createState() => _AddPictographTypeState();
 }
 
-class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
+class _AddPictographTypeState extends State<AddPictographType> {
   final TextEditingController que1 = new TextEditingController();
   final TextEditingController que2 = new TextEditingController();
   final TextEditingController que3 = new TextEditingController();
   final TextEditingController que4 = new TextEditingController();
-  final TextEditingController que5 = new TextEditingController();
-  final TextEditingController para = new TextEditingController();
+
   final imgController = Get.put(MultipleImageUploadController());
   //final GlobalKey formKey = new GlobalKey<FormState>();
   @override
@@ -36,7 +34,7 @@ class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
           height: 30,
         ),
         Text(
-          "Add Paragraph",
+          "Add Pictograph",
           style: TextStyle(
             fontFamily: "calibri",
             fontSize: 28,
@@ -45,29 +43,6 @@ class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
         ),
         SizedBox(
           height: 7,
-        ),
-        QuestionField(
-          hintText: "Add Paragraph",
-          isPara: true,
-          controller: para,
-        ),
-        SizedBox(
-          height: 25,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "OR",
-              style: TextStyle(
-                fontFamily: "calibri",
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 25,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -275,52 +250,6 @@ class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
           ],
         ),
         SizedBox(
-          height: 15,
-        ),
-        Text(
-          "Question 5",
-          style: TextStyle(
-            fontFamily: "calibri",
-            fontSize: 28,
-            color: Colors.black,
-          ),
-        ),
-        Row(
-          children: [
-            QuestionField(
-              hintText: "Enter Question",
-              controller: que5,
-            ),
-            SizedBox(width: 25),
-            Text(
-              "OR",
-              style: TextStyle(
-                fontFamily: "calibri",
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(
-              width: 25,
-            ),
-            Obx(
-              () => imgController.isLoading[5].value
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : imgController.isUploadedImage[5].value
-                      ? Container(
-                          height: 300,
-                          width: 300,
-                          child: Image.network(
-                              imgController.uploadedImageUrl[5].value))
-                      : ImageUploadButton(
-                          fromMultiple: true,
-                          index: 3,
-                        ),
-            ),
-          ],
-        ),
-        SizedBox(
           height: 20,
         ),
         Row(
@@ -328,12 +257,11 @@ class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
           children: [
             InkWell(
               onTap: () {
-                if (para.text.isEmpty ||
-                    que1.text.isEmpty ||
+                if (que1.text.isEmpty ||
                     que2.text.isEmpty ||
                     que3.text.isEmpty ||
                     que4.text.isEmpty ||
-                    que5.text.isEmpty) {
+                    imgController.uploadedImageUrl[0].value == "") {
                   Get.snackbar("Please Enter Values", "",
                       backgroundColor: Colors.red, colorText: Colors.white);
                   return;
@@ -345,13 +273,25 @@ class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
                         .value);
                 String chapterID =
                     Get.find<EditQuestionBankController>().chaptersIdList[idx];
-                DataBase().setCaseBaseDes(
-                  para.text,
+      //                String que1,
+      // String que2,
+      // String que3,
+      // String que4,
+      // String className,
+      // String subjectName,
+      // String chapterName,
+      // String chapterID,
+      // String paraImg,
+      // String que1Img,
+      // String que2Img,
+      // String que3Img,
+      // String que4Img,
+      // int typeNumber
+                DataBase().setPictographQue(
                   que1.text,
                   que2.text,
                   que3.text,
                   que4.text,
-                  que5.text,
                   Get.find<EditQuestionBankController>().classValue.value,
                   Get.find<EditQuestionBankController>().subjectValue.value,
                   Get.find<EditQuestionBankController>().chapterValue.value,
@@ -361,19 +301,30 @@ class _CaseBaseDesTypeState extends State<CaseBaseDesType> {
                   imgController.uploadedImageUrl[2].value,
                   imgController.uploadedImageUrl[3].value,
                   imgController.uploadedImageUrl[4].value,
-                  imgController.uploadedImageUrl[5].value,
                   widget.typeNumber,
                 );
-                para.clear();
+
                 que1.clear();
                 que2.clear();
                 que3.clear();
                 que4.clear();
-                que5.clear();
-                imgController.isLoading.value =
-                    [false.obs, false.obs, false.obs, false.obs, false.obs, false.obs].obs;
-                imgController.isUploadedImage.value =
-                    [false.obs, false.obs, false.obs, false.obs, false.obs, false.obs].obs;
+
+                imgController.isLoading.value = [
+                  false.obs,
+                  false.obs,
+                  false.obs,
+                  false.obs,
+                  false.obs,
+                  false.obs
+                ].obs;
+                imgController.isUploadedImage.value = [
+                  false.obs,
+                  false.obs,
+                  false.obs,
+                  false.obs,
+                  false.obs,
+                  false.obs
+                ].obs;
                 imgController.uploadedImageUrl.value = [
                   "".obs,
                   "".obs,

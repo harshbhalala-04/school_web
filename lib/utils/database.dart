@@ -37,7 +37,7 @@ class DataBase {
         .doc(chapterId)
         .set({});
 
-    for (int i = 1; i <= 94; i++) {
+    for (int i = 0; i <= 94; i++) {
       await firestore
           .collection("question_bank")
           .doc(className)
@@ -95,10 +95,11 @@ class DataBase {
         .get()
         .then((val) async {
       int newValue = 1;
-      print(val.data()?.isEmpty);
+
       if (val.data()!.isNotEmpty) {
-        print("here condition true");
-        newValue = val.data()!['type 29'] + 1;
+        if (val.data()!["type 29"] != null) {
+          newValue = val.data()!["type 29"] + 1;
+        }
       }
 
       await firestore
@@ -110,16 +111,69 @@ class DataBase {
     });
   }
 
+  setMatchFollowingQue(String className, String subjectName, String chapterName,
+      String chapterID, String partA, String partB, int typeNumber) async {
+    if (typeNumber == 22) {
+      await firestore
+          .collection("question_bank")
+          .doc(className)
+          .collection(subjectName)
+          .doc(chapterID)
+          .collection("questions")
+          .doc("type $typeNumber")
+          .update({
+        "questionList": FieldValue.arrayUnion([
+          {"imgUrl": partA, "partB": partB}
+        ])
+      });
+    } else {
+      await firestore
+          .collection("question_bank")
+          .doc(className)
+          .collection(subjectName)
+          .doc(chapterID)
+          .collection("questions")
+          .doc("type $typeNumber")
+          .update({
+        "questionList": FieldValue.arrayUnion([
+          {"partA": partA, "partB": partB}
+        ])
+      });
+    }
+
+    await firestore
+        .collection("question_bank")
+        .doc(className)
+        .collection(subjectName)
+        .doc(chapterID)
+        .get()
+        .then((val) async {
+      int newValue = 1;
+      if (val.data()!.isNotEmpty) {
+        if (val.data()!["type $typeNumber"] != null) {
+          newValue = val.data()!["type $typeNumber"] + 1;
+        }
+      }
+
+      await firestore
+          .collection("question_bank")
+          .doc(className)
+          .collection(subjectName)
+          .doc(chapterID)
+          .update({"type $typeNumber": newValue});
+    });
+  }
+
   setFillBlankOrTrueFalseQue(
       String className,
       String subjectName,
       String chapterName,
       String chapterID,
       String question,
-      
       int typeNumber,
       String imgUrl) async {
-       
+    print("here set fill blank");
+    print("type $typeNumber");
     await firestore
         .collection("question_bank")
         .doc(className)
@@ -141,10 +195,8 @@ class DataBase {
         .then((val) async {
       int newValue = 1;
       if (val.data()!.isNotEmpty) {
-        if (val.data()!["type $typeNumber"] !=
-            null) {
-          newValue = val.data()!["type $typeNumber"] +
-              1;
+        if (val.data()!["type $typeNumber"] != null) {
+          newValue = val.data()!["type $typeNumber"] + 1;
         }
       }
 
@@ -153,9 +205,7 @@ class DataBase {
           .doc(className)
           .collection(subjectName)
           .doc(chapterID)
-          .update({
-        "type $typeNumber": newValue
-      });
+          .update({"type $typeNumber": newValue});
     });
   }
 
@@ -166,14 +216,15 @@ class DataBase {
       String subjectName,
       String chapterName,
       String chapterID,
-      String paraImg) async {
+      String paraImg,
+      int typeNumber) async {
     await firestore
         .collection("question_bank")
         .doc(className)
         .collection(subjectName)
         .doc(chapterID)
         .collection("questions")
-        .doc("type 10")
+        .doc("type $typeNumber")
         .update({
       "questionList": FieldValue.arrayUnion([
         {"questions": questionMap, "paragraph": paragraph, "paraImg": paraImg}
@@ -188,7 +239,7 @@ class DataBase {
         .then((val) async {
       int newValue = 1;
       if (val.data()!.isNotEmpty) {
-        if (val.data()!["type 10"] != null) {
+        if (val.data()!["type $typeNumber"] != null) {
           newValue = val.data()!["type 10"] + 1;
         }
       }
@@ -198,36 +249,40 @@ class DataBase {
           .doc(className)
           .collection(subjectName)
           .doc(chapterID)
-          .update({"type 10": newValue});
+          .update({"type $typeNumber": newValue});
     });
   }
 
   setCaseBaseDes(
-    String para,
-    String que1,
-    String que2,
-    String que3,
-    String que4,
-    String className,
-    String subjectName,
-    String chapterName,
-    String chapterID,
-    String paraImg,
-    String que1Img,
-    String que2Img,
-    String que3Img,
-    String que4Img,
-  ) async {
-    // 47, 48, 49, 57, 81, 89, 90
+      String para,
+      String que1,
+      String que2,
+      String que3,
+      String que4,
+      String que5,
+      String className,
+      String subjectName,
+      String chapterName,
+      String chapterID,
+      String paraImg,
+      String que1Img,
+      String que2Img,
+      String que3Img,
+      String que4Img,
+      String que5Img,
+      int typeNumber) async {
+    // 47, 48, 49, 56,57
     Map<String, dynamic> queMap = {
       "question1": que1,
       "question2": que2,
       "question3": que3,
       "question4": que4,
+      "question5": que5,
       "question1Img": que1Img,
       "question2Img": que2Img,
       "question3Img": que3Img,
-      "question4Img": que4Img
+      "question4Img": que4Img,
+      "question5Img": que5Img
     };
     await firestore
         .collection("question_bank")
@@ -235,7 +290,7 @@ class DataBase {
         .collection(subjectName)
         .doc(chapterID)
         .collection("questions")
-        .doc("type 11")
+        .doc("type $typeNumber")
         .update({
       "questionList": FieldValue.arrayUnion([
         {"questions": queMap, "paragraph": para, "paraImg": paraImg}
@@ -250,8 +305,8 @@ class DataBase {
         .then((val) async {
       int newValue = 1;
       if (val.data()!.isNotEmpty) {
-        if (val.data()!["type 11"] != null) {
-          newValue = val.data()!["type 11"] + 1;
+        if (val.data()!["type $typeNumber"] != null) {
+          newValue = val.data()!["type $typeNumber"] + 1;
         }
       }
 
@@ -260,7 +315,68 @@ class DataBase {
           .doc(className)
           .collection(subjectName)
           .doc(chapterID)
-          .update({"type 11": newValue});
+          .update({"type $typeNumber": newValue});
+    });
+  }
+
+  setPictographQue(
+      String que1,
+      String que2,
+      String que3,
+      String que4,
+      String className,
+      String subjectName,
+      String chapterName,
+      String chapterID,
+      String paraImg,
+      String que1Img,
+      String que2Img,
+      String que3Img,
+      String que4Img,
+      int typeNumber) async {
+   
+    Map<String, dynamic> queMap = {
+      "question1": que1,
+      "question2": que2,
+      "question3": que3,
+      "question4": que4,
+      "question1Img": que1Img,
+      "question2Img": que2Img,
+      "question3Img": que3Img,
+      "question4Img": que4Img,
+    };
+    await firestore
+        .collection("question_bank")
+        .doc(className)
+        .collection(subjectName)
+        .doc(chapterID)
+        .collection("questions")
+        .doc("type $typeNumber")
+        .update({
+      "questionList": FieldValue.arrayUnion([
+        {"questions": queMap, "paraImg": paraImg}
+      ])
+    });
+    await firestore
+        .collection("question_bank")
+        .doc(className)
+        .collection(subjectName)
+        .doc(chapterID)
+        .get()
+        .then((val) async {
+      int newValue = 1;
+      if (val.data()!.isNotEmpty) {
+        if (val.data()!["type $typeNumber"] != null) {
+          newValue = val.data()!["type $typeNumber"] + 1;
+        }
+      }
+
+      await firestore
+          .collection("question_bank")
+          .doc(className)
+          .collection(subjectName)
+          .doc(chapterID)
+          .update({"type $typeNumber": newValue});
     });
   }
 }

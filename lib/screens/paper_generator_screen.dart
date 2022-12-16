@@ -167,7 +167,7 @@ class _PaperGeneratorModelState extends State<PaperGeneratorModel>
             controller: tabController,
             children: [
               TestpaperInfo(controller: tabController),
-              SelectBlueprint()
+              SelectBlueprint(),
             ],
           ),
         )

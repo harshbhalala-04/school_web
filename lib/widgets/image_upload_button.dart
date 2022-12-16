@@ -37,6 +37,7 @@ class _ImageUploadButtonState extends State<ImageUploadButton> {
             if (widget.fromMultiple) {
               multipleImgController.pickImage(widget.index);
             } else {
+              print("here pick iamge work");
               imagePickerController.pickImage();
             }
           },

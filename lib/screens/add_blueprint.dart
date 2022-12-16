@@ -3,6 +3,7 @@ import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:school_web/controller/add_blueprint_controller.dart';
 import 'package:school_web/theme.dart';
+import 'package:school_web/utils/questionsList.dart';
 import 'package:school_web/widgets/desktop_appbar.dart';
 import 'package:school_web/widgets/footer.dart';
 import 'package:school_web/widgets/side_layout.dart';
@@ -23,20 +24,22 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
   List<QuestionSetModel> questionSet = [];
   List _selectedChapter = [];
   List chapterList = [];
+  List<String> selectedChaptersName = [];
   void refresh() {
     setState(() {});
   }
+
   @override
   void initState() {
     // TODO: implement initState
-    
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-     final textstyle = const TextStyle(
-        fontFamily: "calibri", fontSize: 25, color: Colors.black);
+    const textstyle =
+        TextStyle(fontFamily: "calibri", fontSize: 25, color: Colors.black);
     final deviceSize = MediaQuery.of(context).size;
     List questionsetstring = [
       'A',
@@ -52,7 +55,19 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
       'K',
       'L',
       'M',
-      'N'
+      'N',
+      'O',
+      'P',
+      'Q',
+      'R',
+      'S',
+      'T',
+      'U',
+      'V',
+      'W',
+      'X',
+      'Y',
+      'Z'
     ];
     return Container(
       decoration: const BoxDecoration(
@@ -97,28 +112,28 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                       Row(
-                children: [
-                  Text(
-                    'Blueprint Name',
-                    style: textstyle,
-                  ),
-                  const SizedBox(
-                    width: 40,
-                  ),
-                   Flexible(
-                    child: TextField(
-                      onChanged: (value) {
-                        addBlueprintController.bluePrintName.value = value;
-                      },
-
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  )
-                ],
-              ),
+                      Row(
+                        children: [
+                          Text(
+                            'Blueprint Name',
+                            style: textstyle,
+                          ),
+                          const SizedBox(
+                            width: 40,
+                          ),
+                          Flexible(
+                            child: TextField(
+                              onChanged: (value) {
+                                addBlueprintController.bluePrintName.value =
+                                    value;
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          )
+                        ],
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -187,7 +202,6 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                       const SizedBox(
                         height: 15,
                       ),
-
                       Obx(
                         () => addBlueprintController.isSubjectVisible.value
                             ? Row(
@@ -281,7 +295,6 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                       const SizedBox(
                         height: 15,
                       ),
-                     
                       Obx(
                         () => addBlueprintController.chaptersList.isNotEmpty &&
                                 addBlueprintController.subjectValue.value != ''
@@ -289,7 +302,11 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                 children: <Widget>[
                                   MultiSelectBottomSheetField(
                                     barrierColor: const Color.fromARGB(
-                                        145, 158, 158, 158,),
+                                      145,
+                                      158,
+                                      158,
+                                      158,
+                                    ),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         border:
@@ -343,7 +360,13 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                                         )
                                         .toList(),
                                     onConfirm: (values) {
-                                      
+                                      addBlueprintController.chapters
+                                          .forEach((element) {
+                                        if (values.contains(element.id)) {
+                                          selectedChaptersName
+                                              .add(element.name);
+                                        }
+                                      });
                                       _selectedChapter = values;
                                       setState(() {});
                                     },
@@ -386,28 +409,30 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      _selectedChapter.isNotEmpty ? 
-                      ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount:
-                              addBlueprintController.questionSetList.length,
-                          itemBuilder: (context, index) {
-                            return QuestionSetWidget(
-                              callback: refresh,
-                              index: index,
-                              questions: addBlueprintController.questionSetList,
-                              chaptersList: _selectedChapter.toList(),
-                              charset: questionsetstring[index],
-                            );
-                          }) : const SizedBox.shrink(),
+                      _selectedChapter.isNotEmpty
+                          ? ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  addBlueprintController.questionSetList.length,
+                              itemBuilder: (context, index) {
+                                return QuestionSetWidget(
+                                  callback: refresh,
+                                  index: index,
+                                  questions:
+                                      addBlueprintController.questionSetList,
+                                  chaptersList: _selectedChapter.toList(),
+                                  charset: questionsetstring[index],
+                                );
+                              })
+                          : const SizedBox.shrink(),
                       const SizedBox(
                         height: 20,
                       ),
                       Obx(() =>
                           addBlueprintController.subjectValue.value != '' &&
-                                  questionSet.length < 13
+                                  questionSet.length < 26
                               ? GestureDetector(
                                   onTap: () {
                                     addBlueprintController.questionSetList
@@ -442,15 +467,42 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
                       addBlueprintController.questionSetList.isNotEmpty
                           ? GestureDetector(
                               onTap: () {
+                                double totalMarks = 0;
+                                int totalQue = 0;
+
+                                addBlueprintController.questionSetList
+                                    .forEach((questionSet) {
+                                  int singleTypeQuestions = 0;
+                                  questionSet.chapterWithRequiredQues
+                                      ?.forEach((singleChapter) {
+                                    singleChapter.values.forEach((singleMark) {
+                                      totalQue += int.tryParse(singleMark)!;
+                                      singleTypeQuestions +=
+                                          int.tryParse(singleMark)!;
+                                    });
+                                  });
+
+                                  int ind = questionsList.indexWhere(
+                                      (element) =>
+                                          element.questionType ==
+                                          questionSet.questionType);
+                                  totalMarks +=
+                                      questionsList[ind].questionMark *
+                                          singleTypeQuestions;
+                                });
+
                                 addBlueprintController.addBluprintToFirestore(
-                                  blueprintName: addBlueprintController.bluePrintName.value,
-                                  className:
-                                      addBlueprintController.classValue.value,
-                                  subjectName:
-                                      addBlueprintController.subjectValue.value,
-                                  questionSet:
-                                      addBlueprintController.questionSetList,
-                                );
+                                    blueprintName: addBlueprintController
+                                        .bluePrintName.value,
+                                    className:
+                                        addBlueprintController.classValue.value,
+                                    subjectName: addBlueprintController
+                                        .subjectValue.value,
+                                    questionSet:
+                                        addBlueprintController.questionSetList,
+                                    totalQuestions: totalQue,
+                                    totalMarks: totalMarks,
+                                    selectedChaptersName: selectedChaptersName);
                                 Get.delete<AddBlueprintController>();
                                 Get.toNamed('/');
                               },
@@ -481,7 +533,7 @@ class _AddBlueprintScreenState extends State<AddBlueprintScreen> {
     );
   }
 
-   @override
+  @override
   void dispose() {
     _selectedChapter = [];
     addBlueprintController.dispose();

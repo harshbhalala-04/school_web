@@ -9,6 +9,8 @@ import 'package:school_web/screens/paper_generator_screen.dart';
 import 'package:school_web/screens/view_chapter_screen.dart';
 import 'package:school_web/screens/view_question_bank_screen.dart';
 
+import 'screens/paperPdfViewScreen.dart';
+
 class Flurorouter {
   static final FluroRouter router = FluroRouter();
   static Handler _homeHandler = Handler(
@@ -29,6 +31,9 @@ class Flurorouter {
   static Handler _papergeneratorHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           PaperGeneratorScreen());
+   static Handler _paperPdfViewHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
+          PaperPDFViewScreen());
   static void setUpRouter() {
     router.define('/',
         handler: _homeHandler, transitionType: TransitionType.fadeIn);
@@ -45,5 +50,7 @@ class Flurorouter {
         transitionType: TransitionType.fadeIn);
     router.define('/paper_generator',
         handler: _papergeneratorHandler, transitionType: TransitionType.fadeIn);
+        router.define('/paper_pdf_view',
+        handler: _paperPdfViewHandler, transitionType: TransitionType.fadeIn);
   }
 }
