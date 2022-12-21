@@ -66,6 +66,7 @@ class PaperGenerateController extends GetxController {
 
   generatePaper(String blueprintId) async {
     isPaperGenerating.toggle();
+    paper = [];
     int idx =
         blueprints.indexWhere((element) => element.blueprindId == blueprintId);
 
@@ -152,87 +153,114 @@ class PaperGenerateController extends GetxController {
         }
         print("this is over all list");
         print(overAll74List);
-        // print(singleQuestionSetQuestionsList);
       }
-      // print("here single question set added");
-      print(singleQuestionSetQuestionsList);
 
-      for (int i = 0; i < singleQuestionSetQuestionsList.length; i++) {
+      for (int questionSetIndex = 0;
+          questionSetIndex < singleQuestionSetQuestionsList.length;
+          questionSetIndex++) {
         if (blueprints[idx].questionSet[i]['QuestionType'] == "type 38") {
           //Pictograph
-          final netImage =
-              await networkImage(singleQuestionSetQuestionsList[i]['paraImg']);
+          final netImage = await networkImage(
+              singleQuestionSetQuestionsList[questionSetIndex]['paraImg']);
           images.add(netImage);
           int idx = images.indexWhere((element) => element == netImage);
-          singleQuestionSetQuestionsList[i]['paraImgIndex'] = idx;
+          singleQuestionSetQuestionsList[questionSetIndex]['paraImgIndex'] =
+              idx;
         } else if (blueprints[idx].questionSet[i]['QuestionType'] ==
             "type 29") {
           //Mcq question
-          if (singleQuestionSetQuestionsList[i]['questionImg'] != "") {
+          if (singleQuestionSetQuestionsList[questionSetIndex]['questionImg'] !=
+              "") {
             final netImage = await networkImage(
-                singleQuestionSetQuestionsList[i]['questionImg']);
+                singleQuestionSetQuestionsList[questionSetIndex]
+                    ['questionImg']);
             images.add(netImage);
             int idx = images.indexWhere((element) => element == netImage);
-            singleQuestionSetQuestionsList[i]['questionImgIndex'] = idx;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['questionImgIndex'] = idx;
           } else {
-            singleQuestionSetQuestionsList[i]['questionImgIndex'] = -1;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['questionImgIndex'] = -1;
           }
 
-          if (singleQuestionSetQuestionsList[i]['optionAImg'] != "") {
+          if (singleQuestionSetQuestionsList[questionSetIndex]['optionAImg'] !=
+              "") {
             final netImage = await networkImage(
-                singleQuestionSetQuestionsList[i]['optionAImg']);
+                singleQuestionSetQuestionsList[questionSetIndex]['optionAImg']);
             images.add(netImage);
             int idx = images.indexWhere((element) => element == netImage);
-            singleQuestionSetQuestionsList[i]['optionAImgIndex'] = idx;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['optionAImgIndex'] = idx;
           } else {
-            singleQuestionSetQuestionsList[i]['optionAImgIndex'] = -1;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['optionAImgIndex'] = -1;
           }
 
-          if (singleQuestionSetQuestionsList[i]['optionBImg'] != "") {
+          if (singleQuestionSetQuestionsList[questionSetIndex]['optionBImg'] !=
+              "") {
             final netImage = await networkImage(
-                singleQuestionSetQuestionsList[i]['optionBImg']);
+                singleQuestionSetQuestionsList[questionSetIndex]['optionBImg']);
             images.add(netImage);
             int idx = images.indexWhere((element) => element == netImage);
-            singleQuestionSetQuestionsList[i]['optionBImgIndex'] = idx;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['optionBImgIndex'] = idx;
           } else {
-            singleQuestionSetQuestionsList[i]['optionBImgIndex'] = -1;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['optionBImgIndex'] = -1;
           }
 
-          if (singleQuestionSetQuestionsList[i]['optionCImg'] != "") {
+          if (singleQuestionSetQuestionsList[questionSetIndex]['optionCImg'] !=
+              "") {
             final netImage = await networkImage(
-                singleQuestionSetQuestionsList[i]['optionCImg']);
+                singleQuestionSetQuestionsList[questionSetIndex]['optionCImg']);
             images.add(netImage);
             int idx = images.indexWhere((element) => element == netImage);
-            singleQuestionSetQuestionsList[i]['optionCImgIndex'] = idx;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['optionCImgIndex'] = idx;
           } else {
-            singleQuestionSetQuestionsList[i]['optionCImgIndex'] = -1;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['optionCImgIndex'] = -1;
           }
 
-          if (singleQuestionSetQuestionsList[i]['optionDImg'] != "") {
+          if (singleQuestionSetQuestionsList[questionSetIndex]['optionDImg'] !=
+              "") {
             final netImage = await networkImage(
-                singleQuestionSetQuestionsList[i]['optionDImg']);
+                singleQuestionSetQuestionsList[questionSetIndex]['optionDImg']);
             images.add(netImage);
             int idx = images.indexWhere((element) => element == netImage);
-            singleQuestionSetQuestionsList[i]['optionDImgIndex'] = idx;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['optionDImgIndex'] = idx;
           } else {
-            singleQuestionSetQuestionsList[i]['optionDImgIndex'] = -1;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['optionDImgIndex'] = -1;
           }
         } else if (blueprints[idx].questionSet[i]['QuestionType'] ==
                 "type 22" ||
             blueprints[idx].questionSet[i]['QuestionType'] == "type 32" ||
-            blueprints[idx].questionSet[i]['QuestionType'] == "type 74") {
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 74" ||
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 47" ||
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 48" ||
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 49" ||
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 56" ||
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 57" ||
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 81" ||
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 89" ||
+            blueprints[idx].questionSet[i]['QuestionType'] == "type 90") {
           //match the picture of obj with name question
           continue;
         } else {
           //Description of img, Graph, map, maths, image only question & all other questions
-          if (singleQuestionSetQuestionsList[i]['imgUrl'] != "") {
-            final netImage =
-                await networkImage(singleQuestionSetQuestionsList[i]['imgUrl']);
+          if (singleQuestionSetQuestionsList[questionSetIndex]['imgUrl'] !=
+              "") {
+            final netImage = await networkImage(
+                singleQuestionSetQuestionsList[questionSetIndex]['imgUrl']);
             images.add(netImage);
             int idx = images.indexWhere((element) => element == netImage);
-            singleQuestionSetQuestionsList[i]['questionImgIndex'] = idx;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['questionImgIndex'] = idx;
           } else {
-            singleQuestionSetQuestionsList[i]['questionImgIndex'] = -1;
+            singleQuestionSetQuestionsList[questionSetIndex]
+                ['questionImgIndex'] = -1;
           }
         }
       }
@@ -260,15 +288,12 @@ class PaperGenerateController extends GetxController {
     final font2 = await PdfGoogleFonts.openSansBold();
     final font3 = await PdfGoogleFonts.tinosRegular();
     final font4 = await PdfGoogleFonts.tinosBold();
-    final mapImage = await networkImage(
-        "https://firebasestorage.googleapis.com/v0/b/sxcmi-97533.appspot.com/o/india-map.jpg?alt=media&token=62ac7316-eca1-4522-982a-0e914d2b73ce");
-    final netImage = await networkImage(
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMAL5hxrBGQ-QKZv2DlB0hDRMRb0YPBnUgA&usqp=CAU");
-    final netImage2 = await networkImage(
-        "https://firebasestorage.googleapis.com/v0/b/sxcmi-97533.appspot.com/o/images?alt=media&token=520f2a13-f2b3-474a-adae-d3afc4d655c0");
+
     var assetImage = pw.MemoryImage(
       (await rootBundle.load('assets/images/logo.png')).buffer.asUint8List(),
     );
+    final hindiFont = await rootBundle.load("assets/fonts/Hind.ttf");
+    final hindiFontTTF = pw.Font.ttf(hindiFont);
 
     doc.addPage(
       pw.MultiPage(
@@ -300,6 +325,7 @@ class PaperGenerateController extends GetxController {
                             style: pw.TextStyle(
                               color: PdfColors.black,
                               fontSize: 24,
+                              fontFallback: [hindiFontTTF],
                               font: font4,
                               fontWeight: pw.FontWeight.bold,
                               decoration: pw.TextDecoration.underline,
@@ -308,6 +334,7 @@ class PaperGenerateController extends GetxController {
                           pw.Text(
                             "Half Yearly Exam(september-2022)",
                             style: pw.TextStyle(
+                              fontFallback: [hindiFontTTF],
                               color: PdfColors.black,
                               fontSize: 20,
                               font: font4,
@@ -330,6 +357,7 @@ class PaperGenerateController extends GetxController {
                               text: "Std:- ",
                               style: pw.TextStyle(
                                 color: PdfColors.black,
+                                fontFallback: [hindiFontTTF],
                                 fontSize: 16,
                                 font: font4,
                                 fontWeight: pw.FontWeight.bold,
@@ -353,6 +381,7 @@ class PaperGenerateController extends GetxController {
                               text: "Marks:- ",
                               style: pw.TextStyle(
                                 color: PdfColors.black,
+                                fontFallback: [hindiFontTTF],
                                 fontSize: 16,
                                 font: font4,
                                 fontWeight: pw.FontWeight.bold,
@@ -381,6 +410,7 @@ class PaperGenerateController extends GetxController {
                               text: "Date:- ",
                               style: pw.TextStyle(
                                 color: PdfColors.black,
+                                fontFallback: [hindiFontTTF],
                                 fontSize: 16,
                                 font: font4,
                                 fontWeight: pw.FontWeight.bold,
@@ -403,6 +433,7 @@ class PaperGenerateController extends GetxController {
                           "Social Science",
                           style: pw.TextStyle(
                             color: PdfColors.black,
+                            fontFallback: [hindiFontTTF],
                             fontSize: 16,
                             font: font4,
                             fontWeight: pw.FontWeight.bold,
@@ -417,6 +448,7 @@ class PaperGenerateController extends GetxController {
                               text: "Time:- ",
                               style: pw.TextStyle(
                                 color: PdfColors.black,
+                                fontFallback: [hindiFontTTF],
                                 fontSize: 16,
                                 font: font4,
                                 fontWeight: pw.FontWeight.bold,
@@ -479,6 +511,7 @@ class PaperGenerateController extends GetxController {
                               text: "Q.${index + 1}",
                               style: pw.TextStyle(
                                 color: PdfColors.black,
+                                fontFallback: [hindiFontTTF],
                                 fontSize: 16,
                                 font: font4,
                                 fontWeight: pw.FontWeight.bold,
@@ -502,20 +535,54 @@ class PaperGenerateController extends GetxController {
                     itemCount: paper[index]['questions'].length,
                     itemBuilder: (_, idx) {
                       if (paper[index]['QuestionType'] == "type 32") {
+                        // Match the following question type 1
                         if (idx == 0) {
                           return pw.Table.fromTextArray(
                               context: _, data: overAllList);
                         }
                         return pw.Container();
                       } else if (paper[index]['QuestionType'] == "type 74") {
+                        // Match the followint question type 2
                         if (idx == 0) {
                           return pw.Table.fromTextArray(
                               context: _, data: overAll74List);
                         }
                         return pw.Container();
                       } else if (paper[index]['QuestionType'] == "type 38") {
-                        return pw.Image(images[paper[index]['questions'][idx]
-                            ['paraImgIndex']]);
+                        // Pictograph questions
+                        return pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Row(
+                              mainAxisAlignment: pw.MainAxisAlignment.start,
+                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              children: [
+                                pw.Text(
+                                  "${idx + 1}.",
+                                  style: pw.TextStyle(
+                                    color: PdfColors.black,
+                                    fontFallback: [hindiFontTTF],
+                                    fontSize: 14,
+                                    font: font3,
+                                  ),
+                                ),
+                                pw.Image(
+                                    images[paper[index]['questions'][idx]
+                                        ['paraImgIndex']],
+                                    width: 200,
+                                    height: 200),
+                              ],
+                            ),
+                            pw.Text(
+                                "\t\t1. ${paper[index]['questions'][idx]['questions']['question1']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text(
+                                "\t\t2. ${paper[index]['questions'][idx]['questions']['question2']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text(
+                                "\t\t3. ${paper[index]['questions'][idx]['questions']['question3']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text(
+                                "\t\t4. ${paper[index]['questions'][idx]['questions']['question4']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                          ],
+                        );
                       } else if (paper[index]['QuestionType'] == "type 61" ||
                           paper[index]['QuestionType'] == "type 72" ||
                           paper[index]['QuestionType'] == "type 82") {
@@ -526,46 +593,38 @@ class PaperGenerateController extends GetxController {
                                     ['questionImgIndex'] ==
                                 -1
                             ? pw.Container()
-                            : pw.Row(
-                                mainAxisAlignment: pw.MainAxisAlignment.start,
+                            : pw.Column(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
                                 children: [
-                                  pw.Image(
-                                      images[paper[index]['questions'][idx]
-                                          ['questionImgIndex']],
-                                      width: 300,
-                                      height: 300)
+                                  pw.Row(
+                                    mainAxisAlignment:
+                                        pw.MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: [
+                                      pw.Text(
+                                        "${idx + 1}.",
+                                        style: pw.TextStyle(
+                                          color: PdfColors.black,
+                                          fontFallback: [hindiFontTTF],
+                                          fontSize: 14,
+                                          font: font3,
+                                        ),
+                                      ),
+                                      pw.Image(
+                                          images[paper[index]['questions'][idx]
+                                              ['questionImgIndex']],
+                                          width: 300,
+                                          height: 300)
+                                    ],
+                                  ),
+                                  pw.Text(paper[index]['questions'][idx]
+                                      ['questionText'], style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                  pw.SizedBox(height: 10),
                                 ],
                               );
-                        // return pw.Row(
-                        //   mainAxisAlignment: pw.MainAxisAlignment.start,
-                        //   children: [
-                        //     pw.Column(
-                        //       crossAxisAlignment: pw.CrossAxisAlignment.start,
-                        //       children: [
-                        //         pw.Text(
-                        //           "${idx + 1}.",
-                        //           style: pw.TextStyle(
-                        //             color: PdfColors.black,
-                        //             fontSize: 14,
-                        //             font: font3,
-                        //           ),
-                        //         ),
-                        //         paper[index]['questions'][idx]
-                        //                     ['questionImgIndex'] ==
-                        //                 -1
-                        //             ? pw.Container()
-                        //             : pw.Image(images[paper[index]['questions']
-                        //                 [idx]['questionImgIndex']]),
-                        //         paper[index]['questions'][idx]['questionText'] !=
-                        //                 ""
-                        //             ? pw.Text(paper[index]['questions'][idx]
-                        //                 ['questionText'])
-                        //             : pw.Container(),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // );
                       } else if (paper[index]['QuestionType'] == "type 29") {
+                        // MCQ questions
                         return pw.Row(
                           mainAxisAlignment: pw.MainAxisAlignment.start,
                           children: [
@@ -579,6 +638,7 @@ class PaperGenerateController extends GetxController {
                                         text: "${idx + 1}.",
                                         style: pw.TextStyle(
                                           color: PdfColors.black,
+                                          fontFallback: [hindiFontTTF],
                                           fontSize: 14,
                                           font: font3,
                                         ),
@@ -595,25 +655,209 @@ class PaperGenerateController extends GetxController {
                                     ],
                                   ),
                                 ),
+                                paper[index]['questions'][idx]
+                                            ['questionImgIndex'] !=
+                                        -1
+                                    ? pw.Image(
+                                        images[paper[index]['questions'][idx]
+                                            ['questionImgIndex']],
+                                        width: 200,
+                                        height: 200,
+                                      )
+                                    : pw.Container(),
                                 pw.SizedBox(height: 2),
-                                pw.Text(
-                                  "\t\t\ta)\t${paper[index]['questions'][idx]['optionA']}\t\tb)\t${paper[index]['questions'][idx]['optionB']}\t\tc)\t${paper[index]['questions'][idx]['optionC']}\t\td)\t${paper[index]['questions'][idx]['optionD']}",
-                                  style: pw.TextStyle(
-                                    color: PdfColors.black,
-                                    fontSize: 14,
-                                    font: font3,
-                                  ),
-                                ),
+                                paper[index]['questions'][idx]
+                                                ['optionAImgIndex'] !=
+                                            -1 &&
+                                        paper[index]['questions'][idx]
+                                                ['optionBImgIndex'] !=
+                                            -1 &&
+                                        paper[index]['questions'][idx]
+                                                ['optionCImgIndex'] !=
+                                            -1 &&
+                                        paper[index]['questions'][idx]
+                                                ['optionDImgIndex'] !=
+                                            -1
+                                    ? pw.Row(
+                                        crossAxisAlignment:
+                                            pw.CrossAxisAlignment.start,
+                                        children: [
+                                          pw.Text("\t\t\ta)\t", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                          pw.Image(
+                                            images[paper[index]['questions']
+                                                [idx]['optionAImgIndex']],
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                          pw.Text("\t\t\tb)\t", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                          pw.Image(
+                                            images[paper[index]['questions']
+                                                [idx]['optionBImgIndex']],
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                          pw.Text("\t\t\tc)\t", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                          pw.Image(
+                                            images[paper[index]['questions']
+                                                [idx]['optionCImgIndex']],
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                          pw.Text("\t\t\td)\t", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                          pw.Image(
+                                            images[paper[index]['questions']
+                                                [idx]['optionDImgIndex']],
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                        ],
+                                      )
+                                    : pw.Text(
+                                        "\t\t\ta)\t${paper[index]['questions'][idx]['optionA']}\t\tb)\t${paper[index]['questions'][idx]['optionB']}\t\tc)\t${paper[index]['questions'][idx]['optionC']}\t\td)\t${paper[index]['questions'][idx]['optionD']}",
+                                        style: pw.TextStyle(
+                                          color: PdfColors.black,
+                                          fontFallback: [hindiFontTTF],
+                                          fontSize: 14,
+                                          font: font3,
+                                        ),
+                                      ),
                               ],
                             ),
                             pw.SizedBox(height: 3),
                           ],
                         );
+                      } else if (paper[index]['QuestionType'] == "type 47" ||
+                          paper[index]['QuestionType'] == "type 48" ||
+                          paper[index]['QuestionType'] == "type 49" ||
+                          paper[index]['QuestionType'] == "type 56" ||
+                          paper[index]['QuestionType'] == "type 57") {
+                        // Passage reading/Case base des questions
+                        print(paper[index]['questions'][idx]['paragraph']);
+                        return pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Paragraph(
+                                text:
+                                    "\t\t${idx + 1}. ${paper[index]['questions'][idx]['paragraph']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text(
+                                "\t\t\t1.\t${paper[index]['questions'][idx]['questions']['question1']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text(
+                                "\t\t\t2.\t${paper[index]['questions'][idx]['questions']['question2']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text(
+                                "\t\t\t3.\t${paper[index]['questions'][idx]['questions']['question3']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text(
+                                "\t\t\t4.\t${paper[index]['questions'][idx]['questions']['question4']}",style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text(
+                                "\t\t\t5.\t${paper[index]['questions'][idx]['questions']['question5']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                          ],
+                        );
+                      } else if (paper[index]['QuestionType'] == "type 81" ||
+                          paper[index]['QuestionType'] == "type 89" ||
+                          paper[index]['QuestionType'] == "type 90") {
+                        // Passage reading/Case base MCQ questions
+
+                        return pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Paragraph(
+                                text:
+                                    "\t\t${idx + 1}. ${paper[index]['questions'][idx]['paragraph']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\t1.\t${paper[index]['questions'][idx]['questions'][0]['question']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\ta.\t${paper[index]['questions'][idx]['questions'][0]['optionA']} \t\t\tb.\t${paper[index]['questions'][idx]['questions'][0]['optionB']} \t\t\tc.\t${paper[index]['questions'][idx]['questions'][0]['optionC']} \t\t\td.\t${paper[index]['questions'][idx]['questions'][0]['optionD']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\t2.\t${paper[index]['questions'][idx]['questions'][1]['question']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\ta.\t${paper[index]['questions'][idx]['questions'][1]['optionA']} \t\t\tb.\t${paper[index]['questions'][idx]['questions'][1]['optionB']} \t\t\tc.\t${paper[index]['questions'][idx]['questions'][1]['optionC']} \t\t\td.\t${paper[index]['questions'][idx]['questions'][1]['optionD']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\t3.\t${paper[index]['questions'][idx]['questions'][2]['question']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\ta.\t${paper[index]['questions'][idx]['questions'][2]['optionA']} \t\t\tb.\t${paper[index]['questions'][idx]['questions'][2]['optionB']} \t\t\tc.\t${paper[index]['questions'][idx]['questions'][2]['optionC']} \t\t\td.\t${paper[index]['questions'][idx]['questions'][2]['optionD']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\t4.\t${paper[index]['questions'][idx]['questions'][3]['question']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\ta.\t${paper[index]['questions'][idx]['questions'][3]['optionA']} \t\t\tb.\t${paper[index]['questions'][idx]['questions'][3]['optionB']} \t\t\tc.\t${paper[index]['questions'][idx]['questions'][3]['optionC']} \t\t\td.\t${paper[index]['questions'][idx]['questions'][3]['optionD']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\t5.\t${paper[index]['questions'][idx]['questions'][4]['question']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                            pw.Text(
+                                "\t\t\ta.\t${paper[index]['questions'][idx]['questions'][4]['optionA']} \t\t\tb.\t${paper[index]['questions'][idx]['questions'][4]['optionB']} \t\t\tc.\t${paper[index]['questions'][idx]['questions'][4]['optionC']} \t\t\td.\t${paper[index]['questions'][idx]['questions'][4]['optionD']}",
+                                style:
+                                    pw.TextStyle(fontFallback: [hindiFontTTF])),
+                          ],
+                        );
+                      } else if (paper[index]['QuestionType'] == "type 10") {
+                        print(paper[index]['questions'][idx]);
+                        return pw.Row(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Text("\t\t${idx + 1}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Image(
+                              images[paper[index]['questions'][idx]
+                                  ['questionImgIndex']],
+                              width: 200,
+                              height: 200,
+                            ),
+                          ],
+                        );
                       }
-                      return pw.Row(
+                      return pw.Column(
+                        mainAxisAlignment: pw.MainAxisAlignment.start,
                         children: [
-                          pw.Text(
-                              "\t\t${idx + 1}. ${paper[index]['questions'][idx]['questionText']}"),
+                          pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.start,
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              paper[index]['questions'][idx]['questionText'] !=
+                                      ""
+                                  ? pw.Text(
+                                      "\t\t${idx + 1}. ${paper[index]['questions'][idx]['questionText']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],))
+                                  : pw.Text("\t\t${idx + 1}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                              paper[index]['questions'][idx]['questionText'] ==
+                                      ""
+                                  ? paper[index]['questions'][idx]
+                                              ['questionImgIndex'] !=
+                                          -1
+                                      ? pw.Image(
+                                          images[paper[index]['questions'][idx]
+                                              ['questionImgIndex']],
+                                          width: 200,
+                                          height: 200)
+                                      : pw.Container()
+                                  : pw.Container(),
+                            ],
+                          ),
+                          paper[index]['questions'][idx]['questionText'] !=
+                                      "" &&
+                                  paper[index]['questions'][idx]
+                                          ['questionImgIndex'] !=
+                                      -1
+                              ? pw.Image(
+                                  images[paper[index]['questions'][idx]
+                                      ['questionImgIndex']],
+                                  width: 200,
+                                  height: 200)
+                              : pw.Container()
                         ],
                       );
                     },
@@ -621,572 +865,6 @@ class PaperGenerateController extends GetxController {
                 ]);
               },
             ),
-
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "Q.1",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tMultiple choice questions",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 10),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t1.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tThe Milkyway is ____________",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.Text(
-            //       "\t\t\ta)\tOption1\t\tb)\tOption2\t\tc)\tOption3\t\td)\tOption4",
-            //       style: pw.TextStyle(
-            //         color: PdfColors.black,
-            //         fontSize: 14,
-            //         font: font3,
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 10),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t2.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text:
-            //                 "\tTime taken by the earth to make one revolution around the sun is __________.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.Text(
-            //       "\t\t\ta)\tOption1\t\tb)\tOption2\t\tc)\tOption3\t\td)\tOption4",
-            //       style: pw.TextStyle(
-            //         color: PdfColors.black,
-            //         fontSize: 14,
-            //         font: font3,
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 10),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t3.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tPick Correct image from the following____________",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.Row(
-            //       children: [
-            //         pw.Text("\t\ta)\t"),
-            //         pw.Image(netImage, height: 100, width: 100),
-            //         pw.SizedBox(width: 5),
-            //         pw.Text("\t\tb)\t"),
-            //         pw.Image(netImage, height: 100, width: 100),
-            //         pw.SizedBox(width: 5),
-            //         pw.Text("\t\tc)\t"),
-            //         pw.Image(netImage, height: 100, width: 100),
-            //         pw.SizedBox(width: 5),
-            //         pw.Text("\t\td)\t"),
-            //         pw.Image(netImage, height: 100, width: 100),
-            //         pw.SizedBox(width: 5),
-            //       ],
-            //     ),
-            //     pw.SizedBox(height: 20),
-            //     /*Completed 1 Question set*/
-
-            //     // 2nd question set start for all descriptive 2,3,4, true false, fill in the blanks all types//
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "Q.2",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tFill in the blanks",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 10),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t1.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\t_________ planet does not spin upright.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t2.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tHe hunted animals for _________and __________.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t3.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text:
-            //                 "\tWant of one person may be ___________ from that of another.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.Row(
-            //       children: [
-            //         pw.Text(
-            //           "\t\t4.",
-            //           style: pw.TextStyle(
-            //             color: PdfColors.black,
-            //             fontSize: 14,
-            //             font: font3,
-            //           ),
-            //         ),
-            //         pw.Image(netImage2),
-            //       ],
-            //     ),
-            //     pw.SizedBox(height: 20),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "Q.3",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tMap Question",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.Image(mapImage, height: 400, width: 400),
-            //     pw.SizedBox(height: 10),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t1.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tThis is map based question",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 20),
-            //     // Case base questions & MCQs
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "Q.4",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tCase base questions",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.Paragraph(
-            //       text:
-            //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-            //       style: pw.TextStyle(
-            //         color: PdfColors.black,
-            //         fontSize: 14,
-            //         font: font3,
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t1.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tThis is case base question 1",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t2.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tThis is case base question 2",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t3.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tThis is case base question 3",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 20),
-            //     // case base mcqs
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "Q.5",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tCase base MCQs",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.Paragraph(
-            //       text:
-            //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-            //       style: pw.TextStyle(
-            //         color: PdfColors.black,
-            //         fontSize: 14,
-            //         font: font3,
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t1.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tThis is case base mcq 1",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.Text(
-            //       "\t\t\ta)\tOption1\t\tb)\tOption2\t\tc)\tOption3\t\td)\tOption4",
-            //       style: pw.TextStyle(
-            //         color: PdfColors.black,
-            //         fontSize: 14,
-            //         font: font3,
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t2.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tThis is case base mcq 2",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.Text(
-            //       "\t\t\ta)\tOption1\t\tb)\tOption2\t\tc)\tOption3\t\td)\tOption4",
-            //       style: pw.TextStyle(
-            //         color: PdfColors.black,
-            //         fontSize: 14,
-            //         font: font3,
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "\t\t3.",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tThis is case base mcq 3",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 14,
-            //               font: font3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 5),
-            //     pw.Text(
-            //       "\t\t\ta)\tOption1\t\tb)\tOption2\t\tc)\tOption3\t\td)\tOption4",
-            //       style: pw.TextStyle(
-            //         color: PdfColors.black,
-            //         fontSize: 14,
-            //         font: font3,
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 20),
-            //     // Match the following question set
-            //     pw.RichText(
-            //       text: pw.TextSpan(
-            //         children: [
-            //           pw.TextSpan(
-            //             text: "Q.6",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //           pw.TextSpan(
-            //             text: "\tMatch the following",
-            //             style: pw.TextStyle(
-            //               color: PdfColors.black,
-            //               fontSize: 16,
-            //               font: font4,
-            //               fontWeight: pw.FontWeight.bold,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     pw.SizedBox(height: 10),
-            //     pw.Table.fromTextArray(
-            //       context: context,
-            //       data: const <List<String>>[
-            //         <String>['A', 'B'],
-            //         <String>['1\t\tMars', 'A\t\tBanks of river Yamuna'],
-            //         <String>['2\t\tAfrica', 'B\t\tIsland Continent'],
-            //         <String>['3\t\tAustralia', 'C\t\tRed Planet'],
-            //         <String>['4\t\tRaj Ghat', 'D\t\tPeninsular part of India'],
-            //         <String>['5\t\tThe Deccan Plateau', 'E\t\tApril or May'],
-            //         <String>['6\t\tBuddha Poornima', 'F\t\tDark Continent'],
-            //       ],
-            //     ),
-            //     pw.Padding(padding: const pw.EdgeInsets.all(10)),
           ),
         ],
       ),

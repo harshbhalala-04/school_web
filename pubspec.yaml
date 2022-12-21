@@ -105,6 +105,11 @@ flutter:
     - family: tnr
       fonts:
         - asset: assets/fonts/times new roman.ttf
+    - family: hindi
+      fonts:
+        - asset: assets/fonts/Hind.ttf
+    
+    
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
