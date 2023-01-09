@@ -4,17 +4,20 @@ class QuestionSetModel {
   String questionType;
   String questionStatement;
   List<Map<String,String>>? chapterWithRequiredQues;
+  
   QuestionSetModel({
     required this.questionType,
     required this.questionStatement,
     this.chapterWithRequiredQues,
+   
   });
 
   Map<String, dynamic> createMap() {
     return {
       'QuestionType' : questionType,
       'QuestionStatement' : questionStatement,
-      'RequiredQuestion' :  getList()
+      'RequiredQuestion' :  getList(),
+     
     };
   } 
   getList() {

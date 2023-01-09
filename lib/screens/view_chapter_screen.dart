@@ -214,7 +214,29 @@ class _ViewChapterScreenState extends State<ViewChapterScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    ThemeButton(text: "View chapters"),
+                    InkWell(
+                      onTap: () {
+                        addChapterController.getChapterName(
+                            addChapterController.viewChapterClassValue.value,
+                            addChapterController.viewChapterSubjectValue.value);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(10.0, 6.0, 10.0, 6.0),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: buttonTheme,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          "View Chapters",
+                          style: TextStyle(
+                              fontFamily: "calibri",
+                              color: Colors.white,
+                              fontSize: 25.0),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

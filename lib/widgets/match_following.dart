@@ -23,6 +23,7 @@ class _MatchFollowingState extends State<MatchFollowing> {
   final ImagePickerController imgController = Get.put(ImagePickerController());
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -43,7 +44,7 @@ class _MatchFollowingState extends State<MatchFollowing> {
         Row(
           children: [
             Container(
-              width: 450,
+              width: deviceSize.width > 1200 ? 450 : 250,
               child: Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
@@ -70,7 +71,7 @@ class _MatchFollowingState extends State<MatchFollowing> {
               width: 25,
             ),
             Container(
-              width: 450,
+              width: deviceSize.width > 1200 ? 450 : 250,
               child: Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(

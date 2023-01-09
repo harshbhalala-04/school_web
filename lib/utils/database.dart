@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class DataBase {
   final firestore = FirebaseFirestore.instance;
@@ -37,16 +38,23 @@ class DataBase {
         .doc(chapterId)
         .set({});
 
+    final batch = FirebaseFirestore.instance.batch();
+
+    // Set each of the 94 documents
     for (int i = 0; i <= 94; i++) {
-      await firestore
+      final document = FirebaseFirestore.instance
           .collection("question_bank")
           .doc(className)
           .collection(subjectName)
           .doc(chapterId)
           .collection("questions")
-          .doc("type $i")
-          .set({});
+          .doc("type $i");
+      Map<String, dynamic> myMap = {};
+      batch.set(document, myMap);
     }
+
+    // Commit the batch to set all of the documents
+    await batch.commit();
   }
 
   setMcqQuestion(
@@ -334,7 +342,6 @@ class DataBase {
       String que3Img,
       String que4Img,
       int typeNumber) async {
-   
     Map<String, dynamic> queMap = {
       "question1": que1,
       "question2": que2,

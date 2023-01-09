@@ -65,22 +65,22 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                     left: 10.0,
                   ),
                   child: TextFormField(
-                      onChanged: (value) {
-                        paperGenerateController.testPaperName.value =
-                            value.toString();
-                      },
-                      maxLines: 1,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      
-                      style: const TextStyle(color: Colors.black, fontSize: 20),
-                      decoration: InputDecoration(
-                        hintText: "Test paper name here",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(),
-                        ),
-                      ),),
+                    onChanged: (value) {
+                      paperGenerateController.testPaperName.value =
+                          value.toString();
+                    },
+                    maxLines: 1,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.text,
+                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                    decoration: InputDecoration(
+                      hintText: "Test paper name here",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(),
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -262,7 +262,6 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                                   maxLines: 1,
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
-                                  
                                   style: const TextStyle(
                                       color: Colors.black, fontSize: 20),
                                   decoration: InputDecoration(
@@ -279,61 +278,115 @@ class _TestpaperInfoState extends State<TestpaperInfo> {
                 const SizedBox(
                   height: 20,
                 ),
-                Obx(() => !addChapterController.isChapterName.value
-                    ? Container()
-                    : Column(
-                        children: [
-                          Row(
-                            children: const [
-                              SizedBox(
-                                width: 10,
+                Obx(
+                  () => !addChapterController.isChapterName.value
+                      ? Container()
+                      : Row(
+                          children: [
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              "Date",
+                              style: TextStyle(
+                                fontFamily: "calibri",
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Color.fromRGBO(51, 51, 51, 1),
                               ),
-                              Text("Instructions",
-                                  style: TextStyle(
-                                    fontFamily: "calibri",
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color.fromRGBO(51, 51, 51, 1),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                  onChanged: (value) {
+                                    paperGenerateController.date.value =
+                                        value.toString();
+                                  },
+                                  maxLines: 1,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.text,
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                  decoration: InputDecoration(
+                                    hintText: "Add date of paper",
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(),
+                                    ),
                                   )),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                    onChanged: (value) {
-                                      paperGenerateController
-                                          .instruction.value = value.toString();
-                                    },
-                                    maxLines: 6,
-                                    textInputAction: TextInputAction.next,
-                                    keyboardType: TextInputType.text,
-                                    
-                                    style: const TextStyle(
-                                        color: Colors.black, fontSize: 20),
-                                    decoration: InputDecoration(
-                                      hintText: "Instruction here",
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(),
-                                      ),
-                                    )),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )),
+                            ),
+                          ],
+                        ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
+                // Obx(() => !addChapterController.isChapterName.value
+                //     ? Container()
+                //     : Column(
+                //         children: [
+                //           Row(
+                //             children: const [
+                //               SizedBox(
+                //                 width: 10,
+                //               ),
+                //               Text("Instructions",
+                //                   style: TextStyle(
+                //                     fontFamily: "calibri",
+                //                     fontSize: 24,
+                //                     fontWeight: FontWeight.w700,
+                //                     color: Color.fromRGBO(51, 51, 51, 1),
+                //                   )),
+                //             ],
+                //           ),
+                //           const SizedBox(
+                //             height: 20,
+                //           ),
+                //           Row(
+                //             children: [
+                //               const SizedBox(
+                //                 width: 10,
+                //               ),
+                //               Expanded(
+                //                 child: TextFormField(
+                //                     onChanged: (value) {
+                //                       paperGenerateController
+                //                           .instruction.value = value.toString();
+                //                     },
+                //                     maxLines: 6,
+                //                     textInputAction: TextInputAction.next,
+                //                     keyboardType: TextInputType.text,
+                //                     style: const TextStyle(
+                //                         color: Colors.black, fontSize: 20),
+                //                     decoration: InputDecoration(
+                //                       hintText: "Instruction here",
+                //                       border: OutlineInputBorder(
+                //                         borderRadius: BorderRadius.circular(10),
+                //                         borderSide: const BorderSide(),
+                //                       ),
+                //                     )),
+                //               ),
+                //             ],
+                //           ),
+                //         ],
+                //       )),
+                // const SizedBox(
+                //   height: 20,
+                // ),
                 GestureDetector(
                     onTap: () {
+                      if (paperGenerateController.testPaperName.value.isEmpty ||
+                          paperGenerateController.className.value.isEmpty ||
+                          paperGenerateController.subjectName.value.isEmpty ||
+                          paperGenerateController.time.value.isEmpty ||
+                          paperGenerateController.date.value.isEmpty) {
+                        Get.snackbar("Please Enter all the details", "",
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white);
+                        return;
+                      }
                       paperGenerateController.getBlueprint();
                       tabController.animateTo(1);
                     },

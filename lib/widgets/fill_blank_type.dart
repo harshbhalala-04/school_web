@@ -22,8 +22,10 @@ class FillBlankType extends StatefulWidget {
 class _FillBlankTypeState extends State<FillBlankType> {
   TextEditingController fillBlankController = new TextEditingController();
   final ImagePickerController imgController = Get.put(ImagePickerController());
+  
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,7 +46,7 @@ class _FillBlankTypeState extends State<FillBlankType> {
         Row(
           children: [
             Container(
-              width: 900,
+              width: deviceSize.width > 1200 ? 900 : 500,
               child: Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
@@ -93,7 +95,7 @@ class _FillBlankTypeState extends State<FillBlankType> {
                       : ImageUploadButton(),
             ),
           ],
-        ),
+        ) ,
         SizedBox(
           height: 15,
         ),

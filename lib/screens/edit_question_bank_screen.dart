@@ -347,25 +347,41 @@ class _EditQuestionBankScreenState extends State<EditQuestionBankScreen> {
                                               "Select Question Type",
                                               style: TextStyle(
                                                   fontFamily: "calibri",
-                                                  fontSize: 18,
+                                                  fontSize:
+                                                      deviceSize.width > 1200
+                                                          ? 18
+                                                          : 14,
                                                   color: Colors.grey),
                                             ),
                                             value: editQuestionBankController
                                                 .questionTypeValue.value,
                                             items: questionsList.map((e) {
                                               return DropdownMenuItem(
-                                                  value: e.questionTxt,
-                                                  child: e.questionTxt == ""
-                                                      ? Text(
-                                                          "Select Question Type",
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  "calibri",
-                                                              fontSize: 18,
-                                                              color:
-                                                                  Colors.grey),
-                                                        )
-                                                      : Text(e.questionTxt));
+                                                value: e.questionTxt,
+                                                child: e.questionTxt == ""
+                                                    ? Text(
+                                                        "Select Question Type",
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                "calibri",
+                                                            fontSize: deviceSize
+                                                                        .width >
+                                                                    1200
+                                                                ? 18
+                                                                : 14,
+                                                            color: Colors.grey),
+                                                      )
+                                                    : Text(
+                                                        e.questionTxt,
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              deviceSize.width >
+                                                                      1200
+                                                                  ? 18
+                                                                  : 14,
+                                                        ),
+                                                      ),
+                                              );
                                             }).toList(),
                                             onChanged: (val) {
                                               print(val.toString());

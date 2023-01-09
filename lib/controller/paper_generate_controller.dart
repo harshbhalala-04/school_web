@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:school_web/utils/questionsList.dart';
 import '../model/blueprint_model.dart';
 import '../widgets/paper.dart';
 
@@ -20,6 +22,8 @@ class PaperGenerateController extends GetxController {
   final subjectName = ''.obs;
   final time = ''.obs;
   final instruction = ''.obs;
+  final date = ''.obs;
+  final totalMarks = ''.obs;
   final RxList<BluePrint> blueprints = <BluePrint>[].obs;
   final isLoading = false.obs;
   var selectedBlueprintIndex = -1.obs;
@@ -27,8 +31,6 @@ class PaperGenerateController extends GetxController {
   final isPaperGenerating = false.obs;
 
   getBlueprint() async {
-    print(className);
-    print(subjectName);
     blueprints.value = [];
     isLoading.toggle();
     await FirebaseFirestore.instance
@@ -37,6 +39,7 @@ class PaperGenerateController extends GetxController {
         .where('SubjectName', isEqualTo: subjectName.value)
         .get()
         .then((value) {
+          
       value.docs.forEach((element) {
         blueprints.add(
           BluePrint(
@@ -67,15 +70,16 @@ class PaperGenerateController extends GetxController {
   generatePaper(String blueprintId) async {
     isPaperGenerating.toggle();
     paper = [];
+    totalMarks.value = "";
     int idx =
         blueprints.indexWhere((element) => element.blueprindId == blueprintId);
-
+    totalMarks.value = blueprints[idx].totalMarks.toString();
     for (int i = 0; i < blueprints[idx].questionSet.length; i++) {
       Map<dynamic, dynamic> requiredQuestionsMap =
           blueprints[idx].questionSet[i]['RequiredQuestion'];
       List<dynamic> singleQuestionSetQuestionsList = [];
       for (var chapterId in requiredQuestionsMap.keys) {
-        print(chapterId);
+       
         var questions = requiredQuestionsMap[chapterId];
         if (int.tryParse(questions)! == 0) {
           continue;
@@ -119,10 +123,7 @@ class PaperGenerateController extends GetxController {
         }
         partAList.shuffle();
         partBList.shuffle();
-        print("this is part a list");
-        print(partAList);
-        print("this is part b list");
-        print(partBList);
+       
         overAllList.add(["A", "B"]);
         for (int i = 0; i < partAList.length; i++) {
           int number = i + 65;
@@ -130,8 +131,7 @@ class PaperGenerateController extends GetxController {
           overAllList
               .add(["${i + 1}.  ${partAList[i]}", "$op.  ${partBList[i]}"]);
         }
-        print("this is over all list");
-        print(overAllList);
+       
         // print(singleQuestionSetQuestionsList);
       } else if (blueprints[idx].questionSet[i]['QuestionType'] == "type 74") {
         for (int i = 0; i < singleQuestionSetQuestionsList.length; i++) {
@@ -264,11 +264,16 @@ class PaperGenerateController extends GetxController {
           }
         }
       }
+      int questionIndex = questionsList.indexWhere((element) =>
+          element.questionType ==
+          blueprints[idx].questionSet[i]['QuestionType']);
+      double marks = questionsList[questionIndex].questionMark;
       paper.add({
         "questionStatement": blueprints[idx].questionSet[i]
             ['QuestionStatement'],
         "QuestionType": blueprints[idx].questionSet[i]['QuestionType'],
-        "questions": singleQuestionSetQuestionsList
+        "questions": singleQuestionSetQuestionsList,
+        "questionSetMarks": singleQuestionSetQuestionsList.length * marks
       });
     }
     print(paper.length);
@@ -332,7 +337,7 @@ class PaperGenerateController extends GetxController {
                             ),
                           ),
                           pw.Text(
-                            "Half Yearly Exam(september-2022)",
+                            testPaperName.value,
                             style: pw.TextStyle(
                               fontFallback: [hindiFontTTF],
                               color: PdfColors.black,
@@ -364,7 +369,7 @@ class PaperGenerateController extends GetxController {
                               ),
                             ),
                             pw.TextSpan(
-                              text: "3",
+                              text: className.value,
                               style: pw.TextStyle(
                                 color: PdfColors.black,
                                 fontSize: 16,
@@ -388,7 +393,7 @@ class PaperGenerateController extends GetxController {
                               ),
                             ),
                             pw.TextSpan(
-                              text: "50",
+                              text: totalMarks.value,
                               style: pw.TextStyle(
                                 color: PdfColors.black,
                                 fontSize: 16,
@@ -417,7 +422,7 @@ class PaperGenerateController extends GetxController {
                               ),
                             ),
                             pw.TextSpan(
-                              text: "21-09-2022",
+                              text: date.value,
                               style: pw.TextStyle(
                                 color: PdfColors.black,
                                 fontSize: 16,
@@ -430,7 +435,7 @@ class PaperGenerateController extends GetxController {
                       pw.Padding(
                         padding: pw.EdgeInsets.only(right: 40),
                         child: pw.Text(
-                          "Social Science",
+                          subjectName.value,
                           style: pw.TextStyle(
                             color: PdfColors.black,
                             fontFallback: [hindiFontTTF],
@@ -455,7 +460,7 @@ class PaperGenerateController extends GetxController {
                               ),
                             ),
                             pw.TextSpan(
-                              text: "2 hrs",
+                              text: time.value,
                               style: pw.TextStyle(
                                 color: PdfColors.black,
                                 fontSize: 16,
@@ -529,10 +534,24 @@ class PaperGenerateController extends GetxController {
                           ],
                         ),
                       ),
+                      pw.Spacer(),
+                      pw.Text(
+                        "[${paper[index]['questionSetMarks']}]",
+                        style: pw.TextStyle(
+                          color: PdfColors.black,
+                          fontSize: 16,
+                          font: font4,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
-                  pw.ListView.builder(
+                  pw.SizedBox(height: 5),
+                  pw.ListView.separated(
                     itemCount: paper[index]['questions'].length,
+                    separatorBuilder: (_, index) {
+                      return pw.SizedBox(height: 2);
+                    },
                     itemBuilder: (_, idx) {
                       if (paper[index]['QuestionType'] == "type 32") {
                         // Match the following question type 1
@@ -574,13 +593,25 @@ class PaperGenerateController extends GetxController {
                               ],
                             ),
                             pw.Text(
-                                "\t\t1. ${paper[index]['questions'][idx]['questions']['question1']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t1. ${paper[index]['questions'][idx]['questions']['question1']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Text(
-                                "\t\t2. ${paper[index]['questions'][idx]['questions']['question2']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t2. ${paper[index]['questions'][idx]['questions']['question2']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Text(
-                                "\t\t3. ${paper[index]['questions'][idx]['questions']['question3']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t3. ${paper[index]['questions'][idx]['questions']['question3']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Text(
-                                "\t\t4. ${paper[index]['questions'][idx]['questions']['question4']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t4. ${paper[index]['questions'][idx]['questions']['question4']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                           ],
                         );
                       } else if (paper[index]['QuestionType'] == "type 61" ||
@@ -618,8 +649,12 @@ class PaperGenerateController extends GetxController {
                                           height: 300)
                                     ],
                                   ),
-                                  pw.Text(paper[index]['questions'][idx]
-                                      ['questionText'], style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                  pw.Text(
+                                      paper[index]['questions'][idx]
+                                          ['questionText'],
+                                      style: pw.TextStyle(
+                                        fontFallback: [hindiFontTTF],
+                                      )),
                                   pw.SizedBox(height: 10),
                                 ],
                               );
@@ -682,28 +717,40 @@ class PaperGenerateController extends GetxController {
                                         crossAxisAlignment:
                                             pw.CrossAxisAlignment.start,
                                         children: [
-                                          pw.Text("\t\t\ta)\t", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                          pw.Text("\t\t\ta)\t",
+                                              style: pw.TextStyle(
+                                                fontFallback: [hindiFontTTF],
+                                              )),
                                           pw.Image(
                                             images[paper[index]['questions']
                                                 [idx]['optionAImgIndex']],
                                             width: 100,
                                             height: 100,
                                           ),
-                                          pw.Text("\t\t\tb)\t", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                          pw.Text("\t\t\tb)\t",
+                                              style: pw.TextStyle(
+                                                fontFallback: [hindiFontTTF],
+                                              )),
                                           pw.Image(
                                             images[paper[index]['questions']
                                                 [idx]['optionBImgIndex']],
                                             width: 100,
                                             height: 100,
                                           ),
-                                          pw.Text("\t\t\tc)\t", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                          pw.Text("\t\t\tc)\t",
+                                              style: pw.TextStyle(
+                                                fontFallback: [hindiFontTTF],
+                                              )),
                                           pw.Image(
                                             images[paper[index]['questions']
                                                 [idx]['optionCImgIndex']],
                                             width: 100,
                                             height: 100,
                                           ),
-                                          pw.Text("\t\t\td)\t", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                          pw.Text("\t\t\td)\t",
+                                              style: pw.TextStyle(
+                                                fontFallback: [hindiFontTTF],
+                                              )),
                                           pw.Image(
                                             images[paper[index]['questions']
                                                 [idx]['optionDImgIndex']],
@@ -738,17 +785,35 @@ class PaperGenerateController extends GetxController {
                           children: [
                             pw.Paragraph(
                                 text:
-                                    "\t\t${idx + 1}. ${paper[index]['questions'][idx]['paragraph']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                    "\t\t${idx + 1}. ${paper[index]['questions'][idx]['paragraph']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Text(
-                                "\t\t\t1.\t${paper[index]['questions'][idx]['questions']['question1']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t\t1.\t${paper[index]['questions'][idx]['questions']['question1']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Text(
-                                "\t\t\t2.\t${paper[index]['questions'][idx]['questions']['question2']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t\t2.\t${paper[index]['questions'][idx]['questions']['question2']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Text(
-                                "\t\t\t3.\t${paper[index]['questions'][idx]['questions']['question3']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t\t3.\t${paper[index]['questions'][idx]['questions']['question3']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Text(
-                                "\t\t\t4.\t${paper[index]['questions'][idx]['questions']['question4']}",style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t\t4.\t${paper[index]['questions'][idx]['questions']['question4']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Text(
-                                "\t\t\t5.\t${paper[index]['questions'][idx]['questions']['question5']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                "\t\t\t5.\t${paper[index]['questions'][idx]['questions']['question5']}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                           ],
                         );
                       } else if (paper[index]['QuestionType'] == "type 81" ||
@@ -811,7 +876,10 @@ class PaperGenerateController extends GetxController {
                         return pw.Row(
                           crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
-                            pw.Text("\t\t${idx + 1}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                            pw.Text("\t\t${idx + 1}",
+                                style: pw.TextStyle(
+                                  fontFallback: [hindiFontTTF],
+                                )),
                             pw.Image(
                               images[paper[index]['questions'][idx]
                                   ['questionImgIndex']],
@@ -831,8 +899,14 @@ class PaperGenerateController extends GetxController {
                               paper[index]['questions'][idx]['questionText'] !=
                                       ""
                                   ? pw.Text(
-                                      "\t\t${idx + 1}. ${paper[index]['questions'][idx]['questionText']}", style: pw.TextStyle(fontFallback: [hindiFontTTF],))
-                                  : pw.Text("\t\t${idx + 1}", style: pw.TextStyle(fontFallback: [hindiFontTTF],)),
+                                      "\t\t${idx + 1}. ${paper[index]['questions'][idx]['questionText']}",
+                                      style: pw.TextStyle(
+                                        fontFallback: [hindiFontTTF],
+                                      ))
+                                  : pw.Text("\t\t${idx + 1}. ",
+                                      style: pw.TextStyle(
+                                        fontFallback: [hindiFontTTF],
+                                      )),
                               paper[index]['questions'][idx]['questionText'] ==
                                       ""
                                   ? paper[index]['questions'][idx]
@@ -869,6 +943,24 @@ class PaperGenerateController extends GetxController {
         ],
       ),
     );
+    if (className.value.isEmpty || subjectName.value.isEmpty) {
+    } else {
+      var snapshot = await FirebaseStorage.instance
+          .ref(
+              'paper_pdf/${className.value + subjectName.value + Timestamp.now().toString()}')
+          .putData(await doc.save());
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      print(downloadUrl);
+      FirebaseFirestore.instance.collection("generated_papers").doc().set({
+        "className": className.value,
+        "subjectName": subjectName.value,
+        "testPaperName": testPaperName.value,
+        "paper_url": downloadUrl,
+        "totalMarks": totalMarks.value,
+        "date": date.value,
+      });
+    }
+
     return await doc.save();
   }
 }

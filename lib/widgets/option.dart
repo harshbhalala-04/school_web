@@ -43,9 +43,11 @@ class _OptionState extends State<Option> {
           Get.toNamed('/edit-question-bank');
          } else if (widget.title == "Add\n Blueprint") {
           Get.toNamed('/add-blueprint');
+         } else if(widget.title == "View\n Blueprint") {
+           Get.toNamed("/view-blueprint");
          } else if (widget.title == "Edit\n Question Bank") {
           Get.toNamed('/edit-question-bank');
-        } else if (widget.title == "blueprint") {
+        } else if (widget.title == "Blueprint") {
           showDialog(
               context: context,
               builder: (ctx) {
@@ -79,7 +81,7 @@ class _OptionState extends State<Option> {
                     fontSize: 24,
                     color: Colors.white,
                     fontWeight: FontWeight.w700),
-              )
+              ),
             ],
           ),
         ),

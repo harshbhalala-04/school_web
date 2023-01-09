@@ -1040,8 +1040,9 @@ class QuestionField extends StatelessWidget {
       required this.controller});
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return Container(
-      width: 900,
+      width: deviceSize.width > 1200 ? 900 : 500,
       child: Card(
         elevation: 5,
         shape: RoundedRectangleBorder(

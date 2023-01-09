@@ -56,7 +56,7 @@ class _QuestionTypeDropDownState extends State<QuestionTypeDropDown> {
                     : Text(e.questionTxt));
           }).toList(),
           onChanged: (value) {
-            String questionType = '';
+           String questionType = '';
            Iterable<QuestionTypeModel> tempQuestionList =  questionsList.where((element) =>
               element.questionTxt == value
             );

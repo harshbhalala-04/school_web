@@ -43,7 +43,7 @@ class _OptionCardState extends State<OptionCard> {
                         ),
                         Option(
                           imgPath: "assets/images/generate_paper.svg",
-                          title: "blueprint",
+                          title: "Blueprint",
                         ),
                         Option(
                           imgPath: "assets/images/add_class.svg",
@@ -74,11 +74,11 @@ class _OptionCardState extends State<OptionCard> {
                           children: [
                             Option(
                               imgPath: "assets/images/generate_paper.svg",
-                              title: "Add \nblueprint",
+                              title: "Blueprint",
                             ),
                             Option(
                               imgPath: "assets/images/add_class.svg",
-                              title: "Add \nclass",
+                              title: "Add \nChapter",
                             ),
                           ],
                         ),
@@ -105,14 +105,14 @@ class _OptionCardState extends State<OptionCard> {
                       ),
                       Option(
                         imgPath: "assets/images/generate_paper.svg",
-                        title: "Add \nblueprint",
+                        title: "Blueprint",
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Option(
                         imgPath: "assets/images/add_class.svg",
-                        title: "Add \nclass",
+                        title: "Add \nChapter",
                       ),
                       SizedBox(
                         height: 10,

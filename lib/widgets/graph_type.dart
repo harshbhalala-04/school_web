@@ -22,6 +22,7 @@ class _GraphTypeState extends State<GraphType> {
   final TextEditingController controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +41,7 @@ class _GraphTypeState extends State<GraphType> {
           height: 7,
         ),
         Container(
-          width: 900,
+          width: deviceSize.width > 1200 ? 900 : 500,
           child: Card(
             elevation: 5,
             shape: RoundedRectangleBorder(
